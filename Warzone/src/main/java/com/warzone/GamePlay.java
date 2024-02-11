@@ -1,4 +1,4 @@
-package com.warzone;
+package main.java.com.warzone;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

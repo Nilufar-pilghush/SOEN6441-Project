@@ -1,4 +1,4 @@
-package com.warzone;
+package main.java.com.warzone;
 import com.warzone.Exceptions.WarzoneBaseException;
 
 

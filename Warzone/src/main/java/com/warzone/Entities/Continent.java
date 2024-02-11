@@ -1,6 +1,6 @@
-package com.warzone.Entities;
+package main.java.com.warzone.Entities;
 
-import com.warzone.Main;
+
 
 import java.util.HashMap;
 import java.util.Map;

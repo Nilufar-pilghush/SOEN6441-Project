@@ -1,4 +1,4 @@
-package com.warzone.Entities;
+package main.java.com.warzone.Entities;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,7 @@ public class Country {
         //default number of armies in each country
         this.d_NumberOfArmies = 1;
         this.d_IsInContinent = p_IsInContinent;
-        d_AdjacentCountries = new HashMap<>();
+        this.d_AdjacentCountries = new HashMap<>();
 
     }
 
