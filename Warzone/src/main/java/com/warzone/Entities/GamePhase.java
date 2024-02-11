@@ -17,6 +17,26 @@ public enum GamePhase {
 
         EXIT;
 
+        //methods to return next phase
+        public GamePhase getNextPhaseInLoop(GamePhase p_CurrGamePhase) {
+                if (p_CurrGamePhase == null) {
+                        return GamePhase.REINFORCEMENT;
+                }
+                switch (p_CurrGamePhase) {
+                        case REINFORCEMENT -> {
+                                return GamePhase.ISSUE_ORDERS;
+                        }
+                        case ISSUE_ORDERS -> {
+                                return GamePhase.EXECUTE_ORDERS;
+                        }
+                        case EXECUTE_ORDERS -> {
+                                return GamePhase.REINFORCEMENT;
+                        }
+                        default -> {
+                                return GamePhase.REINFORCEMENT;
+                        }
+                }
+        }
 
 
     }
