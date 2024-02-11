@@ -1,6 +1,5 @@
 package main.java.com.warzone.Entities;
 
-import com.warzone.Entities.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
