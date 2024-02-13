@@ -11,9 +11,9 @@ import java.io.OutputStream;
 public interface GameMapDataHandler {
 
     // create the game environment with the given file
-    void createGameEnvironment(InputStream p_InputStream);
+    void createGameMap(InputStream p_InputStream);
 
     // save current game environment in a file
-    void saveGameEnvironment(OutputStream p_OutputStream);
+    void saveGameMap(OutputStream p_OutputStream);
 
 }
