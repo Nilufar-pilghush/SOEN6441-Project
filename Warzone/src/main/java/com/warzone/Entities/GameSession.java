@@ -78,5 +78,14 @@ public class GameSession {
     public void createContinent(String p_ContinentName, String p_ControlValue) {
         System.out.println("Continent created: " + p_ContinentName + ", " + p_ControlValue);
     }
+
+    public void createCountry(String p_CountryName, String p_ContinentName, long p_CountryId) {
+        System.out.println("Country created: " + p_CountryId + ", " + p_CountryName + " in " + p_ContinentName);
+    }
+
+    public void createNeighbors(String p_countryName, String p_NeighboringCountry) {
+        System.out.println("Neighbors created: " + p_countryName + " neighbors with " + p_NeighboringCountry);
+
+    }
 }
 
