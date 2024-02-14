@@ -9,7 +9,7 @@ public class Continent {
 
       private String d_Name;
       private Map<String,Country> d_Countries;
-      private  Long d_CotrolValue ;
+      private  Long d_ControlValue;
       private  String d_Owner;
 
       public Continent(){
@@ -22,8 +22,8 @@ public class Continent {
             return d_Name;
       }
 
-      public Long getD_CotrolValue() {
-            return d_CotrolValue;
+      public Long getD_ControlValue() {
+            return d_ControlValue;
       }
 
       public String getD_Owner() {
@@ -41,8 +41,8 @@ public class Continent {
             this.d_Name = d_Name;
       }
 
-      public void setD_CotrolValue(Long d_CotrolValue) {
-            this.d_CotrolValue = d_CotrolValue;
+      public void setD_ControlValue(Long d_ControlValue) {
+            this.d_ControlValue = d_ControlValue;
       }
 
       public void setD_Owner(String d_Owner) {
