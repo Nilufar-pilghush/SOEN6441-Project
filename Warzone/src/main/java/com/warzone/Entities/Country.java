@@ -56,9 +56,9 @@ public class Country {
         return d_AdjacentCountries;
     }
 
-    public void AddAdjuncentCountru(Long p_AdjucentCountryId, String p_AdjucentCountry){
+    public void AddAdjacentCountry(Long p_AdjacentCountryId, String p_AdjacentCountry){
 
-           this.d_AdjacentCountries.put(p_AdjucentCountryId,p_AdjucentCountry);
+           this.d_AdjacentCountries.put(p_AdjacentCountryId,p_AdjacentCountry);
     }
 
     public boolean isAdjacentTo(String p_CountryName) {
