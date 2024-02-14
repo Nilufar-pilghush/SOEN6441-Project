@@ -22,16 +22,38 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     // read the map data from the stream
     // add the relevant data to the game map variables (countries, continents, borders)
     @Override
-    public void createGameMap(InputStream p_InputStream) throws FileNotFoundException {
+    public void createGameMap(InputStream p_InputStream) throws Exception {
         if (p_InputStream == null) {
             throw new FileNotFoundException("Unable to find map file.");
         }
 //        InputStreamReader l_InputStreamReader = new InputStreamReader(p_InputStream, StandardCharsets.UTF_8);
         d_MapReader = new BufferedReader(new InputStreamReader(p_InputStream, StandardCharsets.UTF_8));
         String l_CurrMapDataLine = null;
+        boolean isReadingContinents = false, isReadingCountries = false, isReadingBorders = false;
+
         try {
-            while ((l_CurrMapDataLine = d_MapReader.readLine()) != null){
+            while ((l_CurrMapDataLine = d_MapReader.readLine()) != null) {
+                l_CurrMapDataLine = l_CurrMapDataLine.trim();
                 if (l_CurrMapDataLine.contains("[continents]")) {
+                    isReadingContinents = true;
+                    isReadingCountries = false;
+                    isReadingBorders = false;
+                    continue;
+                }
+                else if (l_CurrMapDataLine.contains("[countries]")) {
+                    isReadingCountries = true;
+                    isReadingContinents = false;
+                    isReadingBorders = false;
+                    continue;
+                }
+                else if (l_CurrMapDataLine.contains("[borders]")) {
+                    isReadingBorders = true;
+                    isReadingContinents = false;
+                    isReadingCountries = false;
+                    continue;
+                }
+
+                if (isReadingContinents && !l_CurrMapDataLine.isEmpty()) {
                     String[] l_ContinentData = l_CurrMapDataLine.split("\\s+");
                     // verify that the continent data is correct
                     if (l_ContinentData.length < 2) {
@@ -39,7 +61,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
                     }
                     d_CurrGameMap.createContinent(l_ContinentData[0], l_ContinentData[1]);
                 }
-                else if (l_CurrMapDataLine.contains("[countries]")) {
+                else if (isReadingCountries && !l_CurrMapDataLine.isEmpty()) {
                     String[] l_CountryData = l_CurrMapDataLine.split("\\s+");
                     if (l_CountryData.length < 3) {
                         throw new Error("Invalid country data, format incorrect.");
@@ -47,7 +69,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
                     String l_ContinentOfCountry = d_CurrGameMap.getContinentsInOrder().get(Integer.parseInt(l_CountryData[2]) - 1);
                     d_CurrGameMap.createCountry(l_CountryData[1], l_ContinentOfCountry, Long.parseLong(l_CountryData[0]));
                 }
-                else if (l_CurrMapDataLine.contains("[borders]")) {
+                else if (isReadingBorders && !l_CurrMapDataLine.isEmpty()) {
                     String[] l_BordersData = l_CurrMapDataLine.split("\\s+");
                     String l_CountryName = d_CurrGameMap.getCountryIds().get(Long.parseLong(l_BordersData[0]));
                     if (l_CountryName != null) {
@@ -59,7 +81,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Cannot be read data from file");
+            System.out.println("Cannot read data from file");
         }
     }
 

@@ -12,7 +12,7 @@ import java.io.OutputStream;
 public interface GameMapDataHandler {
 
     // create the game environment with the given file
-    void createGameMap(InputStream p_InputStream) throws FileNotFoundException;
+    void createGameMap(InputStream p_InputStream) throws Exception;
 
     // save current game environment in a file
     void saveGameMap(OutputStream p_OutputStream);
