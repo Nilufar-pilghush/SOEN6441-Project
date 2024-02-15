@@ -56,7 +56,7 @@ public class Country {
         return d_AdjacentCountries;
     }
 
-    public void AddAdjacentCountry(Long p_AdjacentCountryId, String p_AdjacentCountry){
+    public void addAdjacentCountry(Long p_AdjacentCountryId, String p_AdjacentCountry){
 
            this.d_AdjacentCountries.put(p_AdjacentCountryId,p_AdjacentCountry);
     }

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class GameMapDataHandlerImpl implements GameMapDataHandler {
 
-    private GameSession d_CurrGameMap;
+    final private GameSession d_CurrGameMap;
     private BufferedReader d_MapReader;
 
     public GameMapDataHandlerImpl() {
@@ -32,6 +32,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         }
 //        InputStreamReader l_InputStreamReader = new InputStreamReader(p_InputStream, StandardCharsets.UTF_8);
         d_MapReader = new BufferedReader(new InputStreamReader(p_InputStream, StandardCharsets.UTF_8));
+        d_CurrGameMap.clearExistingMap();
         String l_CurrMapDataLine = null;
         boolean isReadingContinents = false, isReadingCountries = false, isReadingBorders = false;
 

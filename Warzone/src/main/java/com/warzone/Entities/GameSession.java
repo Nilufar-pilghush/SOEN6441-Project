@@ -1,8 +1,6 @@
 package main.java.com.warzone.Entities;
 
 
-import main.java.com.warzone.Service.impl.GameMapDataHandlerImpl;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,9 +118,17 @@ public class GameSession {
 
         Country l_Country = l_CountriesInSession.get(p_CountryName);
         Country l_NeighboringCountry = l_CountriesInSession.get(p_NeighboringCountry);
-        l_Country.AddAdjuncentCountru(l_NeighboringCountry.get_Id(), p_NeighboringCountry);
-        l_NeighboringCountry.AddAdjuncentCountru(l_Country.get_Id(), p_CountryName);
+        l_Country.addAdjacentCountry(l_NeighboringCountry.get_Id(), p_NeighboringCountry);
+        l_NeighboringCountry.addAdjacentCountry(l_Country.get_Id(), p_CountryName);
         System.out.println("Neighbors created, The " + p_CountryName + " neighbors with " + p_NeighboringCountry);
+    }
+
+    public void clearExistingMap() {
+        d_CurrGameSession.getPlayers().clear();
+        d_CurrGameSession.getContinentsInSession().clear();
+        d_CurrGameSession.getContinentsInOrder().clear();
+        d_CurrGameSession.getCountriesInSession().clear();
+        d_CurrGameSession.getCountryIds();
     }
 }
 
