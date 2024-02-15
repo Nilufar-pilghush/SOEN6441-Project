@@ -16,18 +16,27 @@ public class Country {
 
     private Map<Long, String> d_AdjacentCountries;
 
+    /**
+     * The name of the continent in which the country is present.
+     */
+    private String d_PresentInContinent;
 
-    //constructor
-    public Country(long p_Id, String p_Name, String p_IsInContinent) {
 
-        this.d_Id = p_Id;
+    /**
+     * Constructs a new Country with the specified name, continent, and ID.
+     *
+     * @param p_Name Name of the country.
+     * @param p_PresentInContinent Continent in which the country is present.
+     * @param p_Id Unique identifier for the country.
+     */
+    public Country(String p_Name, String p_PresentInContinent, Long p_Id){
         this.d_Name = p_Name;
+        this.d_PresentInContinent = p_PresentInContinent;
+        this.d_Id = p_Id;
         this.d_Owner = null;
-        //default number of armies in each country
+        d_AdjacentCountries = new HashMap<>();
+        // Default number of armies in a country is 1
         this.d_NumberOfArmies = 1;
-        this.d_IsInContinent = p_IsInContinent;
-        this.d_AdjacentCountries = new HashMap<>();
-
     }
 
     //get methods
@@ -36,8 +45,13 @@ public class Country {
         return d_Id;
     }
 
-    public String get_Name() {
-        return d_Name;
+    /**
+     * Method to get the name of the country.
+     *
+     * @return Name of the country.
+     */
+    public String getName() {
+        return this.d_Name;
     }
 
     public String get_Owner() {
@@ -52,8 +66,13 @@ public class Country {
         return d_IsInContinent;
     }
 
-    public Map<Long, String> getD_AdjacentCountries() {
-        return d_AdjacentCountries;
+    /**
+     * Method to get a map of adjacent countries to this country with their IDs and names.
+     *
+     * @return Map of adjacent countries.
+     */
+    public Map<Long, String> getAdjacentCountries() {
+        return this.d_AdjacentCountries;
     }
 
     public void AddAdjacentCountry(Long p_AdjacentCountryId, String p_AdjacentCountry){
@@ -86,6 +105,13 @@ public class Country {
     }
 
 
-
+    /**
+     * Method to get the name of the continent in which the country is present.
+     *
+     * @return Name of the continent.
+     */
+    public String getPresentInContinent() {
+        return d_PresentInContinent;
+    }
 
 }
