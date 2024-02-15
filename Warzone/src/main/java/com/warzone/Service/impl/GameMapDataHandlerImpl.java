@@ -3,6 +3,7 @@ package main.java.com.warzone.Service.impl;
 // implement the GameMapDataHandler interface methods
 
 import main.java.com.warzone.Entities.Continent;
+import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Service.GameMapDataHandler;
 
@@ -103,23 +104,42 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("[continents]");
         l_NewMapData.append("\n");
         for (String l_ContinentName : l_ContinentsInOrder) {
-            l_NewMapData.append(l_ContinentName).append("\n").append(l_CurrContinentsInSession.get(l_ContinentName).getD_ControlValue());
+            l_NewMapData.append(l_ContinentName).append("\\s+").append(l_CurrContinentsInSession.get(l_ContinentName).getD_ControlValue());
             l_NewMapData.append("\n");
         }
-        System.out.println("Continents:");
-        System.out.println(l_NewMapData.toString());
 
         // Loop through the countries and add their data to l_NewMapData
         l_NewMapData.append("\n");
         l_NewMapData.append("[countries]");
         l_NewMapData.append("\n");
+        for (String l_CountryName : d_CurrGameMap.getCountriesInSession().keySet()) {
+            Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
+            int l_ContinentIndex = l_ContinentsInOrder.indexOf(l_Country.get_IsInContinent()) + 1;
+            l_NewMapData.append(l_Country.get_Id()).append("\\s+").append(l_CountryName).append("\\s+").append(l_ContinentIndex);
+            l_NewMapData.append("\n");
+        }
 
         // Loop through the borders and add their data to l_NewMapData
         l_NewMapData.append("\n");
         l_NewMapData.append("[borders]");
         l_NewMapData.append("\n");
+        for (String l_CountryName : d_CurrGameMap.getCountriesInSession().keySet()) {
+            Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
+            l_NewMapData.append(l_Country.get_Id());
+            for (Long l_Neighbor : l_Country.getD_AdjacentCountries().keySet()) {
+                l_NewMapData.append("\\s+").append(l_Neighbor);
+            }
+            l_NewMapData.append("\n");
+        }
 
         // write l_NewMapData to the newMapfile stated on the outpstream
-
+        PrintWriter l_FileWrite = null;
+        try {
+            l_FileWrite = new PrintWriter("GameMap" + "/" + p_GameMapNewFileName);
+            l_FileWrite.println(l_NewMapData);
+            System.out.println("Map successfully saved in the file " + p_GameMapNewFileName);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
