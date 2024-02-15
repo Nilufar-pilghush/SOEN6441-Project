@@ -25,7 +25,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
         Scanner l_InputScanner = new Scanner(System.in);
         GamePhase l_NextPhase = p_CurrPhase.getNextPhaseInLoop(d_GameSession.getCurrGamePhase());
         while (true) {
-            displayHelpCommands(l_NextPhase);
+            displayHelpCommandsMenu(l_NextPhase);
             String l_UserInput = l_InputScanner.nextLine();
             List<String> l_UserInputTokens = new ArrayList<>();
             if (l_UserInput.contains("-")) {
@@ -66,7 +66,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
         }
     }
 
-    private void displayHelpCommands(GamePhase p_NextPhase) {
+    private void displayHelpCommandsMenu(GamePhase p_NextPhase) {
         System.out.println("*************************Main Game Loop*************************");
         System.out.println("  Current phase: " + d_GameSession.getCurrGamePhase());
         System.out.println("  Next phase: " + p_NextPhase);
