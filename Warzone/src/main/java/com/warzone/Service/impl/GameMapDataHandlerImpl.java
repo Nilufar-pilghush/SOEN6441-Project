@@ -2,11 +2,14 @@ package main.java.com.warzone.Service.impl;
 
 // implement the GameMapDataHandler interface methods
 
+import main.java.com.warzone.Entities.Continent;
 import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Service.GameMapDataHandler;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 
 public class GameMapDataHandlerImpl implements GameMapDataHandler {
 
@@ -89,7 +92,34 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     // change the continents, countries and borders in according to the user input
     // add all the changes in to a new file and that file will become the map for the game
     @Override
-    public void saveGameMap(OutputStream p_OutputStream) {
+    public void saveGameMap(OutputStream p_GameMapNewFileName) {
+        StringBuilder l_NewMapData = new StringBuilder();
+        // Get the current continents in the game map
+        Map<String, Continent> l_CurrContinentsInSession = d_CurrGameMap.getContinentsInSession();
+        // Get the list of current continents in the game map which should be added in order
+        List<String> l_ContinentsInOrder = d_CurrGameMap.getContinentsInOrder();
+
+        // Loop through the continents and add their data to l_NewMapData
+        l_NewMapData.append("[continents]");
+        l_NewMapData.append("\n");
+        for (String l_ContinentName : l_ContinentsInOrder) {
+            l_NewMapData.append(l_ContinentName).append("\n").append(l_CurrContinentsInSession.get(l_ContinentName).getD_ControlValue());
+            l_NewMapData.append("\n");
+        }
+        System.out.println("Continents:");
+        System.out.println(l_NewMapData.toString());
+
+        // Loop through the countries and add their data to l_NewMapData
+        l_NewMapData.append("\n");
+        l_NewMapData.append("[countries]");
+        l_NewMapData.append("\n");
+
+        // Loop through the borders and add their data to l_NewMapData
+        l_NewMapData.append("\n");
+        l_NewMapData.append("[borders]");
+        l_NewMapData.append("\n");
+
+        // write l_NewMapData to the newMapfile stated on the outpstream
 
     }
 }
