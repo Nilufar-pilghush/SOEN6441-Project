@@ -25,14 +25,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
         Scanner l_InputScanner = new Scanner(System.in);
         GamePhase l_NextPhase = p_CurrPhase.getNextPhaseInLoop(d_GameSession.getCurrGamePhase());
         while (true) {
-            System.out.println("Main Game Loop");
-            System.out.println("Current phase: " + d_GameSession.getCurrGamePhase());
-            System.out.println("Next phase in line: " + l_NextPhase);
-            System.out.println("Enter 'showmap' to view the map.");
-            System.out.println("Enter 'exit' to exit the game.");
-            System.out.println("Enter 'help' to display these instructions.");
-            System.out.println("Enter nothing to continue with the game.");
-
+            displayHelpCommands(l_NextPhase);
             String l_UserInput = l_InputScanner.nextLine();
             List<String> l_UserInputTokens = new ArrayList<>();
             if (l_UserInput.contains("-")) {
@@ -73,22 +66,50 @@ public class GameLoopServiceImpl implements GamePhaseService {
         }
     }
 
+    private void displayHelpCommands(GamePhase p_NextPhase) {
+        System.out.println("*************************Main Game Loop*************************");
+        System.out.println("  Current phase: " + d_GameSession.getCurrGamePhase());
+        System.out.println("  Next phase: " + p_NextPhase);
+        System.out.println("  Enter 'showmap' to view the map.");
+        System.out.println("  Enter 'exit' to exit the game.");
+        System.out.println("  Enter 'help' to display these instructions.");
+        System.out.println("  Enter nothing to continue with the game.");
+        System.out.println("*******************************************************************");
+    }
+
     private void showMap() {
         System.out.println("Showing map");
+        System.out.println();
+
+        //Display players
+        System.out.println("Players");
+        for (String l_Player : d_GameSession.getPlayers().keySet()) {
+            System.out.println();
+            System.out.println("-" + l_Player);
+            System.out.println("--Armies " + d_GameSession.getPlayers().get(l_Player).getNumberOfArmies());
+            System.out.println("--Owned countries:");
+            for (String l_Country : d_GameSession.getPlayers().get(l_Player).getOwnedCountries()) {
+                System.out.println("----" + l_Country);
+            }
+        }
+        System.out.println();
+        System.out.println();
+
+        // Display Continents
         System.out.println("Continents:");
         for (String l_ContinentName : d_GameSession.getContinentsInSession().keySet()) {
-            System.out.println(l_ContinentName);
-            System.out.println("Countries:");
+            System.out.println("-" + l_ContinentName);
+            System.out.println("--Countries:");
 
             Iterator<Map.Entry<String, Country>> l_CountriesInContinent = d_GameSession.getContinentsInSession().get(l_ContinentName).getD_Countries().entrySet().iterator();
             while (l_CountriesInContinent.hasNext()) {
                 Map.Entry<String, Country> l_Country = l_CountriesInContinent.next();
-                System.out.println(l_Country.getKey());
-                System.out.println("Armies: " + l_Country.getValue().get_NumberOfArmies());
-                System.out.println("Player owner: " + l_Country.getValue().get_Owner());
-                System.out.println("Adjacent countries:");
+                System.out.println("----" + l_Country.getKey());
+                System.out.println("------Armies: " + l_Country.getValue().get_NumberOfArmies());
+                System.out.println("------Player owner: " + l_Country.getValue().get_Owner());
+                System.out.println("------Adjacent countries:");
                 for (String l_AdjacentCountry : l_Country.getValue().getD_AdjacentCountries().values()) {
-                    System.out.print(l_AdjacentCountry + ", ");
+                    System.out.println("------" + l_AdjacentCountry);
                 }
             }
         }
