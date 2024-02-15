@@ -120,8 +120,8 @@ public class GameSession {
 
         Country l_Country = l_CountriesInSession.get(p_CountryName);
         Country l_NeighboringCountry = l_CountriesInSession.get(p_NeighboringCountry);
-        l_Country.AddAdjuncentCountru(l_NeighboringCountry.get_Id(), p_NeighboringCountry);
-        l_NeighboringCountry.AddAdjuncentCountru(l_Country.get_Id(), p_CountryName);
+        l_Country.AddAdjacentCountry(l_NeighboringCountry.get_Id(), p_NeighboringCountry);
+        l_NeighboringCountry.AddAdjacentCountry(l_Country.get_Id(), p_CountryName);
         System.out.println("Neighbors created, The " + p_CountryName + " neighbors with " + p_NeighboringCountry);
     }
 }
