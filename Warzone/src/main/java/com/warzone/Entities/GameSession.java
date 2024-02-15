@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class GameSession {
 
-    private GameSession d_CurrGameSession;
+    private static GameSession d_CurrGameSession;
     private GamePhase d_CurrGamePhase;
     private Map<String, Player> d_Players;
     private Map<String, Continent> d_ContinentsInSession;
@@ -32,6 +32,13 @@ public class GameSession {
     public GamePhase getCurrGamePhase(){
 
         return this.d_CurrGamePhase;
+    }
+
+    public static GameSession getInstance() {
+        if (d_CurrGameSession == null) {
+            d_CurrGameSession = new GameSession();
+        }
+        return d_CurrGameSession;
     }
 
     public Map<String, Player> getPlayers() {
