@@ -1,8 +1,6 @@
 package main.java.com.warzone.Service.impl;
 
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Entities.Player;
+import main.java.com.warzone.Entities.*;
 import main.java.com.warzone.Service.GamePhaseService;
 
 import java.util.Iterator;
@@ -27,7 +25,7 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
         return null;
     }
 
-    // add reinforments armies to players based on the owned countries
+    // add reinforcements armies to players based on the owned countries
     private void addReinforcementToPlayers() {
         Iterator<Map.Entry<String, Player>> l_Players = d_GameSession.getPlayers().entrySet().iterator();
         while (l_Players.hasNext()) {
@@ -35,6 +33,46 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
             Player l_Player = l_CurrPlayer.getValue();
             l_Player.addArmies(Math.max(Math.floorDiv(l_Player.getOwnedCountries().size(), 3), d_MinArmyReinforcements));
         }
+    }
+
+    // give additional armies to players who control entire continents
+    private void reinforcementsByContinentOwnership() {
+        // checks if a user owns a continent and add the additional armies
+        Iterator<Map.Entry<String, Continent>> l_Continents = d_GameSession.getContinentsInSession().entrySet().iterator();
+        while (l_Continents.hasNext()) {
+            Map.Entry<String, Continent> l_CurrContinent = l_Continents.next();
+            Continent l_Continent = l_CurrContinent.getValue();
+            String l_ContinentOwner = l_Continent.get_Owner();
+            if (l_ContinentOwner != null) {
+                Player l_ContinentPlayerOwner = d_GameSession.getPlayers().get(l_ContinentOwner);
+                l_ContinentPlayerOwner.addArmies(l_Continent.get_ControlValue());
+            }
+            else {
+                // Loop over all the countries and check if 1 player owns all the countries
+                boolean l_IsContinentOwned = true;
+                String l_ContinentOwnerPlayer = null;
+
+                Iterator<Map.Entry<String, Country>> l_Countries = l_Continent.getD_Countries().entrySet().iterator();
+                while (l_Countries.hasNext()) {
+                    Map.Entry<String, Country> l_CurrCountry = l_Countries.next();
+                    Country l_Country = l_CurrCountry.getValue();
+                    String l_CountryOwner = l_Country.get_Owner();
+                    if (l_ContinentOwnerPlayer == null && l_CountryOwner != null) {
+                        l_ContinentOwnerPlayer = l_CountryOwner;
+                    }
+                    else if (l_CountryOwner == null || !l_CountryOwner.equals(l_ContinentOwnerPlayer)) {
+                        l_IsContinentOwned = false;
+                        break;
+                    }
+                }
+            if (l_IsContinentOwned) {
+                Player l_FinalContinentOwner = d_GameSession.getPlayers().get(l_ContinentOwnerPlayer);
+                l_Continent.set_Owner(l_ContinentOwnerPlayer);
+                l_FinalContinentOwner.addArmies(l_Continent.get_ControlValue());
+            }
+            }
+        }
+
     }
 
 
