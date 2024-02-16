@@ -24,6 +24,9 @@ jobs:
           distribution: 'adopt'
           java-version: 1.8
 
+      - name: Change directory to project
+        run: cd warzone
+
       - name: Build with Maven
         run: mvn -B clean verify
 
