@@ -23,19 +23,23 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Change directory to project
-        run: |
-          cd ./warzone/
-          pwd
 
       - name: Build with Maven
-        run: mvn -B clean verify
+        run: |
+          cd ./warzone/
+          mvn -B clean verify   
 
       - name: Run Junit Tests
-        run: mvn test
+        run:  |
+          cd ./warzone/
+          mvn test
 
       - name: Check JavaDoc
-        run: mvn checkstyle:checkstyle
+        run:  |
+          cd ./warzone/
+          mvn checkstyle:checkstyle
 
       - name: Generate JavaDoc
-        run: mvn javadoc:javadoc
+        run:  |
+          cd ./warzone/
+          mvn javadoc:javadoc
