@@ -17,8 +17,12 @@ public class Continent {
       }
 
 
-      //get methods
-      public String get_Name() {
+      /**
+       * Method to get the name of the continent.
+       *
+       * @return name of the continent
+       */
+      public String getName() {
             return d_Name;
       }
 
@@ -30,7 +34,12 @@ public class Continent {
             return d_Owner;
       }
 
-      public Map<String, Country> getD_Countries() {
+      /**
+       * Get all the countries of the continent.
+       *
+       * @return Map of countries in the continent
+       */
+      public Map<String, Country> getCountries() {
             return d_Countries;
       }
 
@@ -48,4 +57,8 @@ public class Continent {
       public void set_Owner(String d_Owner) {
             this.d_Owner = d_Owner;
       }
+
+
+
+
 }
