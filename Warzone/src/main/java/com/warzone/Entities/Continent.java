@@ -22,7 +22,7 @@ public class Continent {
             return d_Name;
       }
 
-      public Long get_ControlValue() {
+      public int get_ControlValue() {
             return d_ControlValue;
       }
 
