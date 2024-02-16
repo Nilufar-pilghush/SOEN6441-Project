@@ -5,7 +5,7 @@ import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Entities.Player;
 import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Service.GamePhaseService;
-import main.java.com.warzone.Utils.CmdUtils;
+import main.java.com.warzone.utils.CmdUtils;
 
 import java.util.*;
 import java.util.*;
@@ -75,30 +75,31 @@ public class OrderIssuance implements GamePhaseService{
 
 
     private void deployOrderHandler(List<String> p_userInputParts, Player p_player) {
-        String l_countryName = p_userInputParts.get(1);
-        int l_numArmies = Integer.parseInt(p_userInputParts.get(2));
+        String l_SourceCountryName = p_userInputParts.get(1);
+        String l_TargetCountryName = p_userInputParts.get(2);
+        int l_NumArmies = Integer.parseInt(p_userInputParts.get(3));
 
         // Check if player owns the country
-        if (!p_player.ownsCountry(l_countryName)) {
-            if (!isAdjacentToOwnedCountry(p_player, l_countryName)) {
-                System.out.println("No adjacent countries owned by you to deploy armies to " + l_countryName);
+        if (!p_player.ownsCountry(l_SourceCountryName)) {
+                System.out.println("No adjacent countries owned by you to deploy armies to " + l_SourceCountryName);
                 return;
-            }
-            else if (isCountryOwnedByAnotherPlayer(l_countryName)) {
-                System.out.println("Cannot deploy armies to " + l_countryName + ". It is owned by another player.");
+        }
+        if (!p_player.ownsCountry(l_TargetCountryName)) {
+            if(Collections.disjoint(p_player.getOwnedCountries(), d_gameSession.getCountriesInSession().get(l_TargetCountryName).getAdjacentCountries().values())){
+
+                System.out.println("Cannot deploy armies to " + l_TargetCountryName + ". It is owned by another player.");
                 return;
             } else {
-                System.out.println("Deploying armies to unowned country " + l_countryName);
+                System.out.println("Deploying armies to unowned country " + l_TargetCountryName);
             }
         }
 
-        if (l_numArmies > p_player.getNumberOfArmies()) {
+        if (l_NumArmies > p_player.getNumberOfArmies()) {
             System.out.println("Insufficient armies. You have only " + p_player.getNumberOfArmies() + " available.");
             return;
         }
 
-        p_player.addArmies(-l_numArmies);
-        p_player.addDeployOrder(l_countryName, l_numArmies);
+        p_player.addAttackOrder(l_SourceCountryName, l_TargetCountryName, l_NumArmies);
     }
 
     private void attackOrderHandler(List<String> p_userInputParts, Player p_player) {
@@ -113,9 +114,17 @@ public class OrderIssuance implements GamePhaseService{
         }
 
         // Check if player owns the target country or it's adjacent to any of the player's countries
-        if (!p_player.ownsCountry(l_targetCountryName) && !isAdjacentToOwnedCountry(p_player, l_targetCountryName)) {
-            System.out.println("No adjacent countries owned by you to attack " + l_targetCountryName);
-            return;
+        if (!p_player.ownsCountry(l_targetCountryName)) {
+            // If does not own country then check if country is neighbour to one of player's countries
+            if(Collections.disjoint(p_player.getOwnedCountries(), d_gameSession.getCountriesInSession().get(l_targetCountryName).getAdjacentCountries().values())){
+                System.out.println("You do not own any countries adjacent to " + l_targetCountryName);
+                return;
+            }
+            // If all above validations passed then allow deploy command
+            else{
+                System.out.println("Can deploy armies to country " + l_targetCountryName);
+            }
+
         }
 
         // Do not allow if the source country has less than 1 army remaining
@@ -128,15 +137,4 @@ public class OrderIssuance implements GamePhaseService{
     }
 
 
-    // Helper method to check if the country is adjacent to any of the player's countries
-    private boolean isAdjacentToOwnedCountry(Player p_player, String l_countryName) {
-        Set<String> l_ownedCountries = p_player.getOwnedCountries();
-        Map<Long, String> l_adjacentCountries = d_gameSession.getCountriesInSession().get(l_countryName).getAdjacentCountries();
-        return l_adjacentCountries.values().stream().anyMatch(adjacentCountry -> l_ownedCountries.contains(adjacentCountry.get_Name()));
-    }
-
-    // Helper method to check if the country is owned by another player
-    private boolean isCountryOwnedByAnotherPlayer(String l_countryName) {
-        return d_gameSession.getCountriesInSession().get(l_countryName).getOwner() != null;
-    }
 }
