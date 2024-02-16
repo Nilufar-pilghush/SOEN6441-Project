@@ -24,7 +24,6 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
         return null;
     }
-
     // add reinforcements armies to players based on the owned countries
     private void addReinforcementToPlayers() {
         Iterator<Map.Entry<String, Player>> l_Players = d_GameSession.getPlayers().entrySet().iterator();
@@ -32,6 +31,18 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
             Map.Entry<String, Player> l_CurrPlayer = l_Players.next();
             Player l_Player = l_CurrPlayer.getValue();
             l_Player.addArmies(Math.max(Math.floorDiv(l_Player.getOwnedCountries().size(), 3), d_MinArmyReinforcements));
+        }
+    }
+
+    private void checkIfPlayerWinner() {
+        Iterator<Map.Entry<String, Player>> l_Players = d_GameSession.getPlayers().entrySet().iterator();
+        while (l_Players.hasNext()) {
+            Map.Entry<String, Player> l_CurrPlayer = l_Players.next();
+            Player l_Player = l_CurrPlayer.getValue();
+            if (l_Player.getOwnedCountries().size() == d_GameSession.getCountriesInSession().size()) {
+                System.out.println("Player " + l_Player.getName() + "has won the game!");
+                System.exit(0);
+            }
         }
     }
 
