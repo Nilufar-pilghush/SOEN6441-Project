@@ -6,26 +6,51 @@ import main.java.com.warzone.Service.GamePhaseService;
 import java.util.Iterator;
 import java.util.Map;
 
-// add reinforments armies to players based on the owned countries
-// give additional armies to players who control entire continents
-
+/**
+ * Implements the {@link GamePhaseService} interface. Used to handle the reinforcement phase of the game.
+ */
 public class ArmyReinforcementServiceImpl implements GamePhaseService {
 
+    /**
+     * Instance of the current game session
+     */
     private GameSession d_GameSession;
 
+    /**
+     * Number of reinforcement armies assigned to a player
+     */
     private int d_MinArmyReinforcements;
 
+    /**
+     * Initialization constructor for the ArmyReinforcementService
+     */
     public ArmyReinforcementServiceImpl() {
         d_GameSession = GameSession.getInstance();
         d_MinArmyReinforcements = 3;
     }
 
+    /**
+     * Manages the current game phase in relation to the army reinforcements for players
+     * Carries out reinforcement operations and sets the stage for the next game phase
+     *
+     * @param p_CurrPhase the current game phase associated with reinforcements.
+     * @return the next game phase after assigning reinforcements which transitions to {@link GamePhase#ISSUE_ORDERS}
+     * @see {@link GamePhaseService#handleGamePhase(GamePhase)}
+     */
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
-        return null;
+        System.out.println("Army Reinforcement handler");
+        this.checkIfPlayerWinner();
+        this.addReinforcementsToPlayers();
+        this.reinforcementsByContinentOwnership();
+
+        return GamePhase.MAIN_GAME_LOOP;
     }
-    // add reinforcements armies to players based on the owned countries
-    private void addReinforcementToPlayers() {
+
+    /**
+     * Method to add army reinforcements to players
+     */
+    private void addReinforcementsToPlayers() {
         Iterator<Map.Entry<String, Player>> l_Players = d_GameSession.getPlayers().entrySet().iterator();
         while (l_Players.hasNext()) {
             Map.Entry<String, Player> l_CurrPlayer = l_Players.next();
@@ -34,6 +59,9 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
         }
     }
 
+    /**
+     * Method to check if any player has won
+     */
     private void checkIfPlayerWinner() {
         Iterator<Map.Entry<String, Player>> l_Players = d_GameSession.getPlayers().entrySet().iterator();
         while (l_Players.hasNext()) {
@@ -46,9 +74,10 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
         }
     }
 
-    // give additional armies to players who control entire continents
+    /**
+     * Method to update continent ownership and assigning reinforcements based on continent ownership
+     */
     private void reinforcementsByContinentOwnership() {
-        // checks if a user owns a continent and add the additional armies
         Iterator<Map.Entry<String, Continent>> l_Continents = d_GameSession.getContinentsInSession().entrySet().iterator();
         while (l_Continents.hasNext()) {
             Map.Entry<String, Continent> l_CurrContinent = l_Continents.next();
@@ -59,10 +88,8 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
                 l_ContinentPlayerOwner.addArmies(l_Continent.get_ControlValue());
             }
             else {
-                // Loop over all the countries and check if 1 player owns all the countries
                 boolean l_IsContinentOwned = true;
                 String l_ContinentOwnerPlayer = null;
-
                 Iterator<Map.Entry<String, Country>> l_Countries = l_Continent.getD_Countries().entrySet().iterator();
                 while (l_Countries.hasNext()) {
                     Map.Entry<String, Country> l_CurrCountry = l_Countries.next();
