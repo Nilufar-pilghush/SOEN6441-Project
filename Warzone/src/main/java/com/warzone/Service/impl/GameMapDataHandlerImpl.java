@@ -1,11 +1,12 @@
 package main.java.com.warzone.Service.impl;
 
-// implement the GameMapDataHandler interface methods
-
 import main.java.com.warzone.Entities.Continent;
 import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GameSession;
+import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
+import main.java.com.warzone.Exceptions.WarzoneValidationException;
 import main.java.com.warzone.Service.GameMapDataHandler;
+import main.java.com.warzone.constants.WarzoneConstants;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -39,17 +40,16 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     /**
      * Method loads a game map from an InputStream.
      * @param p_InputStream The InputStream of the map file.
-     * @throws Exception If the file cannot be found or read.
+     * @throws WarzoneRuntimeException If the file cannot be found or read.
      */
     @Override
-    public void createGameMap(InputStream p_InputStream) throws Exception {
+    public void createGameMap(InputStream p_InputStream) throws WarzoneRuntimeException, WarzoneValidationException{
         if (p_InputStream == null) {
-            throw new FileNotFoundException("Unable to find map file.");
+            throw new WarzoneRuntimeException("Unable to find map file.");
         }
         d_MapReader = new BufferedReader(new InputStreamReader(p_InputStream, StandardCharsets.UTF_8));
         d_CurrGameMap.clearExistingMap();
         String l_CurrMapDataLine = null;
-
         try {
             while ((l_CurrMapDataLine = d_MapReader.readLine()) != null) {
                 l_CurrMapDataLine = l_CurrMapDataLine.trim();
@@ -64,7 +64,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Cannot read data from file");
+            throw new WarzoneRuntimeException("Cannot read data from file");
         }
         System.out.println("Map loaded successfully");
     }
@@ -73,6 +73,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     /**
      * Method saves the current game map to an OutputStream.
      * @param p_GameMapNewFileName The OutputStream to save the map to.
+     * @throws RuntimeException If the new map file cannot be saved.
      */
     @Override
     public void saveGameMap(OutputStream p_GameMapNewFileName) {
@@ -84,7 +85,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("[continents]");
         l_NewMapData.append("\n");
         for (String l_ContinentName : l_ContinentsInOrder) {
-            l_NewMapData.append(l_ContinentName).append("\\s+").append(l_CurrContinentsInSession.get(l_ContinentName).getD_ControlValue());
+            l_NewMapData.append(l_ContinentName).append(WarzoneConstants.SPACE_REGEX).append(l_CurrContinentsInSession.get(l_ContinentName).getD_ControlValue());
             l_NewMapData.append("\n");
         }
 
@@ -95,7 +96,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         for (String l_CountryName : d_CurrGameMap.getCountriesInSession().keySet()) {
             Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
             int l_ContinentIndex = l_ContinentsInOrder.indexOf(l_Country.get_IsInContinent()) + 1;
-            l_NewMapData.append(l_Country.get_Id()).append("\\s+").append(l_CountryName).append("\\s+").append(l_ContinentIndex);
+            l_NewMapData.append(l_Country.get_Id()).append(WarzoneConstants.SPACE_REGEX).append(l_CountryName).append(WarzoneConstants.SPACE_REGEX).append(l_ContinentIndex);
             l_NewMapData.append("\n");
         }
 
@@ -107,12 +108,11 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
             l_NewMapData.append(l_Country.get_Id());
             for (Long l_Neighbor : l_Country.getD_AdjacentCountries().keySet()) {
-                l_NewMapData.append("\\s+").append(l_Neighbor);
+                l_NewMapData.append(WarzoneConstants.SPACE_REGEX).append(l_Neighbor);
             }
             l_NewMapData.append("\n");
         }
 
-        // write l_NewMapData to the newMapfile stated on the outpstream
         PrintWriter l_FileWrite = null;
         try {
             l_FileWrite = new PrintWriter("GameMap" + "/" + p_GameMapNewFileName);
@@ -126,9 +126,9 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     /**
      * Method reads the continent data from the map file.
      * @param p_MapReader The BufferedReader for reading the map file.
-     * @throws Exception If there's an issue reading the continent data.
+     * @throws WarzoneValidationException If there's an issue reading the continent data.
      */
-    private void readContinents(BufferedReader p_MapReader)  {
+    private void readContinents(BufferedReader p_MapReader) {
         System.out.println("Reading continents");
         String l_CurrMapDataLine = null;
         try {
@@ -141,7 +141,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
                 String[] l_ContinentData = l_CurrMapDataLine.split("\\s+");
                 // verify that the continent data is correct
                 if (l_ContinentData.length < 2) {
-                    throw new Error("Invalid continent data, format incorrect.");
+                    throw new WarzoneValidationException("Invalid continent data, format incorrect.");
                 }
                 if (!d_CurrGameMap.getContinentsInSession().containsKey(l_ContinentData[0])) {
                     d_CurrGameMap.createContinent(l_ContinentData[0], l_ContinentData[1]);
@@ -157,9 +157,9 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     /**
      * Method reads the country data from the map file.
      * @param p_MapReader The BufferedReader for reading the map file.
-     * @throws Exception If there's an issue reading the country data.
+     * @throws WarzoneValidationException If there's an issue reading the country data.
      */
-    private void readCountries(BufferedReader p_MapReader) {
+    private void readCountries(BufferedReader p_MapReader) throws WarzoneValidationException{
         System.out.println("Reading countries");
         String l_CurrMapDataLine = null;
         try {
@@ -171,7 +171,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
                 }
                 String[] l_CountryData = l_CurrMapDataLine.split("\\s+");
                 if (l_CountryData.length < 3) {
-                    throw new Error("Invalid country data, format incorrect.");
+                    throw new WarzoneValidationException("Invalid country data, format incorrect.");
                 }
                 if (!l_CountryData[0].isEmpty()) {
                     String l_ContinentOfCountry = d_CurrGameMap.getContinentsInOrder().get(Integer.parseInt(l_CountryData[2]) - 1);

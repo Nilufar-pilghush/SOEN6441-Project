@@ -1,5 +1,8 @@
 package main.java.com.warzone.Service;
 
+import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
+import main.java.com.warzone.Exceptions.WarzoneValidationException;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,9 +17,9 @@ public interface GameMapDataHandler {
     /**
      * Loads a game map from an InputStream.
      * @param p_InputStream The source stream of the map file.
-     * @throws Exception If the map cannot be loaded.
+     * @throws WarzoneValidationException If the map or it's data cannot be loaded.
      */
-    void createGameMap(InputStream p_InputStream) throws Exception;
+    void createGameMap(InputStream p_InputStream) throws WarzoneRuntimeException, WarzoneValidationException;
 
     /**
      * Saves the current game map to an OutputStream.
