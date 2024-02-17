@@ -5,16 +5,23 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Blueprint for managing game environment/map data.
- * Needs to handle game environment like creating, saving to specific files.
+ * Interface for game map management which handles the game map
+ * like creating, saving to specific files.
  */
 
 public interface GameMapDataHandler {
 
-    // create the game environment with the given file
+    /**
+     * Loads a game map from an InputStream.
+     * @param p_InputStream The source stream of the map file.
+     * @throws Exception If the map cannot be loaded.
+     */
     void createGameMap(InputStream p_InputStream) throws Exception;
 
-    // save current game environment in a file
+    /**
+     * Saves the current game map to an OutputStream.
+     * @param p_OutputStream The destination stream to save the map.
+     */
     void saveGameMap(OutputStream p_OutputStream);
 
 }
