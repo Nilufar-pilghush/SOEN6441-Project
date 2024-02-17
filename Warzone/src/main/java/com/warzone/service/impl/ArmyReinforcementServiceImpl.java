@@ -1,7 +1,7 @@
-package main.java.com.warzone.Service.impl;
+package main.java.com.warzone.service.impl;
 
-import main.java.com.warzone.Entities.*;
-import main.java.com.warzone.Service.GamePhaseService;
+import main.java.com.warzone.entities.*;
+import main.java.com.warzone.service.GamePhaseService;
 
 import java.util.Iterator;
 import java.util.Map;

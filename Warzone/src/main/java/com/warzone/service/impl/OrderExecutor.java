@@ -1,13 +1,10 @@
-package main.java.com.warzone.Service.impl;
+package main.java.com.warzone.service.impl;
 
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Entities.Order;
-import main.java.com.warzone.Entities.Player;
-import main.java.com.warzone.Service.GamePhaseService;
-
-import java.util.Iterator;
-import java.util.Map;
+import main.java.com.warzone.entities.GamePhase;
+import main.java.com.warzone.entities.GameSession;
+import main.java.com.warzone.entities.Order;
+import main.java.com.warzone.entities.Player;
+import main.java.com.warzone.service.GamePhaseService;
 
 public class OrderExecutor implements GamePhaseService {
 

@@ -1,12 +1,12 @@
-package main.java.com.warzone.Entities;
+package main.java.com.warzone.entities;
 
-import main.java.com.warzone.Service.GamePhaseService;
-import main.java.com.warzone.Service.impl.OrderExecutor;
-import main.java.com.warzone.Service.OrderIssuance;
-import main.java.com.warzone.Service.impl.ArmyReinforcementServiceImpl;
-import main.java.com.warzone.Service.impl.GameLoopServiceImpl;
-import main.java.com.warzone.Service.impl.GameStartupPhaseServiceImpl;
-import main.java.com.warzone.Service.impl.MapEditorServiceImpl;
+import main.java.com.warzone.service.GamePhaseService;
+import main.java.com.warzone.service.impl.OrderExecutor;
+import main.java.com.warzone.service.impl.OrderIssuance;
+import main.java.com.warzone.service.impl.ArmyReinforcementServiceImpl;
+import main.java.com.warzone.service.impl.GameLoopServiceImpl;
+import main.java.com.warzone.service.impl.GameStartupPhaseServiceImpl;
+import main.java.com.warzone.service.impl.MapEditorServiceImpl;
 
 /**
  * This enum is designed for different phases of the game.

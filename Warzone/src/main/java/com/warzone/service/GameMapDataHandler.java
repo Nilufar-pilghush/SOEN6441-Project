@@ -1,4 +1,4 @@
-package main.java.com.warzone.Service;
+package main.java.com.warzone.service;
 
 import java.io.InputStream;
 import java.io.OutputStream;

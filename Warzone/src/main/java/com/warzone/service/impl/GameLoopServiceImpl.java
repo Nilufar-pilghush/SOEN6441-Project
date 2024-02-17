@@ -1,9 +1,9 @@
-package main.java.com.warzone.Service.impl;
+package main.java.com.warzone.service.impl;
 
-import main.java.com.warzone.Entities.Country;
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Service.GamePhaseService;
+import main.java.com.warzone.entities.Country;
+import main.java.com.warzone.entities.GamePhase;
+import main.java.com.warzone.entities.GameSession;
+import main.java.com.warzone.service.GamePhaseService;
 import main.java.com.warzone.utils.CmdUtils;
 
 import java.util.*;

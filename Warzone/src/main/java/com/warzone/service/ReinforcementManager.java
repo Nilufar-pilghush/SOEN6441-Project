@@ -1,7 +1,7 @@
-package main.java.com.warzone.Service;
+package main.java.com.warzone.service;
 
 
-import main.java.com.warzone.Entities.*;
+import main.java.com.warzone.entities.*;
 
 public class ReinforcementManager implements GamePhaseService {
     private GameSession d_gameSession;

@@ -1,4 +1,4 @@
-package main.java.com.warzone.Exceptions;
+package main.java.com.warzone.exceptions;
 
 /**
  * This exception is thrown when there is a runtime error in the program.

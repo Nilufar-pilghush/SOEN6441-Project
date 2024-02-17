@@ -1,4 +1,4 @@
-package main.java.com.warzone.Exceptions;
+package main.java.com.warzone.exceptions;
 
 
 public class WarzoneBaseException extends Exception {

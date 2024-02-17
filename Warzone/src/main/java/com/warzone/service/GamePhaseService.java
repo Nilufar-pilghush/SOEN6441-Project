@@ -1,6 +1,6 @@
-package main.java.com.warzone.Service;
+package main.java.com.warzone.service;
 
-import main.java.com.warzone.Entities.GamePhase;
+import main.java.com.warzone.entities.GamePhase;
 
 /**
  * Interface defining essential operations for each game phase.

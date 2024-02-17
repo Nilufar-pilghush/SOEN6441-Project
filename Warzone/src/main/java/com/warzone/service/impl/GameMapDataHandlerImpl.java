@@ -1,11 +1,11 @@
-package main.java.com.warzone.Service.impl;
+package main.java.com.warzone.service.impl;
 
 // implement the GameMapDataHandler interface methods
 
-import main.java.com.warzone.Entities.Continent;
-import main.java.com.warzone.Entities.Country;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Service.GameMapDataHandler;
+import main.java.com.warzone.entities.Continent;
+import main.java.com.warzone.entities.Country;
+import main.java.com.warzone.entities.GameSession;
+import main.java.com.warzone.service.GameMapDataHandler;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

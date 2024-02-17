@@ -1,7 +1,7 @@
-package main.java.com.warzone.Service.impl;
+package main.java.com.warzone.service.impl;
 
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Service.GamePhaseService;
+import main.java.com.warzone.entities.GamePhase;
+import main.java.com.warzone.service.GamePhaseService;
 
 public class MapEditorServiceImpl implements GamePhaseService {
     @Override

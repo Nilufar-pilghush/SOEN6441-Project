@@ -1,16 +1,13 @@
-package main.java.com.warzone.Service;
+package main.java.com.warzone.service.impl;
 
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Entities.Player;
-import main.java.com.warzone.Entities.Country;
-import main.java.com.warzone.Service.GamePhaseService;
-import main.java.com.warzone.utils.CmdUtils;
+import main.java.com.warzone.entities.GamePhase;
+import main.java.com.warzone.entities.GameSession;
+import main.java.com.warzone.entities.Player;
+import main.java.com.warzone.service.GamePhaseService;
 
 import java.util.*;
-import java.util.*;
 
-public class OrderIssuance implements GamePhaseService{
+public class OrderIssuance implements GamePhaseService {
 
     private GameSession d_gameSession;
     private Scanner d_inputScanner;

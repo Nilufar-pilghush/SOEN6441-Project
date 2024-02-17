@@ -1,7 +1,7 @@
-package main.java.com.warzone.Entities;
+package main.java.com.warzone.entities;
 import java.util.*;
 
-import main.java.com.warzone.Exceptions.WarzoneValidationException;
+import main.java.com.warzone.exceptions.WarzoneValidationException;
 
 /**
  * This class is designed for managing the session of the game
@@ -277,7 +277,6 @@ public class GameSession {
         if (!d_CurrGameSession.getCountriesInSession().containsKey(p_CountryName)) {
             throw new WarzoneValidationException("Country with given name: " + p_CountryName + "doesn't exist");
         }
-
 
         d_CurrGameSession.getPlayers().get(p_PlayerName).addOwnedCountry(p_CountryName);
         d_CurrGameSession.getCountriesInSession().get(p_CountryName).setOwner(p_PlayerName);

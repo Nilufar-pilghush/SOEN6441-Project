@@ -1,4 +1,4 @@
-package main.java.com.warzone.Entities;
+package main.java.com.warzone.entities;
 
 /**
  * Represents an order issued by a player in the Warzone game.

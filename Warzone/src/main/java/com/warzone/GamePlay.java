@@ -2,7 +2,7 @@ package main.java.com.warzone;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import main.java.com.warzone.Exceptions.WarzoneBaseException;
+import main.java.com.warzone.exceptions.WarzoneBaseException;
 
 public class GamePlay {
 

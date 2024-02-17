@@ -1,4 +1,4 @@
-package main.java.com.warzone.Entities;
+package main.java.com.warzone.entities;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

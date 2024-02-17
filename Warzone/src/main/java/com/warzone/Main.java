@@ -1,5 +1,5 @@
 package main.java.com.warzone;
-import main.java.com.warzone.Exceptions.WarzoneBaseException;
+import main.java.com.warzone.exceptions.WarzoneBaseException;
 
 
     public class Main

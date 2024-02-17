@@ -1,14 +1,12 @@
-package main.java.com.warzone.Service.impl;
+package main.java.com.warzone.service.impl;
 
 import main.java.com.warzone.constants.WarzoneConstants;
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Exceptions.WarzoneBaseException;
-import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
-import main.java.com.warzone.Exceptions.WarzoneValidationException;
-import main.java.com.warzone.Service.GameMapDataHandler;
-import main.java.com.warzone.Service.GamePhaseService;
-import main.java.com.warzone.Service.impl.GameMapDataHandlerImpl;
+import main.java.com.warzone.entities.GamePhase;
+import main.java.com.warzone.entities.GameSession;
+import main.java.com.warzone.exceptions.WarzoneRuntimeException;
+import main.java.com.warzone.exceptions.WarzoneValidationException;
+import main.java.com.warzone.service.GameMapDataHandler;
+import main.java.com.warzone.service.GamePhaseService;
 import main.java.com.warzone.utils.CmdUtils;
 import main.java.com.warzone.utils.FileUtils;
 import main.java.com.warzone.utils.GameWorldValidator;

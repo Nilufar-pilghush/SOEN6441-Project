@@ -1,8 +1,8 @@
 package main.java.com.warzone;
 
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Exceptions.WarzoneBaseException;
-import main.java.com.warzone.Service.GamePhaseService;
+import main.java.com.warzone.entities.GamePhase;
+import main.java.com.warzone.exceptions.WarzoneBaseException;
+import main.java.com.warzone.service.GamePhaseService;
 
 /**
  * Class to handle different segments of game and drive the complete game.

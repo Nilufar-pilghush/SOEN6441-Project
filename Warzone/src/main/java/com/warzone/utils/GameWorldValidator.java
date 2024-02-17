@@ -1,6 +1,6 @@
 package main.java.com.warzone.utils;
 
-import main.java.com.warzone.Entities.*;
+import main.java.com.warzone.entities.*;
 import java.util.*;
 
 /**
