@@ -36,7 +36,11 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         d_MapReader = null;
     }
 
-
+    /**
+     * Method loads a game map from an InputStream.
+     * @param p_InputStream The InputStream of the map file.
+     * @throws Exception If the file cannot be found or read.
+     */
     @Override
     public void createGameMap(InputStream p_InputStream) throws Exception {
         if (p_InputStream == null) {
@@ -66,6 +70,10 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     }
 
 
+    /**
+     * Method saves the current game map to an OutputStream.
+     * @param p_GameMapNewFileName The OutputStream to save the map to.
+     */
     @Override
     public void saveGameMap(OutputStream p_GameMapNewFileName) {
         StringBuilder l_NewMapData = new StringBuilder();
@@ -115,6 +123,11 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         }
     }
 
+    /**
+     * Method reads the continent data from the map file.
+     * @param p_MapReader The BufferedReader for reading the map file.
+     * @throws Exception If there's an issue reading the continent data.
+     */
     private void readContinents(BufferedReader p_MapReader)  {
         System.out.println("Reading continents");
         String l_CurrMapDataLine = null;
@@ -141,6 +154,11 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         }
     }
 
+    /**
+     * Method reads the country data from the map file.
+     * @param p_MapReader The BufferedReader for reading the map file.
+     * @throws Exception If there's an issue reading the country data.
+     */
     private void readCountries(BufferedReader p_MapReader) {
         System.out.println("Reading countries");
         String l_CurrMapDataLine = null;
@@ -167,6 +185,11 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         }
     }
 
+    /**
+     * Method reads the border data from the map file.
+     * @param p_MapReader The BufferedReader for reading the map file.
+     * @throws Exception If there's an issue reading the border data.
+     */
     private void readBorders(BufferedReader p_MapReader) {
         System.out.println("Reading borders");
         String l_CurrMapDataLine = null;
