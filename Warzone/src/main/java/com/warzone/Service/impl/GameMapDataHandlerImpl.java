@@ -12,29 +12,39 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implements the {@link GameMapDataHandler} interface. Used to manage the game maps
+ * like creation/saving from/to user specified files.
+ */
 public class GameMapDataHandlerImpl implements GameMapDataHandler {
 
+    /**
+     * Instance of the current game session
+     */
     final private GameSession d_CurrGameMap;
+
+    /**
+     * Reader for processing game map file input streams.
+     */
     private BufferedReader d_MapReader;
 
+    /**
+     * Initialization constructor for the GameMapDataHandler
+     */
     public GameMapDataHandlerImpl() {
         d_CurrGameMap = GameSession.getInstance();
         d_MapReader = null;
     }
 
-    // check if the input stream is there
-    // read the map data from the stream
-    // add the relevant data to the game map variables (countries, continents, borders)
+
     @Override
     public void createGameMap(InputStream p_InputStream) throws Exception {
         if (p_InputStream == null) {
             throw new FileNotFoundException("Unable to find map file.");
         }
-//        InputStreamReader l_InputStreamReader = new InputStreamReader(p_InputStream, StandardCharsets.UTF_8);
         d_MapReader = new BufferedReader(new InputStreamReader(p_InputStream, StandardCharsets.UTF_8));
         d_CurrGameMap.clearExistingMap();
         String l_CurrMapDataLine = null;
-        boolean isReadingContinents = false, isReadingCountries = false, isReadingBorders = false;
 
         try {
             while ((l_CurrMapDataLine = d_MapReader.readLine()) != null) {
@@ -55,18 +65,14 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         System.out.println("Map loaded successfully");
     }
 
-    // get the current map file being changed
-    // change the continents, countries and borders in according to the user input
-    // add all the changes in to a new file and that file will become the map for the game
+
     @Override
     public void saveGameMap(OutputStream p_GameMapNewFileName) {
         StringBuilder l_NewMapData = new StringBuilder();
-        // Get the current continents in the game map
         Map<String, Continent> l_CurrContinentsInSession = d_CurrGameMap.getContinentsInSession();
-        // Get the list of current continents in the game map which should be added in order
         List<String> l_ContinentsInOrder = d_CurrGameMap.getContinentsInOrder();
 
-        // Loop through the continents and add their data to l_NewMapData
+        // loop through the continents and add their data to l_NewMapData
         l_NewMapData.append("[continents]");
         l_NewMapData.append("\n");
         for (String l_ContinentName : l_ContinentsInOrder) {
@@ -74,7 +80,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             l_NewMapData.append("\n");
         }
 
-        // Loop through the countries and add their data to l_NewMapData
+        // loop through the countries and add their data to l_NewMapData
         l_NewMapData.append("\n");
         l_NewMapData.append("[countries]");
         l_NewMapData.append("\n");
@@ -85,7 +91,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             l_NewMapData.append("\n");
         }
 
-        // Loop through the borders and add their data to l_NewMapData
+        // loop through the borders and add their data to l_NewMapData
         l_NewMapData.append("\n");
         l_NewMapData.append("[borders]");
         l_NewMapData.append("\n");
