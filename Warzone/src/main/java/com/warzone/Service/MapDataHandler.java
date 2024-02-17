@@ -20,7 +20,7 @@ import java.io.OutputStream;
  * @version 1.0.0
  */
 
-public interface GameMapDataHandler {
+public interface MapDataHandler {
 
     // create the game environment with the given file
     void createGameMap(InputStream p_InputStream) throws Exception;
