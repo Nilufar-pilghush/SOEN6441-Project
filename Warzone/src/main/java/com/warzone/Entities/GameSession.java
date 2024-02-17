@@ -29,13 +29,6 @@ public class GameSession {
         d_CountryIdsToCountryNames = new HashMap<>();
     }
 
-    public static GameSession getInstance() {
-        if (d_CurrGameSession == null) {
-            d_CurrGameSession = new GameSession();
-        }
-        return d_CurrGameSession;
-    }
-
 
     //get methods
 

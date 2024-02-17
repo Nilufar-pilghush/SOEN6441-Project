@@ -90,7 +90,7 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
             else {
                 boolean l_IsContinentOwned = true;
                 String l_ContinentOwnerPlayer = null;
-                Iterator<Map.Entry<String, Country>> l_Countries = l_Continent.getD_Countries().entrySet().iterator();
+                Iterator<Map.Entry<String, Country>> l_Countries = l_Continent.getCountries().entrySet().iterator();
                 while (l_Countries.hasNext()) {
                     Map.Entry<String, Country> l_CurrCountry = l_Countries.next();
                     Country l_Country = l_CurrCountry.getValue();
