@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
- * @author Jerome
+ * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
  * @version 1.0.0

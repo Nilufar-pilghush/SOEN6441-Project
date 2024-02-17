@@ -1,30 +1,57 @@
 package main.java.com.warzone.Service.impl;
-
-// implement the GameMapDataHandler interface methods
-
 import main.java.com.warzone.Entities.Continent;
 import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Service.GameMapDataHandler;
+import main.java.com.warzone.Service.GamePhaseService;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+/**
+ * Implements the {@link GameMapDataHandler} interface.
+ * Handles the creation and saving of game maps, including continents, countries, and borders.
+ * Reads map data from an input stream and writes formatted map data to an output stream.
+ * Supports operations such as creating continents, countries, and borders, and saving the modified map data to a new file.
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
+ */
+
 
 public class GameMapDataHandlerImpl implements GameMapDataHandler {
 
+    /**
+     * Represents the current game session containing map data.
+     */
     private GameSession d_CurrGameMap;
+
+    /**
+     * BufferedReader to read the map file.
+     */
     private BufferedReader d_MapReader;
 
+    /**
+     * Constructs a GameMapDataHandlerImpl object.
+     * Initializes the current game session and map reader.
+     */
     public GameMapDataHandlerImpl() {
         d_CurrGameMap = GameSession.getInstance();
         d_MapReader = null;
     }
 
-    // check if the input stream is there
-    // read the map data from the stream
-    // add the relevant data to the game map variables (countries, continents, borders)
+    /**
+     * Reads the map data from the input stream and creates the game map.
+     * Parses the input stream to extract continent, country, and border data.
+     *
+     * @param p_InputStream The input stream containing map data.
+     * @throws Exception If the input stream is null or if there's an error reading the data.
+     */
     @Override
     public void createGameMap(InputStream p_InputStream) throws Exception {
         if (p_InputStream == null) {
@@ -89,9 +116,13 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         }
     }
 
-    // get the current map file being changed
-    // change the continents, countries and borders in according to the user input
-    // add all the changes in to a new file and that file will become the map for the game
+    /**
+     * Writes the current game map data to a new file.
+     * Formats the map data including continents, countries, and borders.
+     * Writes the formatted data to the specified output stream.
+     *
+     * @param p_GameMapNewFileName The name of the new file to save the map data.
+     */
     @Override
     public void saveGameMap(OutputStream p_GameMapNewFileName) {
         StringBuilder l_NewMapData = new StringBuilder();
@@ -108,7 +139,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             l_NewMapData.append("\n");
         }
 
-        // Loop through the countries and add their data to l_NewMapData
+        /* Loop through the countries and add their data to l_NewMapData */
         l_NewMapData.append("\n");
         l_NewMapData.append("[countries]");
         l_NewMapData.append("\n");
@@ -119,7 +150,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             l_NewMapData.append("\n");
         }
 
-        // Loop through the borders and add their data to l_NewMapData
+        /* Loop through the borders and add their data to l_NewMapData */
         l_NewMapData.append("\n");
         l_NewMapData.append("[borders]");
         l_NewMapData.append("\n");
@@ -132,7 +163,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             l_NewMapData.append("\n");
         }
 
-        // write l_NewMapData to the newMapfile stated on the outpstream
+        /* write l_NewMapData to the newMapfile stated on the outpstream */
         PrintWriter l_FileWrite = null;
         try {
             l_FileWrite = new PrintWriter("GameMap" + "/" + p_GameMapNewFileName);
