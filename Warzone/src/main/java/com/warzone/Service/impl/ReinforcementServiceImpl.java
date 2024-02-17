@@ -1,5 +1,4 @@
 package main.java.com.warzone.Service.impl;
-
 import main.java.com.warzone.Entities.*;
 import main.java.com.warzone.Service.GamePhaseService;
 
@@ -7,9 +6,17 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Implements the {@link GamePhaseService} interface. Used to handle the reinforcement phase of the game.
+ * Implements the {@link GamePhaseService} Orchestrating reinforcement distribution based on owned territories and continent control, ensuring fair play and strategic depth. It updates game state, transitions phases, and reflects the dynamic nature of military allocation in gameplay, emphasizing the importance of strategic territory control and player progression.
+ * Used to handle the reinforcement phase of the game.
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
  */
-public class ArmyReinforcementServiceImpl implements GamePhaseService {
+
+public class ReinforcementServiceImpl implements GamePhaseService {
 
     /**
      * Instance of the current game session
@@ -24,7 +31,7 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
     /**
      * Initialization constructor for the ArmyReinforcementService
      */
-    public ArmyReinforcementServiceImpl() {
+    public ReinforcementServiceImpl() {
         d_GameSession = GameSession.getInstance();
         d_MinArmyReinforcements = 3;
     }
@@ -59,8 +66,11 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
         }
     }
 
+
     /**
-     * Method to check if any player has won
+     * Checks if any player has won the game.
+     * Iterates through all players in the current game session
+     * to determine if a player owns all countries,indicating they have won.
      */
     private void checkIfPlayerWinner() {
         Iterator<Map.Entry<String, Player>> l_Players = d_GameSession.getPlayers().entrySet().iterator();
@@ -76,6 +86,7 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
 
     /**
      * Method to update continent ownership and assigning reinforcements based on continent ownership
+     * If a continent is entirely owned by a single player, that player is granted bonus armies as per the continent's control value.
      */
     private void reinforcementsByContinentOwnership() {
         Iterator<Map.Entry<String, Continent>> l_Continents = d_GameSession.getContinentsInSession().entrySet().iterator();

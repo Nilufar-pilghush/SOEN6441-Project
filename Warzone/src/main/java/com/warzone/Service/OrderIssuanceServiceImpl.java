@@ -1,32 +1,61 @@
 package main.java.com.warzone.Service;
-
 import main.java.com.warzone.Entities.GamePhase;
 import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Entities.Player;
-import main.java.com.warzone.Entities.Country;
-import main.java.com.warzone.Service.GamePhaseService;
-import main.java.com.warzone.utils.CmdUtils;
 
 import java.util.*;
-import java.util.*;
 
-public class OrderIssuance implements GamePhaseService{
+/**
+ * Implements the {@link GamePhaseService} interface managing the order issuance phase in the Warzone game.
+ * Initializes with the current game session and prepares to take input from players
+ * for issuing orders.
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
+ */
 
-    private GameSession d_gameSession;
-    private Scanner d_inputScanner;
+public class OrderIssuanceServiceImpl implements GamePhaseService{
 
-    public OrderIssuance() {
-        d_inputScanner = new Scanner(System.in);
-        d_gameSession = GameSession.getInstance();
+
+    /**
+     * Represents the current game session.
+     */
+    private Scanner d_InputScanner;
+
+    /**
+     * Scanner object to read user input.
+     */
+    private GameSession d_GameSession;
+
+
+    /**
+     * Constructs an OrderIssuanceService object.
+     * Initializes the input scanner with System.in and retrieves the current game session.
+     */
+    public OrderIssuanceServiceImpl() {
+        d_InputScanner = new Scanner(System.in);
+        d_GameSession = GameSession.getInstance();
     }
 
+
+    /**
+     * Handles the order issuance phase for the game.
+     * Iterates through players and prompts them to issue orders.
+     *
+     * @param p_currentPhase The current phase of the game.
+     * @return The next game phase after handling order issuance.
+     */
     @Override
     public GamePhase handleGamePhase(GamePhase p_currentPhase) {
         System.out.println("Handling order issuance phase");
         System.out.println("Iterating through players and prompting them to issue orders");
 
         // Loop over players & request orders
-        for (Player l_player : d_gameSession.getPlayers().values()) {
+        for (Player l_player : d_GameSession.getPlayers().values()) {
             issuePlayerOrders(l_player);
         }
 
@@ -49,7 +78,7 @@ public class OrderIssuance implements GamePhaseService{
                 System.out.println("1. deploy countryID numArmies");
                 System.out.println("2. attack sourceCountryID targetCountryID numArmies");
 
-                String l_userInput = d_inputScanner.nextLine();
+                String l_userInput = d_InputScanner.nextLine();
                 List<String> l_userInputParts = Arrays.asList(l_userInput.split("\\s+"));
                 String l_primaryAction = l_userInputParts.get(0).toLowerCase();
 
@@ -65,7 +94,7 @@ public class OrderIssuance implements GamePhaseService{
                 }
 
                 System.out.println("Do you wish to issue more orders? (Y/N)");
-                String l_moreUserInput = d_inputScanner.nextLine();
+                String l_moreUserInput = d_InputScanner.nextLine();
                 l_isPlayerDoneIssuingOrders = l_moreUserInput.equalsIgnoreCase("N");
             } catch (Exception e) {
                 System.out.println("Invalid command");
@@ -73,7 +102,12 @@ public class OrderIssuance implements GamePhaseService{
         }
     }
 
-
+    /**
+     * Handles the deploy order from a player.
+     *
+     * @param p_userInputParts The parsed user input parts.
+     * @param p_player         The player issuing the deploy order.
+     */
     private void deployOrderHandler(List<String> p_userInputParts, Player p_player) {
         String l_SourceCountryName = p_userInputParts.get(1);
         String l_TargetCountryName = p_userInputParts.get(2);
@@ -85,7 +119,7 @@ public class OrderIssuance implements GamePhaseService{
                 return;
         }
         if (!p_player.ownsCountry(l_TargetCountryName)) {
-            if(Collections.disjoint(p_player.getOwnedCountries(), d_gameSession.getCountriesInSession().get(l_TargetCountryName).getAdjacentCountries().values())){
+            if(Collections.disjoint(p_player.getOwnedCountries(), d_GameSession.getCountriesInSession().get(l_TargetCountryName).getAdjacentCountries().values())){
 
                 System.out.println("Cannot deploy armies to " + l_TargetCountryName + ". It is owned by another player.");
                 return;
@@ -102,6 +136,12 @@ public class OrderIssuance implements GamePhaseService{
         p_player.addAttackOrder(l_SourceCountryName, l_TargetCountryName, l_NumArmies);
     }
 
+    /**
+     * Handles the attack order from a player.
+     *
+     * @param p_userInputParts The parsed user input parts.
+     * @param p_player         The player issuing the attack order.
+     */
     private void attackOrderHandler(List<String> p_userInputParts, Player p_player) {
         String l_sourceCountryName = p_userInputParts.get(1);
         String l_targetCountryName = p_userInputParts.get(2);
@@ -116,7 +156,7 @@ public class OrderIssuance implements GamePhaseService{
         // Check if player owns the target country or it's adjacent to any of the player's countries
         if (!p_player.ownsCountry(l_targetCountryName)) {
             // If does not own country then check if country is neighbour to one of player's countries
-            if(Collections.disjoint(p_player.getOwnedCountries(), d_gameSession.getCountriesInSession().get(l_targetCountryName).getAdjacentCountries().values())){
+            if(Collections.disjoint(p_player.getOwnedCountries(), d_GameSession.getCountriesInSession().get(l_targetCountryName).getAdjacentCountries().values())){
                 System.out.println("You do not own any countries adjacent to " + l_targetCountryName);
                 return;
             }
@@ -127,8 +167,8 @@ public class OrderIssuance implements GamePhaseService{
 
         }
 
-        // Do not allow if the source country has less than 1 army remaining
-        if (l_numArmies >= d_gameSession.getCountriesInSession().get(l_sourceCountryName).getNumberOfArmies()) {
+        /* Do not allow if the source country has less than 1 army remaining */
+        if (l_numArmies >= d_GameSession.getCountriesInSession().get(l_sourceCountryName).getNumberOfArmies()) {
             System.out.println("Cannot attack. You need to have at least 1 army remaining in each country.");
             return;
         }
