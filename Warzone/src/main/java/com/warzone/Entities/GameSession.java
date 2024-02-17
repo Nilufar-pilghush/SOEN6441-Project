@@ -1,24 +1,64 @@
 package main.java.com.warzone.Entities;
-
-
-import main.java.com.warzone.Service.impl.GameMapDataHandlerImpl;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is designed for managing the session of the game
+ * Each session represents a distinct part the game including phase, players, map of continents and countries
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
+ */
+
+
 public class GameSession {
 
+    /**
+     * Current session of the game
+     */
     private static GameSession d_CurrGameSession;
+
+    /**
+     * Current phase of the game
+     */
     private GamePhase d_CurrGamePhase;
+
+    /**
+     * Map containing name of players with their corresponding
+     * player objects
+     */
     private Map<String, Player> d_Players;
+
+    /**
+     * Map of continents in session with their
+     * corresponding continent objects
+     */
     private Map<String, Continent> d_ContinentsInSession;
+
+    /**
+     * Map of countries in session with their
+     * corresponding country objects
+     */
     private Map<String, Country> d_CountriesInSession;
+
+    /**
+     * List maintaining the order of continents in session
+     */
     private List<String> d_ContinentsInOrder;
+
+    /**
+     * Map maintaining ids of countries to their names
+     */
     private Map<Long, String> d_CountryIdsToCountryNames;
 
-
+    /**
+     * Default constructor
+     */
     private GameSession() {
 
         d_CurrGamePhase = null;
@@ -29,14 +69,11 @@ public class GameSession {
         d_CountryIdsToCountryNames = new HashMap<>();
     }
 
-
-    //get methods
-
-    public GamePhase getCurrGamePhase(){
-
-        return this.d_CurrGamePhase;
-    }
-
+    /**
+     * Makes the instance of the GameSession.
+     *
+     * @return The single instance of GameSession.
+     */
     public static GameSession getInstance() {
         if (d_CurrGameSession == null) {
             d_CurrGameSession = new GameSession();
@@ -44,11 +81,31 @@ public class GameSession {
         return d_CurrGameSession;
     }
 
+    /**
+     * Retrieves the current game phase.
+     *
+     * @return The current game phase.
+     */
+    public GamePhase getCurrGamePhase(){
+
+        return this.d_CurrGamePhase;
+    }
+
+    /**
+     * Retrieves the map of players in the game session.
+     *
+     * @return The map of players.
+     */
     public Map<String, Player> getPlayers() {
 
         return this.d_Players;
     }
 
+    /**
+     * Retrieves the map of continents in the game session.
+     *
+     * @return The map of continents.
+     */
     public Map<String, Continent> getContinentsInSession() {
 
         return this.d_ContinentsInSession;
@@ -59,22 +116,37 @@ public class GameSession {
         return this.d_CountriesInSession;
     }
 
+    /**
+     * Retrieves the map of countries in the game session.
+     *
+     * @return The map of countries.
+     */
     public List<String> getContinentsInOrder() {
 
         return this.d_ContinentsInOrder;
     }
 
+    /**
+     * Retrieves the list maintaining the order of continents in the game session.
+     *
+     * @return The list of continents in order.
+     */
     public Map<Long, String> getCountryIds() {
 
         return this.d_CountryIdsToCountryNames;
     }
 
-
-    //needed set methods
+    /**
+     * Sets the current game phase.
+     *
+     * @param p_CurrGamePhase The game phase to set.
+     */
     public void setCurrGamePhase(GamePhase p_CurrGamePhase){
 
         this.d_CurrGamePhase = p_CurrGamePhase;
     }
+
+
 
     public void createContinent(String p_ContinentName, String p_ControlValue) throws Exception {
         if (!p_ControlValue.matches("\\d+")) {
@@ -86,13 +158,21 @@ public class GameSession {
         }
 
         Continent l_NewContinent = new Continent();
-        l_NewContinent.set_Name(p_ContinentName);
-        l_NewContinent.set_ControlValue(Integer.parseInt(p_ControlValue));
+        l_NewContinent.setName(p_ContinentName);
+        l_NewContinent.setControlValue(Integer.parseInt(p_ControlValue));
         d_CurrGameSession.getContinentsInSession().put(p_ContinentName, l_NewContinent);
         d_CurrGameSession.getContinentsInOrder().add(p_ContinentName);
         System.out.println("Continent created: " + p_ContinentName + ", " + p_ControlValue);
     }
 
+    /**
+     * Creates a new country with the specified name, continent, and ID.
+     *
+     * @param p_CountryName    The name of the country to create.
+     * @param p_ContinentName  The name of the continent where the country belongs.
+     * @param p_CountryId      The ID of the country to create.
+     * @throws Exception if the specified continent doesn't exist or if a country with the same name already exists.
+     */
     public void createCountry(String p_CountryName, String p_ContinentName, long p_CountryId) throws Exception {
         if (!d_CurrGameSession.getContinentsInSession().containsKey(p_ContinentName)) {
             System.out.println("The country " + p_ContinentName + " doesn't exist");
@@ -109,6 +189,13 @@ public class GameSession {
         System.out.println("Country created: " + p_CountryId + ", " + p_CountryName + " in " + p_ContinentName);
     }
 
+    /**
+     * Creates a neighboring relationship between two countries.
+     *
+     * @param p_CountryName         The name of the country to create the neighboring relationship for.
+     * @param p_NeighboringCountry  The name of the neighboring country.
+     * @throws Exception if either the specified country or neighboring country doesn't exist.
+     */
     public void createNeighbors(String p_CountryName, String p_NeighboringCountry) throws Exception {
         Map<String, Country> l_CountriesInSession = d_CurrGameSession.getCountriesInSession();
         if (!l_CountriesInSession.containsKey(p_CountryName)) {
@@ -121,8 +208,8 @@ public class GameSession {
 
         Country l_Country = l_CountriesInSession.get(p_CountryName);
         Country l_NeighboringCountry = l_CountriesInSession.get(p_NeighboringCountry);
-        l_Country.AddAdjacentCountry(l_NeighboringCountry.get_Id(), p_NeighboringCountry);
-        l_NeighboringCountry.AddAdjacentCountry(l_Country.get_Id(), p_CountryName);
+        l_Country.AddAdjacentCountry(l_NeighboringCountry.getId(), p_NeighboringCountry);
+        l_NeighboringCountry.AddAdjacentCountry(l_Country.getId(), p_CountryName);
         System.out.println("Neighbors created, The " + p_CountryName + " neighbors with " + p_NeighboringCountry);
     }
 }

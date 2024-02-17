@@ -10,7 +10,14 @@ import java.util.*;
 
 /**
  * Implements the {@link GamePhaseService} interface. Used to handle the different phases in the game loop.
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
  */
+
 
 public class GameLoopServiceImpl implements GamePhaseService {
 
@@ -105,10 +112,10 @@ public class GameLoopServiceImpl implements GamePhaseService {
             while (l_CountriesInContinent.hasNext()) {
                 Map.Entry<String, Country> l_Country = l_CountriesInContinent.next();
                 System.out.println("----" + l_Country.getKey());
-                System.out.println("------Armies: " + l_Country.getValue().get_NumberOfArmies());
-                System.out.println("------Player owner: " + l_Country.getValue().get_Owner());
+                System.out.println("------Armies: " + l_Country.getValue().getNumberOfArmies());
+                System.out.println("------Player owner: " + l_Country.getValue().getOwner());
                 System.out.println("------Adjacent countries:");
-                for (String l_AdjacentCountry : l_Country.getValue().getD_AdjacentCountries().values()) {
+                for (String l_AdjacentCountry : l_Country.getValue().getAdjacentCountries().values()) {
                     System.out.println("------" + l_AdjacentCountry);
                 }
             }
