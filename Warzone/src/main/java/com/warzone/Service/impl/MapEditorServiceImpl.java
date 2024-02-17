@@ -3,8 +3,15 @@ package main.java.com.warzone.Service.impl;
 import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GamePhase;
 import main.java.com.warzone.Entities.GameSession;
+import main.java.com.warzone.Exceptions.WarzoneBaseException;
+import main.java.com.warzone.Service.MapDataHandler;
 import main.java.com.warzone.Service.GamePhaseService;
+import main.java.com.warzone.constants.WarzoneConstants;
+import main.java.com.warzone.utils.CmdUtils;
+import main.java.com.warzone.utils.FileUtils;
+import main.java.com.warzone.utils.GameWorldValidator;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,50 +40,39 @@ public class MapEditorServiceImpl implements GamePhaseService {
             System.out.println("Enter 'help' at any point in the game to view available commands in this phase");
             try {
                 String l_UserInput = l_InputScanner.nextLine();
-                List<String> l_UserInputTokens = new ArrayList<>();
-                if (l_UserInput.contains("-")) {
-                    String[] l_HyphenSplit = l_UserInput.split("-");
-                    for (String l_Part : l_HyphenSplit) {
-                        l_UserInputTokens.add(l_Part.trim());
-                    }
-                } else {
-                    String[] l_SpaceSplit = l_UserInput.split("\\s+");
-                    l_UserInputTokens.addAll(Arrays.asList(l_SpaceSplit));
-                }
+                List<String> l_UserInputTokens = CmdUtils.tokenizeUserInput(l_UserInput);
                 String l_UserAction = l_UserInputTokens.get(0).toLowerCase();
                 switch (l_UserAction) {
                     case "editcontinent" -> {
-                        // method to edit continents
+                        handleContinentEditing(l_UserInputTokens, l_UserAction);
                     }
                     case "editcountry" -> {
-                        // method to edit countries
+                        handleCountryEditing(l_UserInputTokens, l_UserAction);
                     }
                     case "editneighbor" -> {
-                        // method to edit neighboring countries
+                        handleNeighborEditing(l_UserInputTokens, l_UserAction);
                     }
                     case "showmap" -> {
-                        showMap((l_UserInputTokens);
+                        handleShowMap(l_UserInputTokens);
                     }
                     case "listmaps" -> {
-                        // method to list all the maps in the current game directory
+                        handleListMaps(l_UserInputTokens);
                     }
                     case "savemap" -> {
-                        // method to save the map to a file
+                        handleSaveMap(l_UserInputTokens);
                     }
                     case "editmap" -> {
-                        // method to handle map editing
+                        handleEditMap(l_UserInputTokens);
                     }
                     case "validateMap" -> {
-                        // method to handle map validation
-                    }
-                    case "editmap" -> {
-                        displayCommandsForMapEditor();
+                        handleMapValidation(l_UserInputTokens);
                     }
                     case "exit" -> {
                         return GamePhase.START_UP;
                     }
                     default -> {
                         System.out.println("The command '" + l_UserAction + "' is not found.");
+                        displayCommandsForMapEditor();
                     }
                 }
             } catch (Exception e) {
@@ -84,6 +80,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
             }
         }
     }
+
 
     private void displayCommandsForMapEditor() {
         System.out.println("************************************************** Map Editor Commands **************************************************");
@@ -130,4 +127,155 @@ public class MapEditorServiceImpl implements GamePhaseService {
         }
         System.out.println("+_______________________________________________________________________________________________________________________+");
     }
+
+    private void handleShowMap(List<String> p_UserInputTokens) throws Exception {
+        if (p_UserInputTokens.size() > 1) {
+            throw new Exception("Invalid command of show map given");
+        }
+        showMap();
+    }
+
+
+    private boolean isSubCommandsCallValid(String[] p_SubCommands, String p_SubCommandToCompareTo, String p_UserCommand) {
+        if (p_UserCommand.equalsIgnoreCase("editcontinent") && p_SubCommands[0].equalsIgnoreCase(p_SubCommandToCompareTo)) {
+            if (p_UserCommand.equalsIgnoreCase("editcontinent") && p_SubCommands.length == 3) {
+                return true;
+            } else if (p_SubCommandToCompareTo.equalsIgnoreCase("remove") && p_SubCommands.length == 2) {
+                return true;
+            }
+            return false;
+        } else if (p_UserCommand.equalsIgnoreCase("editcountry") && p_SubCommands[0].equalsIgnoreCase(p_SubCommandToCompareTo)) {
+            if (p_SubCommandToCompareTo.equalsIgnoreCase("add") && p_SubCommands.length == 2) {
+                return true;
+            } else if (p_SubCommandToCompareTo.equalsIgnoreCase("remove") && p_SubCommands.length == 2) {
+                return true;
+            }
+        } else if (p_UserCommand.equalsIgnoreCase("editneighbor") && p_SubCommands[0].equalsIgnoreCase(p_SubCommandToCompareTo)) {
+            if ((p_SubCommandToCompareTo.equalsIgnoreCase("add") || p_SubCommandToCompareTo.equalsIgnoreCase("remove")) && p_SubCommands.length ==3) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void handleContinentEditing(List<String> p_UserInputTokens, String p_UserAction) throws Exception {
+        String l_UserSubCommands[] = p_UserInputTokens.get(1).split("\\s+");
+        String l_UserSubCommand = l_UserSubCommands[0];
+        if (l_UserSubCommand.equalsIgnoreCase("add")) {
+            if (isSubCommandsCallValid(l_UserSubCommands, "add", p_UserAction)) {
+                d_GameSession.createContinent(l_UserSubCommands[1], l_UserSubCommands[2]);
+            } else {
+                throw new Exception();
+            }
+        } else if (l_UserSubCommand.equalsIgnoreCase("remove")) {
+            if (isSubCommandsCallValid(l_UserSubCommands, "remove", p_UserAction)) {
+                d_GameSession.deleteContinent(l_UserSubCommands[1]);
+            } else {
+                throw new Exception();
+            }
+        } else {
+            throw new Exception();
+        }
+    }
+
+    private void handleCountryEditing(List<String> p_UserInputTokens, String p_UserAction) throws Exception {
+        String l_UserSubCommands[] = p_UserInputTokens.get(1).split("\\s+");
+        String l_UserSubCommand = l_UserSubCommands[0];
+        if (l_UserSubCommand.equalsIgnoreCase("add")) {
+            if (isSubCommandsCallValid(l_UserSubCommands, "add", p_UserAction)) {
+                // Generate a unique country ID
+                Long l_CountryId = 1L;
+                while (d_GameSession.getCountryIds().containsKey(l_CountryId)) {
+                    l_CountryId++;
+                }
+                d_GameSession.createCountry(l_UserSubCommands[1], l_UserSubCommands[2], l_CountryId);
+            } else {
+                throw new Exception();
+            }
+        } else if (l_UserSubCommand.equalsIgnoreCase("remove")) {
+            if (isSubCommandsCallValid(l_UserSubCommands, "remove", p_UserAction)) {
+                d_GameSession.deleteCountry(l_UserSubCommands[1]);
+            } else {
+                throw new Exception();
+            }
+        } else {
+            throw new Exception();
+        }
+    }
+
+
+    private void handleNeighborEditing(List<String> p_UserInputTokens, String p_UserAction) throws Exception {
+        String l_UserSubCommands[] = p_UserInputTokens.get(1).split("\\s+");
+        String l_UserSubCommand = l_UserSubCommands[0];
+        if (l_UserSubCommand.equalsIgnoreCase("add")) {
+            if(isSubCommandsCallValid(l_UserSubCommands, "add", p_UserAction)) {
+                d_GameSession.createNeighbors(l_UserSubCommands[1], l_UserSubCommands[2]);
+            }
+        } else if (l_UserSubCommand.equalsIgnoreCase("remove")) {
+            if (isSubCommandsCallValid(l_UserSubCommands, "remove", p_UserAction)) {
+                d_GameSession.deleteNeighbor(l_UserSubCommands[1], l_UserSubCommands[2]);
+            }
+        } else {
+            throw new Exception();
+        }
+    }
+
+    private void handleListMaps(List<String> p_UserInputTokens) throws WarzoneBaseException {
+        if (p_UserInputTokens.size() > 1) {
+            throw new WarzoneBaseException("Invalid command of list maps given");
+        }
+    }
+
+    private void handleMapValidation(List<String> p_UserInputTokens) throws Exception {
+        if (p_UserInputTokens.size() > 1) {
+            throw new Exception("Invalid command of validate map given");
+        }
+
+        if (GameWorldValidator.validateMap(d_GameSession)) {
+            System.out.println("Current game map is valid");
+        } else {
+            System.out.println("Current game map is invalid");
+        }
+    }
+
+    private void handleSaveMap(List<String> p_UserInputTokens) throws Exception {
+        if (p_UserInputTokens.size() > 1) {
+            throw new Exception("Invalid command of save map given");
+        }
+        String l_FileName = p_UserInputTokens.get(1) + WarzoneConstants.GAME_MAP_EXTENSION;
+        // check if the file exists
+        String l_FilePath = WarzoneConstants.GAME_WORLDS + WarzoneConstants.FORWARD_SLASH + l_FileName;
+        File l_File = new File(l_FilePath);
+        if (l_File.exists()) {
+            throw new Exception("File with name " + l_FileName + " already exists");
+        }
+
+        if (!GameWorldValidator.validateMap(d_GameSession)) {
+            throw new Exception("The map is not valid to save");
+        }
+        try (OutputStream l_NewMapFile = new FileOutputStream(l_File)) {
+            MapDataHandler l_MapDataHandler = new MapDataHandlerImpl();
+            l_MapDataHandler.saveGameMap(l_NewMapFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Failed to create new map file", e);
+        }
+    }
+
+    private void handleEditMap(List<String> p_UserInputTokens) throws Exception, WarzoneBaseException {
+        if (p_UserInputTokens.size() > 1) {
+            throw new Exception("Invalid command of edit map given");
+        }
+        String l_MapFileName = p_UserInputTokens.get(1);
+        InputStream l_GameMap = null;
+        try {
+            l_GameMap = FileUtils.getStreamFromGameFile(l_MapFileName);
+        } catch (FileNotFoundException e) {
+            System.out.println("Failed to edit the map file given:" + l_MapFileName);
+            throw new WarzoneBaseException("Unable to edit map file given");
+        }
+        MapDataHandler l_MapDataHandler = new MapDataHandlerImpl();
+        l_MapDataHandler.createGameMap(l_GameMap);
+    }
+
 }
+

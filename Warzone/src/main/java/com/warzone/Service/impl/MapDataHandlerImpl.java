@@ -1,23 +1,21 @@
 package main.java.com.warzone.Service.impl;
 
-// implement the GameMapDataHandler interface methods
-
 import main.java.com.warzone.Entities.Continent;
 import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Service.GameMapDataHandler;
+import main.java.com.warzone.Service.MapDataHandler;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
-public class GameMapDataHandlerImpl implements GameMapDataHandler {
+public class MapDataHandlerImpl implements MapDataHandler {
 
     final private GameSession d_CurrGameMap;
     private BufferedReader d_MapReader;
 
-    public GameMapDataHandlerImpl() {
+    public MapDataHandlerImpl() {
         d_CurrGameMap = GameSession.getInstance();
         d_MapReader = null;
     }
@@ -70,7 +68,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("[continents]");
         l_NewMapData.append("\n");
         for (String l_ContinentName : l_ContinentsInOrder) {
-            l_NewMapData.append(l_ContinentName).append("\\s+").append(l_CurrContinentsInSession.get(l_ContinentName).getD_ControlValue());
+            l_NewMapData.append(l_ContinentName).append("\\s+").append(l_CurrContinentsInSession.get(l_ContinentName).get_ControlValue());
             l_NewMapData.append("\n");
         }
 

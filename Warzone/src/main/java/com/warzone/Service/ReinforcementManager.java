@@ -49,7 +49,7 @@ public class ReinforcementManager implements GamePhaseService {
             } else {
                 boolean l_isContinentOwned = true;
                 String l_continentOwnerPlayerName = null;
-                for (Country l_country : l_continent.getD_Countries().values()) {
+                for (Country l_country : l_continent.getCountries().values()) {
                     String l_countryOwner = l_country.get_Owner();
                     if (l_continentOwnerPlayerName == null && l_countryOwner != null) {
                         l_continentOwnerPlayerName = l_countryOwner;
