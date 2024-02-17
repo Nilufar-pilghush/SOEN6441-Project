@@ -16,7 +16,7 @@ public class CmdUtils {
      * @param p_UserInput Raw user input.
      * @return A list containing tokens.
      */
-    public static List<String> tokenizeUserInput(String p_UserInput) {
+    public static List<String> getUserInputParts(String p_UserInput) {
         List<String> l_Tokens = new ArrayList<>();
         if (p_UserInput.contains(WarzoneConstants.HYPHEN)) {
             String[] l_HyphenSplit = p_UserInput.split(WarzoneConstants.HYPHEN);

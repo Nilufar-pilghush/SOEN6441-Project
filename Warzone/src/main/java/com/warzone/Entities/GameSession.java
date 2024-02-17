@@ -1,8 +1,7 @@
 package main.java.com.warzone.Entities;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import main.java.com.warzone.Exceptions.WarzoneValidationException;
 
 /**
  * This class is designed for managing the session of the game
@@ -211,6 +210,78 @@ public class GameSession {
         l_Country.AddAdjacentCountry(l_NeighboringCountry.getId(), p_NeighboringCountry);
         l_NeighboringCountry.AddAdjacentCountry(l_Country.getId(), p_CountryName);
         System.out.println("Neighbors created, The " + p_CountryName + " neighbors with " + p_NeighboringCountry);
+    }
+
+    /**
+     * Clears all the data structures, effectively resetting the game world.
+     */
+    public void clearPreviousSession() {
+        d_CurrGameSession.getContinentsInSession().clear();
+        d_CurrGameSession.getCountriesInSession().clear();
+        d_CurrGameSession.getPlayers().clear();
+        d_CurrGameSession.getContinentsInOrder().clear();
+        d_CurrGameSession.getCountryIds().clear();
+    }
+
+    /**
+     * Creates a new player.
+     *
+     * @param p_PlayerName Name of the new player.
+     * @throws WarzoneValidationException If the player already exists.
+     */
+    public void createPlayer(String p_PlayerName) throws WarzoneValidationException {
+        if (d_CurrGameSession.getPlayers().containsKey(p_PlayerName)) {
+            System.out.println("Player with name: "+ p_PlayerName + " already exists");
+            throw new WarzoneValidationException("Player with given name " + p_PlayerName + "already exists");
+        }
+        Player l_CreatedPlayer = new Player(p_PlayerName);
+        d_Players.put(p_PlayerName, l_CreatedPlayer);
+        System.out.println("Player creation accomplished: "+ p_PlayerName);
+    }
+
+    /**
+     * Deletes a player from the game.
+     *
+     * @param p_PlayerName Name of the player.
+     * @throws WarzoneValidationException If the player doesn't exist.
+     */
+    public void deletePlayer(String p_PlayerName) throws WarzoneValidationException {
+        if (!d_CurrGameSession.getPlayers().containsKey(p_PlayerName)) {
+            System.out.println("Player with name: "+ p_PlayerName + " doesn't exist");
+            throw new WarzoneValidationException("Player with given name: " + p_PlayerName + "doesn't exist");
+        }
+        d_Players.remove(p_PlayerName);
+        // Remove owner from countries
+        Iterator<Map.Entry<String, Country>> l_CountryIterator = d_CurrGameSession.getCountriesInSession().entrySet().iterator();
+        while (l_CountryIterator.hasNext()) {
+            Map.Entry<String, Country> l_CountryEntry = l_CountryIterator.next();
+            if (l_CountryEntry.getValue().getOwner().equals(p_PlayerName)) {
+                l_CountryEntry.getValue().setOwner(null);
+            }
+        }
+        System.out.println("Player deletion accomplished: "+ p_PlayerName);
+    }
+
+    /**
+     * Method to assign player to given country
+     *
+     * @param p_PlayerName Name of the player
+     * @param p_CountryName Name of the country
+     * @throws WarzoneValidationException If given player already exists or country doesn't exist.
+     */
+
+    public void assignCountryToPlayer(String p_PlayerName, String p_CountryName) throws WarzoneValidationException {
+        if (!d_CurrGameSession.getPlayers().containsKey(p_PlayerName)) {
+            throw new WarzoneValidationException("Player with given name: " + p_PlayerName + "doesn't exist");
+        }
+        if (!d_CurrGameSession.getCountriesInSession().containsKey(p_CountryName)) {
+            throw new WarzoneValidationException("Country with given name: " + p_CountryName + "doesn't exist");
+        }
+
+
+        d_CurrGameSession.getPlayers().get(p_PlayerName).addOwnedCountry(p_CountryName);
+        d_CurrGameSession.getCountriesInSession().get(p_CountryName).setOwner(p_PlayerName);
+        System.out.println("Country: " + p_CountryName + " assigned to player: " + p_PlayerName);
     }
 }
 

@@ -30,4 +30,38 @@ public class FileUtils {
         InputStream l_GameSceneMap = new FileInputStream(l_GameScene);
         return l_GameSceneMap;
     }
+
+
+    /**
+     * This method is used to list the game world maps available
+     * in the maps directory for efficient game play
+     *
+     * @return True if list maps is successful, false otherwise.
+     * @throws FileNotFoundException if the game world directory with maps is not present
+     */
+    public static boolean listMaps() throws FileNotFoundException {
+        File l_MapsDir = new File(WarzoneConstants.GAME_WORLDS + WarzoneConstants.FORWARD_SLASH);
+        if (l_MapsDir.exists()) {
+            File[] l_ExistingMaps = l_MapsDir.listFiles();
+            if (l_ExistingMaps == null || l_ExistingMaps.length == 0) {
+                System.out.println("No existing maps found");
+                return true;
+            }
+            System.out.print("Available maps--> ");
+            for (int l_MapIndex = 0; l_MapIndex < l_ExistingMaps.length; l_MapIndex++) {
+                File l_Map = l_ExistingMaps[l_MapIndex];
+                if (l_Map.getName().endsWith(WarzoneConstants.GAME_MAP_EXTENSION)) {
+                    System.out.print(l_Map.getName());
+                    if (l_MapIndex != l_ExistingMaps.length - 1) {
+                        System.out.print(WarzoneConstants.COMMA + WarzoneConstants.SPACE);
+                    }
+                }
+            }
+            System.out.println();
+            return true;
+        } else {
+            System.out.println("Unable to find game worlds directory.");
+            throw new FileNotFoundException();
+        }
+    }
 }

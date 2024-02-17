@@ -1,14 +1,15 @@
-package main.java.com.warzone.Service;
+package main.java.com.warzone.Service.impl;
 
 import main.java.com.warzone.Entities.GamePhase;
 import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Entities.Order;
 import main.java.com.warzone.Entities.Player;
+import main.java.com.warzone.Service.GamePhaseService;
 
 import java.util.Iterator;
 import java.util.Map;
 
-public class OrderExecutor {
+public class OrderExecutor implements GamePhaseService {
 
     /**
      * The current game session instance.
@@ -50,5 +51,10 @@ public class OrderExecutor {
             l_playerOrder.execute(d_gameSession);
             l_playerOrder = p_player.nextOrder();
         }
+    }
+
+    @Override
+    public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
+        return null;
     }
 }

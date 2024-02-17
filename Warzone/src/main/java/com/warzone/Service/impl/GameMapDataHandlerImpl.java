@@ -26,7 +26,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     // read the map data from the stream
     // add the relevant data to the game map variables (countries, continents, borders)
     @Override
-    public void createGameMap(InputStream p_InputStream) throws Exception {
+    public void makeGameSession(InputStream p_InputStream) throws Exception {
         if (p_InputStream == null) {
             throw new FileNotFoundException("Unable to find map file.");
         }

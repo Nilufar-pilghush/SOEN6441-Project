@@ -40,7 +40,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
         while (true) {
             displayHelpCommandsMenu(l_NextPhase);
             String l_UserInput = l_InputScanner.nextLine();
-            List<String> l_UserInputTokens = CmdUtils.tokenizeUserInput(l_UserInput);
+            List<String> l_UserInputTokens = CmdUtils.getUserInputParts(l_UserInput);
             try {
                 String l_PrimaryCommand = l_UserInputTokens.get(0).toLowerCase();
                 switch (l_PrimaryCommand) {

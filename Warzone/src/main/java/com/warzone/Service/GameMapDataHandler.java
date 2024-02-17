@@ -1,6 +1,5 @@
 package main.java.com.warzone.Service;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -12,7 +11,7 @@ import java.io.OutputStream;
 public interface GameMapDataHandler {
 
     // create the game environment with the given file
-    void createGameMap(InputStream p_InputStream) throws Exception;
+    void makeGameSession(InputStream p_InputStream) throws Exception;
 
     // save current game environment in a file
     void saveGameMap(OutputStream p_OutputStream);
