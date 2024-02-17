@@ -46,7 +46,7 @@ public class WarzoneConstants {
      * Constant to split on comma
      */
     public static final String COMMA = ",";
-
+  
     /**
      * Constant to list maps
      */
@@ -82,12 +82,8 @@ public class WarzoneConstants {
      */
     public static final String ADD = "add";
 
-
     /**
      * Constant to hand remove sub action
      */
     public static final String REMOVE = "remove";
-
-
-
 }

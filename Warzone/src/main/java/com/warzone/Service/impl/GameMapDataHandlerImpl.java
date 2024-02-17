@@ -7,6 +7,7 @@ import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
 import main.java.com.warzone.Exceptions.WarzoneValidationException;
 import main.java.com.warzone.Service.GameMapDataHandler;
 import main.java.com.warzone.constants.WarzoneConstants;
+import main.java.com.warzone.Service.GamePhaseService;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -14,8 +15,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Implements the {@link GameMapDataHandler} interface. Used to manage the game maps
- * like creation/saving from/to user specified files.
+ * Implements the {@link GameMapDataHandler} interface.
+ * Handles the creation and saving of game maps, including continents, countries, and borders.
+ * Reads map data from an input stream and writes formatted map data to an output stream.
+ * Supports operations such as creating continents, countries, and borders, and saving the modified map data to a new file.
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
  */
 public class GameMapDataHandlerImpl implements GameMapDataHandler {
 
@@ -25,12 +35,13 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     final private GameSession d_CurrGameMap;
 
     /**
-     * Reader for processing game map file input streams.
+     * BufferedReader to read the map file.
      */
     private BufferedReader d_MapReader;
 
     /**
-     * Initialization constructor for the GameMapDataHandler
+     * Constructs a GameMapDataHandlerImpl object.
+     * Initializes the current game session and map reader.
      */
     public GameMapDataHandlerImpl() {
         d_CurrGameMap = GameSession.getInstance();
@@ -38,9 +49,11 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     }
 
     /**
-     * Method loads a game map from an InputStream.
-     * @param p_InputStream The InputStream of the map file.
-     * @throws WarzoneRuntimeException If the file cannot be found or read.
+     * Reads the map data from the input stream and creates the game map.
+     * Parses the input stream to extract continent, country, and border data.
+     *
+     * @param p_InputStream The input stream containing map data.
+     * @throws Exception If the input stream is null or if there's an error reading the data.
      */
     @Override
     public void createGameMap(InputStream p_InputStream) throws WarzoneRuntimeException, WarzoneValidationException{
@@ -69,11 +82,12 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         System.out.println("Map loaded successfully");
     }
 
-
     /**
-     * Method saves the current game map to an OutputStream.
-     * @param p_GameMapNewFileName The OutputStream to save the map to.
-     * @throws RuntimeException If the new map file cannot be saved.
+     * Writes the current game map data to a new file.
+     * Formats the map data including continents, countries, and borders.
+     * Writes the formatted data to the specified output stream.
+     *
+     * @param p_GameMapNewFileName The name of the new file to save the map data.
      */
     @Override
     public void saveGameMap(OutputStream p_GameMapNewFileName) {
@@ -89,7 +103,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             l_NewMapData.append("\n");
         }
 
-        // loop through the countries and add their data to l_NewMapData
+        /* Loop through the countries and add their data to l_NewMapData */
         l_NewMapData.append("\n");
         l_NewMapData.append("[countries]");
         l_NewMapData.append("\n");
@@ -100,7 +114,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             l_NewMapData.append("\n");
         }
 
-        // loop through the borders and add their data to l_NewMapData
+        /* Loop through the borders and add their data to l_NewMapData */
         l_NewMapData.append("\n");
         l_NewMapData.append("[borders]");
         l_NewMapData.append("\n");
@@ -113,6 +127,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             l_NewMapData.append("\n");
         }
 
+        /* write l_NewMapData to the newMapfile stated on the outpstream */
         PrintWriter l_FileWrite = null;
         try {
             l_FileWrite = new PrintWriter("GameMap" + "/" + p_GameMapNewFileName);
