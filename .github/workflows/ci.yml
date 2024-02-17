@@ -15,10 +15,18 @@ jobs:
         with:
           java-version: 17
       - name: Build with Maven
-        run: mvn clean install
+        run: |
+          cd .\Warzone\
+          mvn clean install
       - name: Run Junit Tests
-        run: mvn test
+        run:  |
+          cd .\Warzone\
+          mvn test
       - name: Check JavaDoc
-        run: mvn checkstyle:checkstyle
+        run:  |
+          cd .\Warzone\
+          mvn checkstyle:checkstyle
       - name: Generate JavaDoc
-        run: mvn javadoc:javadoc
+        run:  |
+          cd .\Warzone\
+          mvn javadoc:javadoc
