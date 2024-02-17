@@ -4,6 +4,9 @@ import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Entities.Order;
 import main.java.com.warzone.Entities.Player;
 
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * Implements the {@link GamePhaseService} interface managing the order issuance phase in the Warzone game.
  * Initializes with the current game session and prepares to take input from players
@@ -35,30 +38,25 @@ public class OrderExecutorServiceImpl implements GamePhaseService {
     /**
      * Handles the execution phase of the game.
      *
-     * @param p_currentPhase The current phase of the game.
+     * @param p_CurrPhaseurrentPhase The current phase of the game.
      * @return The next phase after order execution.
      */
-    public GamePhase handleGamePhase(GamePhase p_currentPhase) {
-        System.out.println("Order execution service handler");
+    @Override
+    public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
+        System.out.println("Execute orders service handler");
 
-        // Iterate over players and execute their orders
-        for (Player l_player : d_GameSession.getPlayers().values()) {
-            executePlayerOrders(l_player);
+        // Loop over players & execute orders
+        Iterator<Map.Entry<String, Player>> l_PlayerIterator = d_GameSession.getPlayers().entrySet().iterator();
+        while (l_PlayerIterator.hasNext()) {
+            Map.Entry<String, Player> l_PlayerEntry = l_PlayerIterator.next();
+            Player l_Player = l_PlayerEntry.getValue();
+            Order l_PlayerOrder = l_Player.nextOrder();
+            while (l_PlayerOrder != null) {
+                l_PlayerOrder.execute(d_GameSession);
+                l_PlayerOrder = l_Player.nextOrder();
+            }
         }
-
         return GamePhase.MAIN_GAME_LOOP;
     }
 
-    /**
-     * Executes orders for a specific player.
-     *
-     * @param p_player The player whose orders need to be executed.
-     */
-    private void executePlayerOrders(Player p_player) {
-        Order l_playerOrder = p_player.nextOrder();
-        while (l_playerOrder != null) {
-            l_playerOrder.execute(d_GameSession);
-            l_playerOrder = p_player.nextOrder();
-        }
-    }
 }
