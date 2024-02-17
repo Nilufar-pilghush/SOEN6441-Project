@@ -119,7 +119,7 @@ public class GameWorldValidator {
         p_VisitedCountries.add(p_StartCountry.getName());
         for (String l_NeighbourCountryName : p_StartCountry.getAdjacentCountries().values()) {
             Country l_NeighborCountry = p_GameSession.getCountriesInSession().get(l_NeighbourCountryName);
-            if (!p_VisitedCountries.contains(l_NeighbourCountryName) && l_NeighborCountry.getPresentInContinent().equals(p_ValidatingContinent.getName())) {
+            if (!p_VisitedCountries.contains(l_NeighbourCountryName) && l_NeighborCountry.getIsInContinent().equals(p_ValidatingContinent.getName())) {
                 depthFirstTraversal(l_NeighborCountry, p_GameSession, p_VisitedCountries, p_ValidatingContinent);
             }
         }
@@ -157,7 +157,7 @@ public class GameWorldValidator {
      */
     private static void depthFirstTraversal(Country p_StartCountry, GameSession p_GameSession, Set<String> p_VisitedContinents, Set<String> p_VisitedCountries) {
         p_VisitedCountries.add(p_StartCountry.getName());
-        p_VisitedContinents.add(p_StartCountry.getPresentInContinent());
+        p_VisitedContinents.add(p_StartCountry.getIsInContinent());
         for (String l_NeighborCountryName : p_StartCountry.getAdjacentCountries().values()) {
             if (!p_VisitedCountries.contains(l_NeighborCountryName)) {
                 Country l_NeighborCountry = p_GameSession.getCountriesInSession().get(l_NeighborCountryName);

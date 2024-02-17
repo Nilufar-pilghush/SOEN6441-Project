@@ -3,7 +3,11 @@ package main.java.com.warzone.constants;
 /**
  * Class containing all the constants referenced in the code.
  *
- * @author Alli sayed Salehi
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author ???
+ * @author Ali sayed Salehi
+ * @author ???
  * @version 1.0.0
  */
 public class WarzoneConstants {

@@ -2,10 +2,6 @@ package main.java.com.warzone.Service;
 
 
 import main.java.com.warzone.Entities.*;
-import main.java.com.warzone.Service.GamePhaseService;
-
-import java.util.Iterator;
-import java.util.Map;
 
 public class ReinforcementManager implements GamePhaseService {
     private GameSession d_gameSession;
@@ -42,15 +38,15 @@ public class ReinforcementManager implements GamePhaseService {
 
     private void updateContinentOwnershipAndReinforcements() {
         for (Continent l_continent : d_gameSession.getContinentsInSession().values()) {
-            String l_continentOwner = l_continent.get_Owner();
+            String l_continentOwner = l_continent.getOwner();
             if (l_continentOwner != null) {
                 Player l_continentOwnerPlayer = d_gameSession.getPlayers().get(l_continentOwner);
-                l_continentOwnerPlayer.addArmies(l_continent.get_ControlValue());
+                l_continentOwnerPlayer.addArmies(l_continent.getControlValue());
             } else {
                 boolean l_isContinentOwned = true;
                 String l_continentOwnerPlayerName = null;
-                for (Country l_country : l_continent.getD_Countries().values()) {
-                    String l_countryOwner = l_country.get_Owner();
+                for (Country l_country : l_continent.getCountries().values()) {
+                    String l_countryOwner = l_country.getOwner();
                     if (l_continentOwnerPlayerName == null && l_countryOwner != null) {
                         l_continentOwnerPlayerName = l_countryOwner;
                     } else if (l_countryOwner == null || !l_countryOwner.equals(l_continentOwnerPlayerName)) {
@@ -60,8 +56,8 @@ public class ReinforcementManager implements GamePhaseService {
                 }
                 if (l_isContinentOwned) {
                     Player l_continentOwnerPlayer = d_gameSession.getPlayers().get(l_continentOwnerPlayerName);
-                    l_continent.set_Owner(l_continentOwnerPlayerName);
-                    l_continentOwnerPlayer.addArmies(l_continent.get_ControlValue());
+                    l_continent.setOwner(l_continentOwnerPlayerName);
+                    l_continentOwnerPlayer.addArmies(l_continent.getControlValue());
                 }
             }
         }
