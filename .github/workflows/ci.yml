@@ -22,7 +22,7 @@ jobs:
         run:  |
           cd ./Warzone/
           mvn test
-      - name: Check JavaDoc
+      - name: Check styling
         run:  |
           cd ./Warzone/
           mvn checkstyle:checkstyle
