@@ -82,19 +82,19 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
         while (l_Continents.hasNext()) {
             Map.Entry<String, Continent> l_CurrContinent = l_Continents.next();
             Continent l_Continent = l_CurrContinent.getValue();
-            String l_ContinentOwner = l_Continent.get_Owner();
+            String l_ContinentOwner = l_Continent.getOwner();
             if (l_ContinentOwner != null) {
                 Player l_ContinentPlayerOwner = d_GameSession.getPlayers().get(l_ContinentOwner);
-                l_ContinentPlayerOwner.addArmies(l_Continent.get_ControlValue());
+                l_ContinentPlayerOwner.addArmies(l_Continent.getControlValue());
             }
             else {
                 boolean l_IsContinentOwned = true;
                 String l_ContinentOwnerPlayer = null;
-                Iterator<Map.Entry<String, Country>> l_Countries = l_Continent.getD_Countries().entrySet().iterator();
+                Iterator<Map.Entry<String, Country>> l_Countries = l_Continent.getCountries().entrySet().iterator();
                 while (l_Countries.hasNext()) {
                     Map.Entry<String, Country> l_CurrCountry = l_Countries.next();
                     Country l_Country = l_CurrCountry.getValue();
-                    String l_CountryOwner = l_Country.get_Owner();
+                    String l_CountryOwner = l_Country.getOwner();
                     if (l_ContinentOwnerPlayer == null && l_CountryOwner != null) {
                         l_ContinentOwnerPlayer = l_CountryOwner;
                     }
@@ -105,8 +105,8 @@ public class ArmyReinforcementServiceImpl implements GamePhaseService {
                 }
             if (l_IsContinentOwned) {
                 Player l_FinalContinentOwner = d_GameSession.getPlayers().get(l_ContinentOwnerPlayer);
-                l_Continent.set_Owner(l_ContinentOwnerPlayer);
-                l_FinalContinentOwner.addArmies(l_Continent.get_ControlValue());
+                l_Continent.setOwner(l_ContinentOwnerPlayer);
+                l_FinalContinentOwner.addArmies(l_Continent.getControlValue());
             }
             }
         }

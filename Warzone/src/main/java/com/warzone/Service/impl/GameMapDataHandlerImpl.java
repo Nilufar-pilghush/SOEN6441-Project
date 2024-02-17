@@ -104,7 +104,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("[continents]");
         l_NewMapData.append("\n");
         for (String l_ContinentName : l_ContinentsInOrder) {
-            l_NewMapData.append(l_ContinentName).append("\\s+").append(l_CurrContinentsInSession.get(l_ContinentName).get_ControlValue());
+            l_NewMapData.append(l_ContinentName).append("\\s+").append(l_CurrContinentsInSession.get(l_ContinentName).getControlValue());
             l_NewMapData.append("\n");
         }
 
@@ -114,8 +114,8 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("\n");
         for (String l_CountryName : d_CurrGameMap.getCountriesInSession().keySet()) {
             Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
-            int l_ContinentIndex = l_ContinentsInOrder.indexOf(l_Country.get_IsInContinent()) + 1;
-            l_NewMapData.append(l_Country.get_Id()).append("\\s+").append(l_CountryName).append("\\s+").append(l_ContinentIndex);
+            int l_ContinentIndex = l_ContinentsInOrder.indexOf(l_Country.getIsInContinent()) + 1;
+            l_NewMapData.append(l_Country.getId()).append("\\s+").append(l_CountryName).append("\\s+").append(l_ContinentIndex);
             l_NewMapData.append("\n");
         }
 
@@ -125,8 +125,8 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("\n");
         for (String l_CountryName : d_CurrGameMap.getCountriesInSession().keySet()) {
             Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
-            l_NewMapData.append(l_Country.get_Id());
-            for (Long l_Neighbor : l_Country.getD_AdjacentCountries().keySet()) {
+            l_NewMapData.append(l_Country.getId());
+            for (Long l_Neighbor : l_Country.getAdjacentCountries().keySet()) {
                 l_NewMapData.append("\\s+").append(l_Neighbor);
             }
             l_NewMapData.append("\n");

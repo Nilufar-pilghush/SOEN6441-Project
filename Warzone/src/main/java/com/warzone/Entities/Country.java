@@ -1,19 +1,52 @@
 package main.java.com.warzone.Entities;
-
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a country in the Warzone game.
+ *
+ * This class encapsulates the properties and behavior of a country in the Warzone game,
+ * including its unique ID, name, owner, number of armies, continent it belongs to, and adjacent countries.
+ * Countries can have armies deployed on them and can be owned by players.
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
+ */
+
 public class Country {
 
+    /**
+     * The unique ID of the country.
+     */
     private Long d_Id;
+
+    /**
+     * The name of the country.
+     */
     private String d_Name;
 
+    /**
+     * The owner of the country.
+     */
     private String d_Owner;
 
+    /**
+     * The number of armies currently deployed on the country.
+     */
     private int d_NumberOfArmies;
 
+    /**
+     * The continent where the country is located.
+     */
     private String d_IsInContinent;
 
+    /**
+     * The map of adjacent countries to the country.
+     */
     private Map<Long, String> d_AdjacentCountries;
 
     //constructor
@@ -29,70 +62,126 @@ public class Country {
 
     }
 
-    //get methods
-
-    public Long get_Id() {
+    /**
+     * Retrieves the unique ID of the country.
+     *
+     * @return The ID of the country.
+     */
+    public Long getId() {
         return d_Id;
     }
 
-    public String get_Name() {
+    /**
+     * Retrieves the name of the country.
+     *
+     * @return The name of the country.
+     */
+    public String getName() {
         return d_Name;
     }
 
-    public String get_Owner() {
+    /**
+     * Retrieves the owner of the country.
+     *
+     * @return The owner of the country.
+     */
+    public String getOwner() {
         return d_Owner;
     }
 
-    public int get_NumberOfArmies() {
+
+    /**
+     * Retrieves the number of armies currently deployed on the country.
+     *
+     * @return The number of armies on the country.
+     */
+    public int getNumberOfArmies() {
         return d_NumberOfArmies;
     }
 
-    public int getNumberOfArmies() { return d_NumberOfArmies;}
-
+    /**
+     * Retrieves the map of adjacent countries to the country.
+     *
+     * @return The map of adjacent countries.
+     */
     public Map<Long, String> getAdjacentCountries() {
         return this.d_AdjacentCountries;
     }
 
-    public String getOwner() { return d_Owner;}
-
-    public String get_IsInContinent() {
+    /**
+     * Retrieves the continent where the country is located.
+     *
+     * @return The continent of the country.
+     */
+    public String getIsInContinent() {
         return d_IsInContinent;
     }
 
-    public Map<Long, String> getD_AdjacentCountries() {
-        return d_AdjacentCountries;
-    }
-
+    /**
+     * Adds an adjacent country to the country.
+     *
+     * @param p_AdjacentCountryId The ID of the adjacent country.
+     * @param p_AdjacentCountry   The name of the adjacent country.
+     */
     public void AddAdjacentCountry(Long p_AdjacentCountryId, String p_AdjacentCountry){
 
            this.d_AdjacentCountries.put(p_AdjacentCountryId,p_AdjacentCountry);
     }
 
+    /**
+     * Checks if the country is adjacent to a specified country.
+     *
+     * @param p_CountryName The name of the country to check adjacency with.
+     * @return True if the country is adjacent to the specified country, otherwise false.
+     */
     public boolean isAdjacentTo(String p_CountryName) {
 
         return this.d_AdjacentCountries.containsValue(p_CountryName);
     }
 
-    //needed set methods
-    public void set_Name(String p_Name) {
+    /**
+     * Sets the name of the country.
+     *
+     * @param p_Name The name to set for the country.
+     */
+    public void setName(String p_Name) {
         this.d_Name = p_Name;
     }
 
-    public void set_Owner(String p_Owner) {
+    /**
+     * Sets the owner of the country.
+     *
+     * @param p_Owner The owner to set for the country.
+     */
+    public void setOwner(String p_Owner) {
         this.d_Owner = p_Owner;
     }
 
-    public void set_IsInContinent(String p_IsInContinent) {
+    /**
+     * Sets the continent where the country is located.
+     *
+     * @param p_IsInContinent The continent to set for the country.
+     */
+    public void setIsInContinent(String p_IsInContinent) {
         this.d_IsInContinent = p_IsInContinent;
     }
 
+    /**
+     * Sets the number of armies deployed on the country.
+     *
+     * @param p_NumberOfArmies The number of armies to set for the country.
+     */
     public void setNumberOfArmies(int p_NumberOfArmies) {
         this.d_NumberOfArmies = p_NumberOfArmies;
     }
 
-    public void setOwner(String p_owner) {this.d_Owner = p_owner;}
 
-    //method to add armies to each country
+    /**
+     * Adds a specified number of armies to the country.
+     *
+     * @param p_NumberOfArmies The number of armies to add.
+     * @return The total number of armies after addition.
+     */
     public int addArmies(int p_NumberOfArmies) {
         return this.d_NumberOfArmies += p_NumberOfArmies;
     }
