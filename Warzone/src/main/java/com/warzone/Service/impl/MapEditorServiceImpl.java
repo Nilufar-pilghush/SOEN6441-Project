@@ -4,6 +4,8 @@ import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GamePhase;
 import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Exceptions.WarzoneBaseException;
+import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
+import main.java.com.warzone.Exceptions.WarzoneValidationException;
 import main.java.com.warzone.Service.MapDataHandler;
 import main.java.com.warzone.Service.GamePhaseService;
 import main.java.com.warzone.constants.WarzoneConstants;
@@ -17,20 +19,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-// edit current game map
-// display edit map options
-// handle user input commands and validate
-// display map before and after editing
-
-
+/**
+ * Implements the {@link GamePhaseService} interface. Provides functionality
+ * for user to add or remove continents, countries, and neighbors, view
+ * and validate maps and save their changes to files.
+ */
 public class MapEditorServiceImpl implements GamePhaseService {
 
+    /**
+     * Instance of the current game session
+     */
     private GameSession d_GameSession;
 
+    /**
+     * Initializes the map editor with the current game map in the session.
+     */
     public MapEditorServiceImpl() {
         d_GameSession = GameSession.getInstance();
     }
 
+    /**
+     * Handles user input commands for map editing and navigate through the game phases.
+     * @param p_CurrPhase The current phase of the game.
+     * @return The next game phase based on user actions.
+     */
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
         Scanner l_InputScanner = new Scanner(System.in);
@@ -81,7 +93,9 @@ public class MapEditorServiceImpl implements GamePhaseService {
         }
     }
 
-
+    /**
+     * Displays available commands for the map editor.
+     */
     private void displayCommandsForMapEditor() {
         System.out.println("************************************************** Map Editor Commands **************************************************");
         System.out.println("--To edit continents--");
@@ -102,6 +116,9 @@ public class MapEditorServiceImpl implements GamePhaseService {
         System.out.println("************************************************************************************************************************");
     }
 
+    /**
+     * Shows the current game map with continents and countries.
+     */
     private void showMap() {
         System.out.println("***************************** Current Game Map *****************************");
 
@@ -128,14 +145,26 @@ public class MapEditorServiceImpl implements GamePhaseService {
         System.out.println("+_______________________________________________________________________________________________________________________+");
     }
 
-    private void handleShowMap(List<String> p_UserInputTokens) throws Exception {
+    /**
+     * Checks if the user has entered the right 'showmap' command.
+     * @param p_UserInputTokens Tokens from user input.
+     * @throws WarzoneValidationException if the command syntax is incorrect or additional arguments are provided.
+     */
+    private void handleShowMap(List<String> p_UserInputTokens) throws WarzoneValidationException {
         if (p_UserInputTokens.size() > 1) {
-            throw new Exception("Invalid command of show map given");
+            throw new WarzoneValidationException("Invalid command of show map given");
         }
         showMap();
     }
 
-
+    /**
+     * Validates if the sub-commands for editing continents, countries, or neighbors are correctly formatted.
+     * Checks if the command and its arguments match the expected format for adding or removing entities.
+     * @param p_SubCommands Array of sub-command parts extracted from the user input.
+     * @param p_SubCommandToCompareTo The action to compare (e.g., "add" or "remove").
+     * @param p_UserCommand The primary command (e.g., "editcontinent", "editcountry", "editneighbor") to validate against.
+     * @return true if the sub-command structure is valid according to the operation, false otherwise.
+     */
     private boolean isSubCommandsCallValid(String[] p_SubCommands, String p_SubCommandToCompareTo, String p_UserCommand) {
         if (p_UserCommand.equalsIgnoreCase("editcontinent") && p_SubCommands[0].equalsIgnoreCase(p_SubCommandToCompareTo)) {
             if (p_UserCommand.equalsIgnoreCase("editcontinent") && p_SubCommands.length == 3) {
@@ -158,27 +187,39 @@ public class MapEditorServiceImpl implements GamePhaseService {
         return false;
     }
 
-    private void handleContinentEditing(List<String> p_UserInputTokens, String p_UserAction) throws Exception {
+    /**
+     * Handles continent editing commands based on the specified action (add or remove).
+     * @param p_UserInputTokens Tokens extracted from the user's input indicating continent details.
+     * @param p_UserAction The specific action to perform on continents (add or remove).
+     * @throws WarzoneValidationException if the command syntax is incorrect or the operation cannot be completed.
+     */
+    private void handleContinentEditing(List<String> p_UserInputTokens, String p_UserAction) throws WarzoneValidationException {
         String l_UserSubCommands[] = p_UserInputTokens.get(1).split("\\s+");
         String l_UserSubCommand = l_UserSubCommands[0];
         if (l_UserSubCommand.equalsIgnoreCase("add")) {
             if (isSubCommandsCallValid(l_UserSubCommands, "add", p_UserAction)) {
                 d_GameSession.createContinent(l_UserSubCommands[1], l_UserSubCommands[2]);
             } else {
-                throw new Exception();
+                throw new WarzoneValidationException();
             }
         } else if (l_UserSubCommand.equalsIgnoreCase("remove")) {
             if (isSubCommandsCallValid(l_UserSubCommands, "remove", p_UserAction)) {
                 d_GameSession.deleteContinent(l_UserSubCommands[1]);
             } else {
-                throw new Exception();
+                throw new WarzoneValidationException();
             }
         } else {
-            throw new Exception();
+            throw new WarzoneValidationException();
         }
     }
 
-    private void handleCountryEditing(List<String> p_UserInputTokens, String p_UserAction) throws Exception {
+    /**
+     * Handles country editing commands based on the specified action (add or remove).
+     * @param p_UserInputTokens Tokens extracted from the user's input.
+     * @param p_UserAction The specific action to perform on countries (add or remove).
+     * @throws WarzoneValidationException if the command syntax is incorrect or the operation cannot be completed.
+     */
+    private void handleCountryEditing(List<String> p_UserInputTokens, String p_UserAction) throws WarzoneValidationException {
         String l_UserSubCommands[] = p_UserInputTokens.get(1).split("\\s+");
         String l_UserSubCommand = l_UserSubCommands[0];
         if (l_UserSubCommand.equalsIgnoreCase("add")) {
@@ -190,21 +231,26 @@ public class MapEditorServiceImpl implements GamePhaseService {
                 }
                 d_GameSession.createCountry(l_UserSubCommands[1], l_UserSubCommands[2], l_CountryId);
             } else {
-                throw new Exception();
+                throw new WarzoneValidationException();
             }
         } else if (l_UserSubCommand.equalsIgnoreCase("remove")) {
             if (isSubCommandsCallValid(l_UserSubCommands, "remove", p_UserAction)) {
                 d_GameSession.deleteCountry(l_UserSubCommands[1]);
             } else {
-                throw new Exception();
+                throw new WarzoneValidationException();
             }
         } else {
-            throw new Exception();
+            throw new WarzoneValidationException();
         }
     }
 
-
-    private void handleNeighborEditing(List<String> p_UserInputTokens, String p_UserAction) throws Exception {
+    /**
+     * Manages neighbor editing commands based on the specified action (add or remove).
+     * @param p_UserInputTokens Tokens extracted from the user's input indicating neighbor details.
+     * @param p_UserAction The specific action to perform on neighbors (add or remove).
+     * @throws WarzoneValidationException if the command syntax is incorrect or the operation cannot be completed.
+     */
+    private void handleNeighborEditing(List<String> p_UserInputTokens, String p_UserAction) throws WarzoneValidationException {
         String l_UserSubCommands[] = p_UserInputTokens.get(1).split("\\s+");
         String l_UserSubCommand = l_UserSubCommands[0];
         if (l_UserSubCommand.equalsIgnoreCase("add")) {
@@ -216,19 +262,29 @@ public class MapEditorServiceImpl implements GamePhaseService {
                 d_GameSession.deleteNeighbor(l_UserSubCommands[1], l_UserSubCommands[2]);
             }
         } else {
-            throw new Exception();
+            throw new WarzoneValidationException();
         }
     }
 
-    private void handleListMaps(List<String> p_UserInputTokens) throws WarzoneBaseException {
+    /**
+     * Lists all available maps in the game.
+     * @param p_UserInputTokens Tokens from user input.
+     * @throws WarzoneValidationException if the command is not 'listmaps' command is not found.
+     */
+    private void handleListMaps(List<String> p_UserInputTokens) throws WarzoneValidationException {
         if (p_UserInputTokens.size() > 1) {
-            throw new WarzoneBaseException("Invalid command of list maps given");
+            throw new WarzoneValidationException("Invalid command of list maps given");
         }
     }
 
-    private void handleMapValidation(List<String> p_UserInputTokens) throws Exception {
+    /**
+     * Validates the current game map and ensures the map is valid before proceeding.
+     * @param p_UserInputTokens Tokens from user input
+     * @throws WarzoneValidationException if the command is not 'validatemap' command is not found.
+     */
+    private void handleMapValidation(List<String> p_UserInputTokens) throws WarzoneValidationException {
         if (p_UserInputTokens.size() > 1) {
-            throw new Exception("Invalid command of validate map given");
+            throw new WarzoneValidationException("Invalid command of validate map given");
         }
 
         if (GameWorldValidator.validateMap(d_GameSession)) {
@@ -238,20 +294,24 @@ public class MapEditorServiceImpl implements GamePhaseService {
         }
     }
 
-    private void handleSaveMap(List<String> p_UserInputTokens) throws Exception {
+    /**
+     * Saves the current map to a file.
+     * @param p_UserInputTokens Tokens extracted from the user's input, including the filename.
+     */
+    private void handleSaveMap(List<String> p_UserInputTokens) throws WarzoneValidationException, Exception {
         if (p_UserInputTokens.size() > 1) {
-            throw new Exception("Invalid command of save map given");
+            throw new WarzoneValidationException("Invalid command of save map given");
         }
         String l_FileName = p_UserInputTokens.get(1) + WarzoneConstants.GAME_MAP_EXTENSION;
         // check if the file exists
         String l_FilePath = WarzoneConstants.GAME_WORLDS + WarzoneConstants.FORWARD_SLASH + l_FileName;
         File l_File = new File(l_FilePath);
         if (l_File.exists()) {
-            throw new Exception("File with name " + l_FileName + " already exists");
+            throw new WarzoneValidationException("File with name " + l_FileName + " already exists");
         }
 
         if (!GameWorldValidator.validateMap(d_GameSession)) {
-            throw new Exception("The map is not valid to save");
+            throw new WarzoneValidationException("The map is not valid to save");
         }
         try (OutputStream l_NewMapFile = new FileOutputStream(l_File)) {
             MapDataHandler l_MapDataHandler = new MapDataHandlerImpl();
@@ -261,9 +321,13 @@ public class MapEditorServiceImpl implements GamePhaseService {
         }
     }
 
-    private void handleEditMap(List<String> p_UserInputTokens) throws Exception, WarzoneBaseException {
+    /**
+     * Edits an existing map by loading it from a file.
+     * @param p_UserInputTokens Tokens extracted from the user's input, including the filename.
+     */
+    private void handleEditMap(List<String> p_UserInputTokens) throws Exception {
         if (p_UserInputTokens.size() > 1) {
-            throw new Exception("Invalid command of edit map given");
+            throw new WarzoneValidationException("Invalid command of edit map given");
         }
         String l_MapFileName = p_UserInputTokens.get(1);
         InputStream l_GameMap = null;
@@ -271,7 +335,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
             l_GameMap = FileUtils.getStreamFromGameFile(l_MapFileName);
         } catch (FileNotFoundException e) {
             System.out.println("Failed to edit the map file given:" + l_MapFileName);
-            throw new WarzoneBaseException("Unable to edit map file given");
+            throw new WarzoneRuntimeException("Unable to edit map file given");
         }
         MapDataHandler l_MapDataHandler = new MapDataHandlerImpl();
         l_MapDataHandler.createGameMap(l_GameMap);

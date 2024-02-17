@@ -3,6 +3,8 @@ package main.java.com.warzone.Service.impl;
 import main.java.com.warzone.Entities.Continent;
 import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GameSession;
+import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
+import main.java.com.warzone.Exceptions.WarzoneValidationException;
 import main.java.com.warzone.Service.MapDataHandler;
 
 import java.io.*;
@@ -20,20 +22,14 @@ public class MapDataHandlerImpl implements MapDataHandler {
         d_MapReader = null;
     }
 
-    // check if the input stream is there
-    // read the map data from the stream
-    // add the relevant data to the game map variables (countries, continents, borders)
     @Override
-    public void createGameMap(InputStream p_InputStream) throws Exception {
+    public void createGameMap(InputStream p_InputStream) throws WarzoneValidationException, WarzoneRuntimeException {
         if (p_InputStream == null) {
-            throw new FileNotFoundException("Unable to find map file.");
+            throw new WarzoneRuntimeException("Unable to find map file.");
         }
-//        InputStreamReader l_InputStreamReader = new InputStreamReader(p_InputStream, StandardCharsets.UTF_8);
         d_MapReader = new BufferedReader(new InputStreamReader(p_InputStream, StandardCharsets.UTF_8));
         d_CurrGameMap.clearExistingMap();
         String l_CurrMapDataLine = null;
-        boolean isReadingContinents = false, isReadingCountries = false, isReadingBorders = false;
-
         try {
             while ((l_CurrMapDataLine = d_MapReader.readLine()) != null) {
                 l_CurrMapDataLine = l_CurrMapDataLine.trim();
@@ -48,7 +44,7 @@ public class MapDataHandlerImpl implements MapDataHandler {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Cannot read data from file");
+            throw new WarzoneRuntimeException("Cannot read data from file");
         }
         System.out.println("Map loaded successfully");
     }
