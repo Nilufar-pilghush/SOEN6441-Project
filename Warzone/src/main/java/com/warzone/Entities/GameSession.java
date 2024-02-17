@@ -41,6 +41,13 @@ public class GameSession {
         return this.d_CurrGamePhase;
     }
 
+    public static GameSession getInstance() {
+        if (d_CurrGameSession == null) {
+            d_CurrGameSession = new GameSession();
+        }
+        return d_CurrGameSession;
+    }
+
     public Map<String, Player> getPlayers() {
 
         return this.d_Players;

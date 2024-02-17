@@ -16,7 +16,6 @@ public class Country {
 
     private Map<Long, String> d_AdjacentCountries;
 
-
     //constructor
     public Country(long p_Id, String p_Name, String p_IsInContinent) {
 
@@ -48,6 +47,14 @@ public class Country {
         return d_NumberOfArmies;
     }
 
+    public int getNumberOfArmies() { return d_NumberOfArmies;}
+
+    public Map<Long, String> getAdjacentCountries() {
+        return this.d_AdjacentCountries;
+    }
+
+    public String getOwner() { return d_Owner;}
+
     public String get_IsInContinent() {
         return d_IsInContinent;
     }
@@ -67,7 +74,6 @@ public class Country {
     }
 
     //needed set methods
-
     public void set_Name(String p_Name) {
         this.d_Name = p_Name;
     }
@@ -80,12 +86,16 @@ public class Country {
         this.d_IsInContinent = p_IsInContinent;
     }
 
-    //method to add armies to each country
-    public int addArmies(int p_NumberOfArmies) {
-        return  this.d_NumberOfArmies += p_NumberOfArmies;
+    public void setNumberOfArmies(int p_NumberOfArmies) {
+        this.d_NumberOfArmies = p_NumberOfArmies;
     }
 
+    public void setOwner(String p_owner) {this.d_Owner = p_owner;}
 
+    //method to add armies to each country
+    public int addArmies(int p_NumberOfArmies) {
+        return this.d_NumberOfArmies += p_NumberOfArmies;
+    }
 
 
 }

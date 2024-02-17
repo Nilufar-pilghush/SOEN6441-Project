@@ -9,7 +9,7 @@ public class Continent {
 
       private String d_Name;
       private Map<String,Country> d_Countries;
-      private  int d_ControlValue;
+      private  Long d_ControlValue ;
       private  String d_Owner;
 
       public Continent(){
@@ -17,35 +17,48 @@ public class Continent {
       }
 
 
-      //get methods
-      public String getD_Name() {
+      /**
+       * Method to get the name of the continent.
+       *
+       * @return name of the continent
+       */
+      public String getName() {
             return d_Name;
       }
 
-      public int getD_ControlValue() {
+      public int get_ControlValue() {
             return d_ControlValue;
       }
 
-      public String getD_Owner() {
+      public String get_Owner() {
             return d_Owner;
       }
 
-      public Map<String, Country> getD_Countries() {
+      /**
+       * Get all the countries of the continent.
+       *
+       * @return Map of countries in the continent
+       */
+      public Map<String, Country> getCountries() {
             return d_Countries;
       }
 
       //needed set methods
 
 
-      public void setD_Name(String d_Name) {
+      public void set_Name(String d_Name) {
             this.d_Name = d_Name;
       }
 
-      public void setD_ControlValue(int d_ControlValue) {
+      public void set_ControlValue(Long d_ControlValue) {
             this.d_ControlValue = d_ControlValue;
       }
 
-      public void setD_Owner(String d_Owner) {
+      public void set_Owner(String d_Owner) {
             this.d_Owner = d_Owner;
       }
+
+
+
+
 }
