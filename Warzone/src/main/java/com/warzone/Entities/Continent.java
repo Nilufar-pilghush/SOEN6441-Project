@@ -9,7 +9,7 @@ public class Continent {
 
       private String d_Name;
       private Map<String,Country> d_Countries;
-      private  Long d_ControlValue ;
+      private  int d_ControlValue ;
       private  String d_Owner;
 
       public Continent(){
@@ -50,7 +50,7 @@ public class Continent {
             this.d_Name = d_Name;
       }
 
-      public void set_ControlValue(Long d_ControlValue) {
+      public void set_ControlValue(int d_ControlValue) {
             this.d_ControlValue = d_ControlValue;
       }
 

@@ -104,7 +104,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("[continents]");
         l_NewMapData.append("\n");
         for (String l_ContinentName : l_ContinentsInOrder) {
-            l_NewMapData.append(l_ContinentName).append("\\s+").append(l_CurrContinentsInSession.get(l_ContinentName).getD_ControlValue());
+            l_NewMapData.append(l_ContinentName).append("\\s+").append(l_CurrContinentsInSession.get(l_ContinentName).get_ControlValue());
             l_NewMapData.append("\n");
         }
 

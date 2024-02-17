@@ -4,21 +4,34 @@ import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GamePhase;
 import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Service.GamePhaseService;
+import main.java.com.warzone.utils.CmdUtils;
 
 import java.util.*;
 
+/**
+ * Implements the {@link GamePhaseService} interface. Used to handle the different phases in the game loop.
+ */
+
 public class GameLoopServiceImpl implements GamePhaseService {
 
+    /**
+     * Instance of the current game session
+     */
     private GameSession d_GameSession;
 
+    /**
+     * Initialization constructor for the GameLoopService
+     */
     public GameLoopServiceImpl() {
         d_GameSession = GameSession.getInstance();
     }
 
-    // Handle user actions
-    // Display command options for the user
-    // Read the user input and handle the command
-    // return the game phase affected by the command
+    /**
+     * Method to process user commands within the current game phase
+     *
+     * @param p_CurrPhase Current game phase.
+     * @return Next or current game phase based on user input.
+     */
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
         System.out.println("Game Loop Service Controller");
@@ -27,20 +40,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
         while (true) {
             displayHelpCommandsMenu(l_NextPhase);
             String l_UserInput = l_InputScanner.nextLine();
-            List<String> l_UserInputTokens = new ArrayList<>();
-            if (l_UserInput.contains("-")) {
-                String l_HyphenTokens[]  = l_UserInput.split("-");
-                for (String l_text : l_HyphenTokens) {
-                    l_UserInputTokens.add(l_text.trim());
-                }
-            }
-            else {
-                String l_SpaceTokens[] = l_UserInput.split("\\s+");
-                for (String l_text : l_SpaceTokens) {
-                    l_UserInputTokens.add(l_text.trim());
-                }
-            }
-
+            List<String> l_UserInputTokens = CmdUtils.tokenizeUserInput(l_UserInput);
             try {
                 String l_PrimaryCommand = l_UserInputTokens.get(0).toLowerCase();
                 switch (l_PrimaryCommand) {
@@ -48,7 +48,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
                         showMap();
                     }
                     case "help" -> {
-                        // Will display help text
+                        // will display help text
                     }
                     case "exit" -> {
                         System.out.println("Exit game");
@@ -101,7 +101,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
             System.out.println("-" + l_ContinentName);
             System.out.println("--Countries:");
 
-            Iterator<Map.Entry<String, Country>> l_CountriesInContinent = d_GameSession.getContinentsInSession().get(l_ContinentName).getD_Countries().entrySet().iterator();
+            Iterator<Map.Entry<String, Country>> l_CountriesInContinent = d_GameSession.getContinentsInSession().get(l_ContinentName).getCountries().entrySet().iterator();
             while (l_CountriesInContinent.hasNext()) {
                 Map.Entry<String, Country> l_Country = l_CountriesInContinent.next();
                 System.out.println("----" + l_Country.getKey());

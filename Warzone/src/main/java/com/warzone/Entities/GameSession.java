@@ -29,13 +29,6 @@ public class GameSession {
         d_CountryIdsToCountryNames = new HashMap<>();
     }
 
-    public static GameSession getInstance() {
-        if (d_CurrGameSession == null) {
-            d_CurrGameSession = new GameSession();
-        }
-        return d_CurrGameSession;
-    }
-
     //get methods
 
     public GamePhase getCurrGamePhase(){
@@ -92,8 +85,8 @@ public class GameSession {
         }
 
         Continent l_NewContinent = new Continent();
-        l_NewContinent.setD_Name(p_ContinentName);
-        l_NewContinent.setD_ControlValue(Integer.parseInt(p_ControlValue));
+        l_NewContinent.set_Name(p_ContinentName);
+        l_NewContinent.set_ControlValue(Integer.parseInt(p_ControlValue));
         d_CurrGameSession.getContinentsInSession().put(p_ContinentName, l_NewContinent);
         d_CurrGameSession.getContinentsInOrder().add(p_ContinentName);
         System.out.println("Continent created: " + p_ContinentName + ", " + p_ControlValue);
@@ -110,7 +103,7 @@ public class GameSession {
         }
         Country l_NewCountry = new Country(p_CountryId, p_CountryName, p_ContinentName);
         d_CurrGameSession.getCountriesInSession().put(p_CountryName, l_NewCountry);
-        d_CurrGameSession.getContinentsInSession().get(p_ContinentName).getD_Countries().put(p_CountryName, l_NewCountry);
+        d_CurrGameSession.getContinentsInSession().get(p_ContinentName).getCountries().put(p_CountryName, l_NewCountry);
         d_CurrGameSession.getCountryIds().put(p_CountryId, p_CountryName);
         System.out.println("Country created: " + p_CountryId + ", " + p_CountryName + " in " + p_ContinentName);
     }
