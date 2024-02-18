@@ -38,7 +38,7 @@ public class OrderExecutorServiceImpl implements GamePhaseService {
     /**
      * Handles the execution phase of the game.
      *
-     * @param p_CurrPhaseurrentPhase The current phase of the game.
+     * @param p_CurrPhase The current phase of the game.
      * @return The next phase after order execution.
      */
     @Override

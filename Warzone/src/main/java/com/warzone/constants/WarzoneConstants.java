@@ -5,9 +5,9 @@ package main.java.com.warzone.constants;
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
- * @author ???
+ * @author Jerome Kithinji
  * @author Ali sayed Salehi
- * @author ???
+ * @author Fatemeh Chaji
  * @version 1.0.0
  */
 public class WarzoneConstants {

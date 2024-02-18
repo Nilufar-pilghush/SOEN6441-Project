@@ -3,7 +3,6 @@ package main.java.com.warzone.Service.impl;
 import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GamePhase;
 import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Exceptions.WarzoneBaseException;
 import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
 import main.java.com.warzone.Exceptions.WarzoneValidationException;
 import main.java.com.warzone.Service.MapDataHandler;
@@ -11,11 +10,9 @@ import main.java.com.warzone.Service.GamePhaseService;
 import main.java.com.warzone.constants.WarzoneConstants;
 import main.java.com.warzone.utils.CmdUtils;
 import main.java.com.warzone.utils.FileUtils;
-import main.java.com.warzone.utils.GameWorldValidator;
+import main.java.com.warzone.utils.GameSessionValidator;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,6 +20,12 @@ import java.util.Scanner;
  * Implements the {@link GamePhaseService} interface. Provides functionality
  * for user to add or remove continents, countries, and neighbors, view
  * and validate maps and save their changes to files.
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
  */
 public class MapEditorServiceImpl implements GamePhaseService {
 
@@ -287,7 +290,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
             throw new WarzoneValidationException("Invalid command of validate map given");
         }
 
-        if (GameWorldValidator.validateMap(d_GameSession)) {
+        if (GameSessionValidator.validateMap(d_GameSession)) {
             System.out.println("Current game map is valid");
         } else {
             System.out.println("Current game map is invalid");
@@ -310,7 +313,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
             throw new WarzoneValidationException("File with name " + l_FileName + " already exists");
         }
 
-        if (!GameWorldValidator.validateMap(d_GameSession)) {
+        if (!GameSessionValidator.validateMap(d_GameSession)) {
             throw new WarzoneValidationException("The map is not valid to save");
         }
         try (OutputStream l_NewMapFile = new FileOutputStream(l_File)) {

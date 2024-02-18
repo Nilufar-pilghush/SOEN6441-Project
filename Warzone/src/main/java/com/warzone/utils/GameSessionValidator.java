@@ -4,14 +4,19 @@ import main.java.com.warzone.Entities.*;
 import java.util.*;
 
 /**
- * validates the created game world.
+ * validates the created game Session.
  * Validations include: All the countries and continents are reachable from a given point.
  * All the continents are connected.
  * every continent has at least one country.
  *
- * @author Ali Sayed Salehi
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
  */
-public class GameWorldValidator {
+public class GameSessionValidator {
 
     /**
      * Method to validate a given game world.
@@ -34,19 +39,19 @@ public class GameWorldValidator {
             System.out.println("All the continents are not connected");
             return false;
         }
-        System.out.println("Game world validated successfully.");
+        System.out.println("Game Session validated successfully.");
         return true;
     }
 
     /**
-     * Validates if the given game world is empty (no continents).
+     * Validates if the given game Session is empty (no continents).
      *
-     * @param p_GameSession game world to be validated
-     * @return true if the given world is empty, false otherwise
+     * @param p_GameSession game Session to be validated
+     * @return true if the given Session is empty, false otherwise
      */
     public static boolean isWorldEmpty(GameSession p_GameSession) {
         if (Objects.isNull(p_GameSession) || p_GameSession.getContinentsInSession().isEmpty()) {
-            System.out.println("Game World is empty.");
+            System.out.println("Game Session is empty.");
             return true;
         }
         return false;
@@ -55,8 +60,8 @@ public class GameWorldValidator {
     /**
      * Method to validate if players are added to game world
      *
-     * @param p_GameSession Current game world instance
-     * @return True if players are added to the game world, false otherwise
+     * @param p_GameSession Current game Session instance
+     * @return True if players are added to the game Session, false otherwise
      */
     public static boolean arePlayersAdded(GameSession p_GameSession) {
         if (Objects.isNull(p_GameSession) || p_GameSession.getPlayers().isEmpty()) {
@@ -116,7 +121,7 @@ public class GameWorldValidator {
      * @param p_ValidatingContinent Continent getting validated
      */
     private static void depthFirstTraversal(Country p_StartCountry, GameSession p_GameSession, Set<String> p_VisitedCountries, Continent p_ValidatingContinent) {
-        p_VisitedCountries.add(p_StartCountry.get_Name());
+        p_VisitedCountries.add(p_StartCountry.getName());
         for (String l_NeighbourCountryName : p_StartCountry.getAdjacentCountries().values()) {
             Country l_NeighborCountry = p_GameSession.getCountriesInSession().get(l_NeighbourCountryName);
             if (!p_VisitedCountries.contains(l_NeighbourCountryName) && l_NeighborCountry.getIsInContinent().equals(p_ValidatingContinent.getName())) {
