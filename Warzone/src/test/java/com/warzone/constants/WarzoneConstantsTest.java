@@ -20,7 +20,7 @@ public class WarzoneConstantsTest {
      * Test case to validate edit continent constant value
      */
     @Test
-    public void whenWarzoneConstantUsed_ExpectCorrectValue(){
+    public void whenWarzoneConstantUsed_ExpectCorrectValueTest(){
         Assertions.assertEquals("editcontinent", WarzoneConstants.EDIT_CONTINENT);
     }
 
@@ -28,7 +28,7 @@ public class WarzoneConstantsTest {
      * Test case to validate edit country constant value
      */
     @Test
-    public void whenWarzoneConstantUsed_ExpectCorrectValue2(){
+    public void whenWarzoneConstantUsed_ExpectCorrectValue2Test(){
         Assertions.assertEquals("editcountry", WarzoneConstants.EDIT_COUNTRY);
     }
 
@@ -36,7 +36,7 @@ public class WarzoneConstantsTest {
      * Test case to validate edit neighbor constant value
      */
     @Test
-    public void whenWarzoneConstantUsed_ExpectCorrectValue3(){
+    public void whenWarzoneConstantUsed_ExpectCorrectValue3Test(){
         Assertions.assertEquals("editneighbor", WarzoneConstants.EDIT_NEIGHBOR);
     }
 }

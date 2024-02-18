@@ -88,8 +88,8 @@ import org.junit.jupiter.api.Test;
          */
         @Test
         public void whenGetCountries_ExpectCountriesTest(){
-        d_Continent.getCountries().put("India", new Country(12, "Asia", "Yes"));
-        Assertions.assertTrue(d_Continent.getCountries().containsKey("India"));
+        d_Continent.getCountries().put("Iran", new Country(12, "Asia", "Yes"));
+        Assertions.assertTrue(d_Continent.getCountries().containsKey("Iran"));
         }
     }
 

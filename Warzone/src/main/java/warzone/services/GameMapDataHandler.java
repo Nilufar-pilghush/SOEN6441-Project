@@ -21,7 +21,7 @@ import java.io.OutputStream;
  * @version 1.0.0
  */
 
-public interface MapDataHandler {
+public interface GameMapDataHandler {
 
     /**
      * Loads a main.java.game map from an InputStream.

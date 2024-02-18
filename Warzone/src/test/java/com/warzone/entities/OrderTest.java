@@ -8,7 +8,14 @@ package test.java.com.warzone.entities;
         import org.junit.jupiter.api.Test;
 
 /**
-
+ * Test class
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
  */
 public class OrderTest {
 
@@ -106,7 +113,7 @@ public class OrderTest {
      * @throws main.java.warzone.exceptions.WarzoneValidationException If execution validations are not met
      */
     @Test
-    public void whenExecuteOrder_ExpectOrderExecuted() throws WarzoneValidationException {
+    public void whenExecuteOrder_ExpectOrderExecutedTest() throws WarzoneValidationException {
 //        d_GameSession.createPlayer("Nasrin");
         d_Order.setPlayerName("Nasrin");
 //        d_GameSession.createContinent("Asia", String.valueOf(10));
@@ -124,7 +131,7 @@ public class OrderTest {
      * @throws WarzoneValidationException If execution validations are not met
      */
     @Test
-    public void whenExecuteDeployOrder_ExpectOrderExecuted() throws WarzoneValidationException {
+    public void whenExecuteDeployOrder_ExpectOrderExecutedTest() throws WarzoneValidationException {
         d_Order.setSourceCountry(null);
         d_Order.setPlayerName("Nasrin");
         d_GameSession.createPlayer("Nasrin");

@@ -21,7 +21,7 @@ public class GamePhaseTest {
     /**
      */
     @Test
-    public void GetWarzonePhaseMapEditorTest() {
+    public void getWarzonePhaseMapEditorTest() {
         GamePhase phase = GamePhase.MAP_EDITOR;
         GamePhaseService service = phase.getWarzonePhase(phase);
         assertTrue(service instanceof MapEditorServiceImpl);
@@ -30,7 +30,7 @@ public class GamePhaseTest {
     /**
      */
     @Test
-    public void GetWarzonePhaseStartUpTest() {
+    public void getWarzonePhaseStartUpTest() {
         GamePhase segment = GamePhase.START_UP;
         GamePhaseService service = segment.getWarzonePhase(segment);
         assertTrue(service instanceof StartupPhaseServiceImpl);
@@ -39,7 +39,7 @@ public class GamePhaseTest {
     /**
      */
     @Test
-    public void GetWarzoneSegmentReinforcementTest() {
+    public void getWarzonePhaseReinforcementTest() {
         GamePhase phase = GamePhase.REINFORCEMENT;
         GamePhaseService service = phase.getWarzonePhase(phase);
         assertTrue(service instanceof ReinforcementServiceImpl);
@@ -48,7 +48,7 @@ public class GamePhaseTest {
     /**
      */
     @Test
-    public void GetWarzoneSegmentIssueOrdersTest() {
+    public void getWarzonePhaseIssueOrdersTest() {
         GamePhase phase = GamePhase.ISSUE_ORDERS;
         GamePhaseService service = phase.getWarzonePhase(phase);
         assertTrue(service instanceof OrderIssuanceServiceImpl);
@@ -57,7 +57,7 @@ public class GamePhaseTest {
     /**
      */
     @Test
-    public void testGetWarzoneSegmentExit() {
+    public void getWarzoneSegmentExitTest() {
         GamePhase phase = GamePhase.EXIT;
         GamePhaseService service = phase.getWarzonePhase(phase);
         assertNull(service);

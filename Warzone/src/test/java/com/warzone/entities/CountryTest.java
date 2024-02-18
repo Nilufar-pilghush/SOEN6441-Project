@@ -35,14 +35,14 @@ public class CountryTest {
      *
      */
     @Test
-    public void testGetId() {assertEquals(12, country.getId());
+    public void testGetIdTest() {assertEquals(12, country.getId());
     }
 
     /**
      *
      */
     @Test
-    public void testGetName() {
+    public void testGetNameTest() {
         assertEquals("Canada", country.getName());
     }
 
@@ -50,7 +50,7 @@ public class CountryTest {
      *
      */
     @Test
-    public void testSetName() {
+    public void testSetNameTest() {
         country.setName("Iran");
         assertEquals("Iran", country.getName());
     }
@@ -59,7 +59,7 @@ public class CountryTest {
      *
      */
     @Test
-    public void testGetPresentInContinent() {
+    public void testGetPresentInContinentTest() {
         assertEquals("Yes", country.getIsInContinent());
     }
 
@@ -67,7 +67,7 @@ public class CountryTest {
      *
      */
     @Test
-    public void testSetPresentInContinent() {
+    public void testSetPresentInContinentTest() {
         country.setIsInContinent("Asia");
         assertEquals("Asia", country.getIsInContinent());
     }
@@ -76,7 +76,7 @@ public class CountryTest {
      *
      */
     @Test
-    public void testGetAdjacentCountriesInitiallyEmpty() {
+    public void testGetAdjacentCountriesInitiallyEmptyTest() {
         Map<Long, String> adjacentCountries = country.getAdjacentCountries();
         assertNotNull(adjacentCountries);
         assertTrue(adjacentCountries.isEmpty());
@@ -86,7 +86,7 @@ public class CountryTest {
      *
      */
     @Test
-    public void testAddAdjacentCountry() {
+    public void testAddAdjacentCountryTest() {
         country.addAdjacentCountry(2L, "Country2");
         country.addAdjacentCountry(3L, "Country3");
 

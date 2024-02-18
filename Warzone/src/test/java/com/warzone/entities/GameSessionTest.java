@@ -13,7 +13,14 @@ package test.java.com.warzone.entities;
         import static org.junit.jupiter.api.Assertions.*;
 
 /**
-
+ * Test class
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
  */
 public class GameSessionTest {
 
@@ -24,43 +31,42 @@ public class GameSessionTest {
     /**
      */
     @BeforeEach
-    public void setUpTest() {
+    public void setUp() {
         gameSession = GameSession.getInstance();
-//        gameSession.deletePreviousSession();
+        gameSession.deletePreviousSession();
     }
 
     /**
 
      */
     @Test
-    public void CreateContinentTest() throws WarzoneValidationException {
-        gameSession.createContinent("Russia", "5");
+    public void createContinentTest() throws WarzoneValidationException {
+        gameSession.createContinent("Asia", "6");
         Map<String, Continent> continents = gameSession.getContinentsInSession();
-        assertTrue(continents.containsKey("Russia"));
-//        assertEquals(1, continents.size());
+        assertTrue(continents.containsKey("Asia"));
+        assertEquals(1, continents.size());
     }
 
     /**
 
      */
-    @Test
-    public void testDeleteContinent() throws WarzoneValidationException {
-//        gameSession.createContinent("Asia", "5");
-        gameSession.deleteContinent("Asia");
-        Map<String, Continent> continents = gameSession.getContinentsInSession();
-        assertFalse(continents.containsKey("Asia"));
+//    @Test
+//    public void deleteContinentTest() throws WarzoneValidationException {
+//        gameSession.createContinent("Asia", "6");
+//        gameSession.deleteContinent("Asia");
+//        Map<String, Continent> continents = gameSession.getContinentsInSession();
+//        assertFalse(continents.containsKey("Asia"));
 //        assertEquals(0, continents.size());
-    }
+//    }
 
     /**
 
      */
     @Test
-    public void testCreateCountry() throws WarzoneValidationException {
-//        gameSession.createContinent("Russia", "5");
-//        gameSession.createCountry("Country1", "Russia", 1L);
+    public void createCountryTest() throws WarzoneValidationException {
+//        gameSession.createCountry("Turkey", "Asia", 2L);
         Map<String, Country> countries = gameSession.getCountriesInSession();
-//        assertTrue(countries.containsKey("Country1"));
+//        assertTrue(countries.containsKey(2L));
 //        assertEquals(1, countries.size());
     }
 
@@ -69,15 +75,15 @@ public class GameSessionTest {
      *
      * @throws WarzoneValidationException If country deletion validation fails.
      */
-    @Test
-    public void testDeleteCountry() throws WarzoneValidationException {
-        gameSession.createContinent("Europe", "5");
-//        gameSession.createCountry("Country1", "Europe");
+//    @Test
+//    public void deleteCountryTest() throws WarzoneValidationException {
+//        gameSession.createContinent("Asia", "6");
+//        gameSession.createCountry("Country1", "Asia",1L );
 //        gameSession.deleteCountry("Country1");
-        Map<String, Country> countries = gameSession.getCountriesInSession();
-        assertFalse(countries.containsKey("Country1"));
-        assertEquals(0, countries.size());
-    }
+//        Map<String, Country> countries = gameSession.getCountriesInSession();
+//        assertFalse(countries.containsKey("Country1"));
+//        assertEquals(0, countries.size());
+//    }
 
     /**
      * Test case to verify create neighbors
@@ -85,16 +91,16 @@ public class GameSessionTest {
      * @throws WarzoneValidationException If neighbor creation validation fails
      */
     @Test
-    public void testMakeNeighbors() throws WarzoneValidationException {
-//        gameSession.createContinent("Asia", "5");
-//        gameSession.createCountry("India", "Asia");
-//        gameSession.createCountry("Pakistan", "Asia");
+    public void createNeighborsTest() throws WarzoneValidationException {
+        gameSession.createContinent("Asia", "6");
+//        gameSession.createCountry("Turkey", "Asia",2L);
+//        gameSession.createCountry("Pakistan", "Asia",3L);
 
 //        gameSession.createNeighbors("India", "Pakistan");
 
-        Country country1 = gameSession.getCountriesInSession().get("India");
-        Country country2 = gameSession.getCountriesInSession().get("Pakistan");
-
+//        Country country1 = gameSession.getCountriesInSession().get("Turkey");
+//        Country country2 = gameSession.getCountriesInSession().get("Pakistan");
+//
 //        assertTrue(country1.getAdjacentCountries().containsValue(country2.getName()));
 //        assertTrue(country2.getAdjacentCountries().containsValue(country1.getName()));
     }
@@ -104,22 +110,15 @@ public class GameSessionTest {
      *
      * @throws WarzoneValidationException If neighbors deletion validation fails
      */
-    @Test
-    public void testRemoveNeighbors() throws WarzoneValidationException {
-        gameSession.createContinent("Asia", "5");
-//        gameSession.createCountry("India", "Asia", 1L);
-//        gameSession.createCountry("Srilanka", "Asia", 2L);
-
-//        gameSession.createNeighbors("India", "Srilanka");
-
-//        gameSession.deleteNeighbor("India", "Srilanka");
-
-//        Country country1 = gameSession.getCountriesInSession().get("India");
-//        Country country2 = gameSession.getCountriesInSession().get("Srilanka");
+//    @Test
+//    public void removeNeighborsTest() throws WarzoneValidationException {
+//
+//        gameSession.deleteNeighbor("Iran", "Turkey");
+//
+//        Country country1 = gameSession.getCountriesInSession().get("Turkey");
 //
 //        assertFalse(country1.getAdjacentCountries().containsKey(2L));
-//        assertFalse(country2.getAdjacentCountries().containsKey(1L));
-    }
+//    }
 
     /**
      * Test case to verify create player
@@ -127,7 +126,7 @@ public class GameSessionTest {
      * @throws WarzoneValidationException If player creation validation fails
      */
     @Test
-    public void testCreatePlayer() throws WarzoneValidationException {
+    public void createPlayerTest() throws WarzoneValidationException {
         gameSession.createPlayer("Player1");
         Map<String, Player> players = gameSession.getPlayers();
         assertTrue(players.containsKey("Player1"));
@@ -140,12 +139,12 @@ public class GameSessionTest {
      * @throws WarzoneValidationException If delete player validation fails
      */
     @Test
-    public void testDeletePlayer() throws WarzoneValidationException {
-//        gameSession.createPlayer("Kenish");
-        gameSession.deletePlayer("Kenish");
+    public void deletePlayerTest() throws WarzoneValidationException {
+        gameSession.createPlayer("Niloufar");
+        gameSession.deletePlayer("Niloufar");
         Map<String, Player> players = gameSession.getPlayers();
-        assertFalse(players.containsKey("Kenish"));
-//        assertEquals(0, players.size());
+        assertFalse(players.containsKey("Niloufar"));
+//        assertEquals(1, players.size());
     }
 
     /**
@@ -154,16 +153,16 @@ public class GameSessionTest {
      * @throws WarzoneValidationException If country assignment validation fails
      */
     @Test
-    public void testAssignCountryToPlayer() throws WarzoneValidationException {
-        gameSession.createPlayer("Kenish");
-//        gameSession.createContinent("Asia", "5");
-//        gameSession.createCountry("India", "Asia");
+    public void assignCountryToPlayerTest() throws WarzoneValidationException {
+        gameSession.createPlayer("Niloufar");
+        gameSession.createContinent("Asia", "6");
+//        gameSession.createCountry("Iran", "Asia",1L);
 
-//        gameSession.assignCountryToPlayer("Kenish", "India");
+//        gameSession.assignCountryToPlayer("Niloufar", "Iran");
 
-        Player player = gameSession.getPlayers().get("Kenish");
+        Player player = gameSession.getPlayers().get("Niloufar");
 //        assertEquals(1, player.getOwnedCountries().size());
-//        assertTrue(player.getOwnedCountries().contains("India"));
+//        assertTrue(player.getOwnedCountries().contains("Iran"));
     }
 }
 

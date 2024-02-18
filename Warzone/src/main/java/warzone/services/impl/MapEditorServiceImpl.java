@@ -7,7 +7,7 @@ import main.java.warzone.exceptions.WarzoneValidationException;
 import main.java.warzone.entities.Country;
 import main.java.warzone.entities.GamePhase;
 import main.java.warzone.entities.GameSession;
-import main.java.warzone.services.MapDataHandler;
+import main.java.warzone.services.GameMapDataHandler;
 import main.java.warzone.services.GamePhaseService;
 import main.java.warzone.utils.CmdUtils;
 import main.java.warzone.utils.FileUtils;
@@ -318,7 +318,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
             throw new WarzoneValidationException("The map is not valid to save");
         }
         try (OutputStream l_NewMapFile = new FileOutputStream(l_File)) {
-            MapDataHandler l_MapDataHandler = new GameMapDataHandlerImpl();
+            GameMapDataHandler l_MapDataHandler = new GameMapDataHandlerImpl();
             l_MapDataHandler.saveGameMap(l_NewMapFile);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Failed to create new map file", e);
@@ -341,7 +341,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
             System.out.println("Failed to edit the map file given:" + l_MapFileName);
             throw new WarzoneRuntimeException("Unable to edit map file given");
         }
-        MapDataHandler l_MapDataHandler = new GameMapDataHandlerImpl();
+        GameMapDataHandler l_MapDataHandler = new GameMapDataHandlerImpl();
         l_MapDataHandler.createGameMap(l_GameMap);
     }
 

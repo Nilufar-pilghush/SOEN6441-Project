@@ -6,7 +6,7 @@ import main.java.warzone.entities.Country;
 import main.java.warzone.entities.GameSession;
 import main.java.warzone.exceptions.WarzoneRuntimeException;
 import main.java.warzone.exceptions.WarzoneValidationException;
-import main.java.warzone.services.MapDataHandler;
+import main.java.warzone.services.GameMapDataHandler;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Implements the {@link MapDataHandler} interface.
+ * Implements the {@link GameMapDataHandler} interface.
  * Handles the creation and saving of main.java.game maps, including continents, countries, and borders.
  * Reads map data from an input stream and writes formatted map data to an output stream.
  * Supports operations such as creating continents, countries, and borders, and saving the modified map data to a new file.
@@ -26,7 +26,7 @@ import java.util.Map;
  * @author Fatemeh Chaji
  * @version 1.0.0
  */
-public class GameMapDataHandlerImpl implements MapDataHandler {
+public class GameMapDataHandlerImpl implements GameMapDataHandler {
 
     /**
      * Instance of the current main.java.game session

@@ -352,6 +352,15 @@ public class GameSession {
         d_CurrGameSession.getCountriesInSession().get(p_CountryName).setOwner(p_PlayerName);
         System.out.println("Country: " + p_CountryName + " assigned to player: " + p_PlayerName);
     }
-
+    /**
+     * Clears all the data structures, effectively resetting the game world.
+     */
+    public void deletePreviousSession() {
+        d_CurrGameSession.getContinentsInSession().clear();
+        d_CurrGameSession.getCountriesInSession().clear();
+        d_CurrGameSession.getPlayers().clear();
+        d_CurrGameSession.getContinentsInOrder().clear();
+        d_CurrGameSession.getCountryIds().clear();
+    }
 }
 
