@@ -1,17 +1,18 @@
-package main.java.com.warzone.Service.impl;
+package main.java.warzone.services.impl;
 
 
 
-        import main.java.com.warzone.Service.MapDataHandler;
-        import main.java.com.warzone.constants.WarzoneConstants;
-        import main.java.com.warzone.Entities.GamePhase;
-        import main.java.com.warzone.Entities.GameSession;
-        import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
-        import main.java.com.warzone.Exceptions.WarzoneValidationException;
-        import main.java.com.warzone.Service.GamePhaseService;
-        import main.java.com.warzone.utils.CmdUtils;
-        import main.java.com.warzone.utils.FileUtils;
-        import main.java.com.warzone.utils.GameSessionValidator;
+        import main.java.warzone.constants.WarzoneConstants;
+        import main.java.warzone.exceptions.WarzoneRuntimeException;
+        import main.java.warzone.exceptions.WarzoneValidationException;
+        import main.java.warzone.services.MapDataHandler;
+        import main.java.warzone.services.io.GameMapDataHandlerImpl;
+        import main.java.warzone.entities.GamePhase;
+        import main.java.warzone.entities.GameSession;
+        import main.java.warzone.services.GamePhaseService;
+        import main.java.warzone.utils.CmdUtils;
+        import main.java.warzone.utils.FileUtils;
+        import main.java.warzone.utils.GameSessionValidator;
 
         import java.io.FileNotFoundException;
         import java.io.InputStream;
@@ -21,7 +22,7 @@ package main.java.com.warzone.Service.impl;
 
 
 /**
- * Realization of {@link GamePhaseService} that represents the game's startup phase.
+ * Realization of {@link GamePhaseService} that represents the main.java.game's startup phase.
  *
  * @author Snehil Sharma
  * @author Jatin
@@ -33,7 +34,7 @@ package main.java.com.warzone.Service.impl;
 public class StartupPhaseServiceImpl implements GamePhaseService {
 
     /**
-     * Singleton instance of the game world.
+     * Singleton instance of the main.java.game world.
      */
     private GameSession d_CurrGameSession;
 
@@ -46,10 +47,10 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
 
 
     /**
-     * Handles the game segment based on user input.
+     * Handles the main.java.game segment based on user input.
      *
-     * @param p_CurrSegment Current game segment.
-     * @return Next game segment after handling.
+     * @param p_CurrSegment Current main.java.game segment.
+     * @return Next main.java.game segment after handling.
      */
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrSegment) {
@@ -94,11 +95,11 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     }
 
     /**
-     * This method is used to view the existing maps for efficient game play
+     * This method is used to view the existing maps for efficient main.java.game play
      *
      * @param p_UserInputParts the user input command
      * @throws WarzoneValidationException if the given command is invalid
-     * @throws WarzoneRuntimeException if the game worlds directory with maps is not present
+     * @throws WarzoneRuntimeException if the main.java.game worlds directory with maps is not present
      */
     private void listMapsHandler(List<String> p_UserInputParts) throws WarzoneValidationException, WarzoneRuntimeException {
         if (p_UserInputParts.size() > 1) {
@@ -141,7 +142,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     }
 
     /**
-     * This method is used to add/remove a player in the game
+     * This method is used to add/remove a player in the main.java.game
      *
      * @param p_UserInputParts the user input command
      * @throws WarzoneValidationException throws exception if the user input is invalid
@@ -174,7 +175,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Method to assign game world countries to the players.
+     * Method to assign main.java.game world countries to the players.
      *
      * @throws WarzoneValidationException If assignment of country to player fails.
      */
@@ -207,15 +208,15 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Displays the help commands for the current game segment.
+     * Displays the help commands for the current main.java.game segment.
      */
     private void displayHelpCommandsForGamePhase() {
         System.out.println(".......................................Startup Phase Commands..........................................");
         System.out.println("To list existing maps: listmaps");
         System.out.println("To load a map: loadmap filename");
-        System.out.println("To edit game players: gameplayer -add playername -remove playername");
+        System.out.println("To edit main.java.game players: gameplayer -add playername -remove playername");
         System.out.println("To assign countries to players: assigncountries");
-        System.out.println("To exit startup phase & start the game: exit");
+        System.out.println("To exit startup phase & start the main.java.game: exit");
         System.out.println(".......................................................................................................");
     }
 }

@@ -1,12 +1,12 @@
-package main.java.com.warzone.Service.impl;
+package main.java.warzone.services.io;
 
-import main.java.com.warzone.Entities.Continent;
-import main.java.com.warzone.Entities.Country;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
-import main.java.com.warzone.Exceptions.WarzoneValidationException;
-import main.java.com.warzone.Service.MapDataHandler;
-import main.java.com.warzone.constants.WarzoneConstants;
+import main.java.warzone.constants.WarzoneConstants;
+import main.java.warzone.entities.Continent;
+import main.java.warzone.entities.Country;
+import main.java.warzone.entities.GameSession;
+import main.java.warzone.exceptions.WarzoneRuntimeException;
+import main.java.warzone.exceptions.WarzoneValidationException;
+import main.java.warzone.services.MapDataHandler;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * Implements the {@link MapDataHandler} interface.
- * Handles the creation and saving of game maps, including continents, countries, and borders.
+ * Handles the creation and saving of main.java.game maps, including continents, countries, and borders.
  * Reads map data from an input stream and writes formatted map data to an output stream.
  * Supports operations such as creating continents, countries, and borders, and saving the modified map data to a new file.
  *
@@ -29,7 +29,7 @@ import java.util.Map;
 public class GameMapDataHandlerImpl implements MapDataHandler {
 
     /**
-     * Instance of the current game session
+     * Instance of the current main.java.game session
      */
     final private GameSession d_CurrGameMap;
 
@@ -40,7 +40,7 @@ public class GameMapDataHandlerImpl implements MapDataHandler {
 
     /**
      * Constructs a GameMapDataHandlerImpl object.
-     * Initializes the current game session and map reader.
+     * Initializes the current main.java.game session and map reader.
      */
     public GameMapDataHandlerImpl() {
         d_CurrGameMap = GameSession.getInstance();
@@ -48,7 +48,7 @@ public class GameMapDataHandlerImpl implements MapDataHandler {
     }
 
     /**
-     * Reads the map data from the input stream and creates the game map.
+     * Reads the map data from the input stream and creates the main.java.game map.
      * Parses the input stream to extract continent, country, and border data.
      *
      * @param p_InputStream The input stream containing map data.
@@ -82,7 +82,7 @@ public class GameMapDataHandlerImpl implements MapDataHandler {
     }
 
     /**
-     * Writes the current game map data to a new file.
+     * Writes the current main.java.game map data to a new file.
      * Formats the map data including continents, countries, and borders.
      * Writes the formatted data to the specified output stream.
      *

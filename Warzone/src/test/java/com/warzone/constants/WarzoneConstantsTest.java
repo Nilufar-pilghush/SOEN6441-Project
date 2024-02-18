@@ -1,11 +1,9 @@
 package test.java.com.warzone.constants;
-
-
-        import org.junit.jupiter.api.Assertions;
-        import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
- * Test class to validate the constants value stored in warzone constants
+ * Test class to validate the constants value stored in main.java.main.java.com.warzone constants
  *
  *
  * @author Niloufar Pilgush

@@ -1,11 +1,11 @@
-package main.java.com.warzone.Entities;
+package main.java.warzone.entities;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Represents a country in the Warzone game.
+ * Represents a country in the Warzone main.java.game.
  *
- * This class encapsulates the properties and behavior of a country in the Warzone game,
+ * This class encapsulates the properties and behavior of a country in the Warzone main.java.game,
  * including its unique ID, name, owner, number of armies, continent it belongs to, and adjacent countries.
  * Countries can have armies deployed on them and can be owned by players.
  *

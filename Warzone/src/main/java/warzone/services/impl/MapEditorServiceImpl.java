@@ -1,16 +1,17 @@
-package main.java.com.warzone.Service.impl;
+package main.java.warzone.services.impl;
 
-import main.java.com.warzone.Entities.Country;
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
-import main.java.com.warzone.Exceptions.WarzoneValidationException;
-import main.java.com.warzone.Service.MapDataHandler;
-import main.java.com.warzone.Service.GamePhaseService;
-import main.java.com.warzone.constants.WarzoneConstants;
-import main.java.com.warzone.utils.CmdUtils;
-import main.java.com.warzone.utils.FileUtils;
-import main.java.com.warzone.utils.GameSessionValidator;
+import main.java.warzone.services.io.GameMapDataHandlerImpl;
+import main.java.warzone.constants.WarzoneConstants;
+import main.java.warzone.exceptions.WarzoneRuntimeException;
+import main.java.warzone.exceptions.WarzoneValidationException;
+import main.java.warzone.entities.Country;
+import main.java.warzone.entities.GamePhase;
+import main.java.warzone.entities.GameSession;
+import main.java.warzone.services.MapDataHandler;
+import main.java.warzone.services.GamePhaseService;
+import main.java.warzone.utils.CmdUtils;
+import main.java.warzone.utils.FileUtils;
+import main.java.warzone.utils.GameSessionValidator;
 
 import java.io.*;
 import java.util.List;
@@ -30,21 +31,21 @@ import java.util.Scanner;
 public class MapEditorServiceImpl implements GamePhaseService {
 
     /**
-     * Instance of the current game session
+     * Instance of the current main.java.game session
      */
     private GameSession d_GameSession;
 
     /**
-     * Initializes the map editor with the current game map in the session.
+     * Initializes the map editor with the current main.java.game map in the session.
      */
     public MapEditorServiceImpl() {
         d_GameSession = GameSession.getInstance();
     }
 
     /**
-     * Handles user input commands for map editing and navigate through the game phases.
-     * @param p_CurrPhase The current phase of the game.
-     * @return The next game phase based on user actions.
+     * Handles user input commands for map editing and navigate through the main.java.game phases.
+     * @param p_CurrPhase The current phase of the main.java.game.
+     * @return The next main.java.game phase based on user actions.
      */
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
@@ -52,7 +53,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
         while (true) {
             System.out.println();
             System.out.println("****************************** Welcome to Warzone Scene Editor ******************************");
-            System.out.println("Enter 'help' at any point in the game to view available commands in this phase");
+            System.out.println("Enter 'help' at any point in the main.java.game to view available commands in this phase");
             try {
                 String l_UserInput = l_InputScanner.nextLine();
                 List<String> l_UserInputTokens = CmdUtils.tokenizeUserInput(l_UserInput);
@@ -120,7 +121,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Shows the current game map with continents and countries.
+     * Shows the current main.java.game map with continents and countries.
      */
     private void showMap() {
         System.out.println("***************************** Current Game Map *****************************");
@@ -270,7 +271,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Lists all available maps in the game.
+     * Lists all available maps in the main.java.game.
      * @param p_UserInputTokens Tokens from user input.
      * @throws WarzoneValidationException if the command is not 'listmaps' command is not found.
      */
@@ -281,7 +282,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Validates the current game map and ensures the map is valid before proceeding.
+     * Validates the current main.java.game map and ensures the map is valid before proceeding.
      * @param p_UserInputTokens Tokens from user input
      * @throws WarzoneValidationException if the command is not 'validatemap' command is not found.
      */
@@ -291,9 +292,9 @@ public class MapEditorServiceImpl implements GamePhaseService {
         }
 
         if (GameSessionValidator.validateMap(d_GameSession)) {
-            System.out.println("Current game map is valid");
+            System.out.println("Current main.java.game map is valid");
         } else {
-            System.out.println("Current game map is invalid");
+            System.out.println("Current main.java.game map is invalid");
         }
     }
 

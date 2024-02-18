@@ -1,7 +1,7 @@
-package main.java.com.warzone.utils;
+package main.java.warzone.utils;
 
 
-import main.java.com.warzone.constants.WarzoneConstants;
+import main.java.warzone.constants.WarzoneConstants;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,9 +17,9 @@ public class FileUtils {
     /**
      * creates the data stream from the map file
      *
-     * @param p_GameFileName the name of the game map file
-     * @return InputStream of the game file
-     * @throws FileNotFoundException the game file is not found
+     * @param p_GameFileName the name of the main.java.game map file
+     * @return InputStream of the main.java.game file
+     * @throws FileNotFoundException the main.java.game file is not found
      */
     public static InputStream getStreamFromGameFile(String p_GameFileName) throws FileNotFoundException {
         if (!p_GameFileName.endsWith(WarzoneConstants.GAME_MAP_EXTENSION)) {
@@ -33,11 +33,11 @@ public class FileUtils {
 
 
     /**
-     * This method is used to list the game world maps available
-     * in the maps directory for efficient game play
+     * This method is used to list the main.java.game world maps available
+     * in the maps directory for efficient main.java.game play
      *
      * @return True if list maps is successful, false otherwise.
-     * @throws FileNotFoundException if the game world directory with maps is not present
+     * @throws FileNotFoundException if the main.java.game world directory with maps is not present
      */
     public static boolean listMaps() throws FileNotFoundException {
         File l_MapsDir = new File(WarzoneConstants.GAME_WORLDS + WarzoneConstants.FORWARD_SLASH);
@@ -60,7 +60,7 @@ public class FileUtils {
             System.out.println();
             return true;
         } else {
-            System.out.println("Unable to find game worlds directory.");
+            System.out.println("Unable to find main.java.game worlds directory.");
             throw new FileNotFoundException();
         }
     }

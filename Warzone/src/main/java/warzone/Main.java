@@ -1,8 +1,8 @@
-package main.java.com.warzone;
-import main.java.com.warzone.Exceptions.WarzoneBaseException;
+package main.java.warzone;
+import main.java.warzone.exceptions.WarzoneBaseException;
 
 
-    public class Main
+public class Main
     {
         public static void main( String[] args ) throws WarzoneBaseException {
             GamePlay l_GamePlay = new GamePlay();

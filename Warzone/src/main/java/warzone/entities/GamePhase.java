@@ -1,15 +1,15 @@
-package main.java.com.warzone.Entities;
+package main.java.warzone.entities;
 
-import main.java.com.warzone.Service.GamePhaseService;
-import main.java.com.warzone.Service.OrderExecutorServiceImpl;
-import main.java.com.warzone.Service.OrderIssuanceServiceImpl;
-import main.java.com.warzone.Service.impl.ReinforcementServiceImpl;
-import main.java.com.warzone.Service.impl.GameLoopServiceImpl;
-import main.java.com.warzone.Service.impl.MapEditorServiceImpl;
+import main.java.warzone.services.GamePhaseService;
+import main.java.warzone.services.impl.OrderExecutorServiceImpl;
+import main.java.warzone.services.impl.OrderIssuanceServiceImpl;
+import main.java.warzone.services.impl.ReinforcementServiceImpl;
+import main.java.warzone.services.impl.GameLoopServiceImpl;
+import main.java.warzone.services.impl.MapEditorServiceImpl;
 
 /**
- * This enum is designed for different phases of the game.
- * Each phase represents a distinct stage in the game lifecycle.
+ * This enum is designed for different phases of the main.java.game.
+ * Each phase represents a distinct stage in the main.java.game lifecycle.
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
@@ -18,7 +18,7 @@ import main.java.com.warzone.Service.impl.MapEditorServiceImpl;
  * @version 1.0.0
  */
 
-/* different phases of the game */
+/* different phases of the main.java.game */
 public enum GamePhase {
 
         MAP_EDITOR,
@@ -37,10 +37,10 @@ public enum GamePhase {
 
 
         /**
-         * method to return corresponding service implementation for a given game phase.
+         * method to return corresponding service implementation for a given main.java.game phase.
          *
-         * @param p_CurrGamePhase Current game phase.
-         * @return Instance of the PhaseService corresponding to the provided game phase.
+         * @param p_CurrGamePhase Current main.java.game phase.
+         * @return Instance of the PhaseService corresponding to the provided main.java.game phase.
          */
         public GamePhaseService getWarzonePhase(GamePhase p_CurrGamePhase) {
                 switch (p_CurrGamePhase) {
@@ -67,9 +67,9 @@ public enum GamePhase {
         }
 
         /**
-         * method to return next phase of the game based on the current phase
+         * method to return next phase of the main.java.game based on the current phase
          * @param  p_CurrGamePhase: GamePhase
-         * @return next phase of the game
+         * @return next phase of the main.java.game
          */
         public GamePhase getNextPhaseInLoop(GamePhase p_CurrGamePhase) {
                 if (p_CurrGamePhase == null) {
