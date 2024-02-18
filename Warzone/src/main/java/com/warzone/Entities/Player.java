@@ -195,7 +195,4 @@ public class Player {
 
         return this.d_OwnedCountries.contains(p_CountryName);
     }
-
-
-
 }
