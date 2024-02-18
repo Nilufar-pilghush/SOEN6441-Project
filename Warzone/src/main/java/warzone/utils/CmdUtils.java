@@ -8,7 +8,12 @@ import main.java.warzone.constants.WarzoneConstants;
 
 /**
  * Contains helper methods to manage command line operation
- * @author Ali Sayed Salehi
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
  */
 public class CmdUtils {
     /**

@@ -74,6 +74,11 @@ public class GameLoopServiceImpl implements GamePhaseService {
         }
     }
 
+    /**
+     * Displays the help commands menu for the current game phase.
+     *
+     * @param p_NextPhase The next phase in the game loop.
+     */
     private void displayHelpCommandsMenu(GamePhase p_NextPhase) {
         System.out.println("*************************Main Game Loop*************************");
         System.out.println("  Current phase: " + d_GameSession.getCurrGamePhase());
@@ -85,6 +90,9 @@ public class GameLoopServiceImpl implements GamePhaseService {
         System.out.println("*******************************************************************");
     }
 
+    /**
+     * Displays the map including players, continents, countries, and their details.
+     */
     private void showMap() {
         System.out.println("Showing map");
         System.out.println();

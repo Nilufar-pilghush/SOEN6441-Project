@@ -52,7 +52,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
         Scanner l_InputScanner = new Scanner(System.in);
         while (true) {
             System.out.println();
-            System.out.println("****************************** Welcome to Warzone Scene Editor ******************************");
+            System.out.println("****************************** Welcome to Warzone Map Editor ******************************");
             System.out.println("Enter 'help' at any point in the main.java.game to view available commands in this phase");
             try {
                 String l_UserInput = l_InputScanner.nextLine();
@@ -308,7 +308,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
         }
         String l_FileName = p_UserInputTokens.get(1) + WarzoneConstants.GAME_MAP_EXTENSION;
         // check if the file exists
-        String l_FilePath = WarzoneConstants.GAME_WORLDS + WarzoneConstants.FORWARD_SLASH + l_FileName;
+        String l_FilePath = WarzoneConstants.GAME_SESSIONS + WarzoneConstants.FORWARD_SLASH + l_FileName;
         File l_File = new File(l_FilePath);
         if (l_File.exists()) {
             throw new WarzoneValidationException("File with name " + l_FileName + " already exists");
