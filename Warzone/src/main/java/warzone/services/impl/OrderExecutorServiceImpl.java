@@ -1,15 +1,16 @@
-package main.java.com.warzone.Service;
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Entities.Order;
-import main.java.com.warzone.Entities.Player;
+package main.java.warzone.services.impl;
+import main.java.warzone.entities.GamePhase;
+import main.java.warzone.entities.GameSession;
+import main.java.warzone.entities.Order;
+import main.java.warzone.entities.Player;
+import main.java.warzone.services.GamePhaseService;
 
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Implements the {@link GamePhaseService} interface managing the order issuance phase in the Warzone game.
- * Initializes with the current game session and prepares to take input from players
+ * Implements the {@link GamePhaseService} interface managing the order issuance phase in the Warzone main.java.game.
+ * Initializes with the current main.java.game session and prepares to take input from players
  * for issuing orders.
  *
  * @author Niloufar Pilgush
@@ -23,7 +24,7 @@ import java.util.Map;
 public class OrderExecutorServiceImpl implements GamePhaseService {
 
     /**
-     * The current game session instance.
+     * The current main.java.game session instance.
      */
     private GameSession d_GameSession;
 
@@ -36,9 +37,9 @@ public class OrderExecutorServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Handles the execution phase of the game.
+     * Handles the execution phase of the main.java.game.
      *
-     * @param p_CurrPhase The current phase of the game.
+     * @param p_CurrPhase The current phase of the main.java.game.
      * @return The next phase after order execution.
      */
     @Override

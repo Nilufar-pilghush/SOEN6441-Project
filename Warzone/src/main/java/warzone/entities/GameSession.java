@@ -1,12 +1,12 @@
-package main.java.com.warzone.Entities;
+package main.java.warzone.entities;
 
-import main.java.com.warzone.Exceptions.WarzoneValidationException;
+import main.java.warzone.exceptions.WarzoneValidationException;
 
 import java.util.*;
 
 /**
- * This class is designed for managing the session of the game
- * Each session represents a distinct part the game including phase, players, map of continents and countries
+ * This class is designed for managing the session of the main.java.game
+ * Each session represents a distinct part the main.java.game including phase, players, map of continents and countries
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -20,12 +20,12 @@ import java.util.*;
 public class GameSession {
 
     /**
-     * Current session of the game
+     * Current session of the main.java.game
      */
     private static GameSession d_CurrGameSession;
 
     /**
-     * Current phase of the game
+     * Current phase of the main.java.game
      */
     private GamePhase d_CurrGamePhase;
 
@@ -83,9 +83,9 @@ public class GameSession {
     }
 
     /**
-     * Retrieves the current game phase.
+     * Retrieves the current main.java.game phase.
      *
-     * @return The current game phase.
+     * @return The current main.java.game phase.
      */
     public GamePhase getCurrGamePhase(){
 
@@ -93,7 +93,7 @@ public class GameSession {
     }
 
     /**
-     * Retrieves the map of players in the game session.
+     * Retrieves the map of players in the main.java.game session.
      *
      * @return The map of players.
      */
@@ -103,7 +103,7 @@ public class GameSession {
     }
 
     /**
-     * Retrieves the map of continents in the game session.
+     * Retrieves the map of continents in the main.java.game session.
      *
      * @return The map of continents.
      */
@@ -118,7 +118,7 @@ public class GameSession {
     }
 
     /**
-     * Retrieves the map of countries in the game session.
+     * Retrieves the map of countries in the main.java.game session.
      *
      * @return The map of countries.
      */
@@ -128,7 +128,7 @@ public class GameSession {
     }
 
     /**
-     * Retrieves the list maintaining the order of continents in the game session.
+     * Retrieves the list maintaining the order of continents in the main.java.game session.
      *
      * @return The list of continents in order.
      */
@@ -138,15 +138,22 @@ public class GameSession {
     }
 
     /**
-     * Sets the current game phase.
+     * Sets the current main.java.game phase.
      *
-     * @param p_CurrGamePhase The game phase to set.
+     * @param p_CurrGamePhase The main.java.game phase to set.
      */
     public void setCurrGamePhase(GamePhase p_CurrGamePhase){
 
         this.d_CurrGamePhase = p_CurrGamePhase;
     }
 
+    /**
+     * Creates a new continent with the specified name and control value.
+     *
+     * @param p_ContinentName   The name of the continent to create.
+     * @param p_ControlValue    The control value of the continent.
+     * @throws WarzoneValidationException if the continent already exists or if the control value has an invalid format.
+     */
     public void createContinent(String p_ContinentName, String p_ControlValue) throws WarzoneValidationException {
         if (!p_ControlValue.matches("\\d+")) {
             throw new WarzoneValidationException("Invalid format for continent control value");
@@ -164,6 +171,14 @@ public class GameSession {
         System.out.println("Continent created: " + p_ContinentName + ", " + p_ControlValue);
     }
 
+    /**
+     * Creates a new country with the specified name, continent, and ID.
+     *
+     * @param p_CountryName    The name of the country to create.
+     * @param p_ContinentName  The name of the continent where the country belongs.
+     * @param p_CountryId      The ID of the country to create.
+     * @throws Exception if the specified continent doesn't exist or if a country with the same name already exists.
+     */
     public void createCountry(String p_CountryName, String p_ContinentName, long p_CountryId) throws WarzoneValidationException {
         if (!d_CurrGameSession.getContinentsInSession().containsKey(p_ContinentName)) {
             System.out.println("The country " + p_ContinentName + " doesn't exist");
@@ -180,6 +195,13 @@ public class GameSession {
         System.out.println("Country created: " + p_CountryId + ", " + p_CountryName + " in " + p_ContinentName);
     }
 
+    /**
+     * Creates a neighboring relationship between two countries.
+     *
+     * @param p_CountryName         The name of the country to create the neighboring relationship for.
+     * @param p_NeighboringCountry  The name of the neighboring country.
+     * @throws Exception if either the specified country or neighboring country doesn't exist.
+     */
     public void createNeighbors(String p_CountryName, String p_NeighboringCountry) throws WarzoneValidationException {
         Map<String, Country> l_CountriesInSession = d_CurrGameSession.getCountriesInSession();
         if (!l_CountriesInSession.containsKey(p_CountryName)) {
@@ -197,6 +219,9 @@ public class GameSession {
         System.out.println("Neighbors created, The " + p_CountryName + " neighbors with " + p_NeighboringCountry);
     }
 
+    /**
+     * Clears the existing map of players, continents, countries, and country IDs.
+     */
     public void clearExistingMap() {
         d_CurrGameSession.getPlayers().clear();
         d_CurrGameSession.getContinentsInSession().clear();
@@ -205,6 +230,12 @@ public class GameSession {
         d_CurrGameSession.getCountryIds();
     }
 
+    /**
+     * Deletes the continent with the specified name.
+     *
+     * @param p_ContinentName   The name of the continent to delete.
+     * @throws WarzoneValidationException if the continent doesn't exist.
+     */
     public void deleteContinent(String p_ContinentName) throws WarzoneValidationException {
         if (!d_CurrGameSession.getContinentsInSession().containsKey(p_ContinentName)) {
             System.out.println("The Continent " + p_ContinentName + "doesn't exist");
@@ -214,8 +245,12 @@ public class GameSession {
         d_CurrGameSession.getContinentsInOrder().remove(p_ContinentName);
         System.out.println("The Continent " + p_ContinentName + " has been successfully deleted");
     }
-
-
+    /**
+     * Deletes the country with the specified name.
+     *
+     * @param p_CountryName     The name of the country to delete.
+     * @throws WarzoneValidationException if the country doesn't exist.
+     */
     public void deleteCountry(String p_CountryName) throws WarzoneValidationException {
         if (!d_CurrGameSession.getCountriesInSession().containsKey(p_CountryName)) {
             System.out.println("The Country " + p_CountryName + " doesn't exist");
@@ -229,6 +264,13 @@ public class GameSession {
         System.out.println("Country " + p_CountryName + " successfully deleted");
         }
 
+    /**
+     * Deletes the neighboring relationship between two countries.
+     *
+     * @param p_CountryName         The name of the country to delete the neighboring relationship for.
+     * @param p_NeighboringCountry  The name of the neighboring country.
+     * @throws WarzoneValidationException if either the specified country or neighboring country doesn't exist.
+     */
     public void deleteNeighbor(String p_CountryName, String p_NeighboringCountry) throws WarzoneValidationException {
         Map<String, Country> l_CountriesInSession = d_CurrGameSession.getCountriesInSession();
         if (!l_CountriesInSession.containsKey(p_CountryName)) {
@@ -250,6 +292,13 @@ public class GameSession {
         l_NeighboringCountry.getAdjacentCountries().remove((l_Country.getId()));
         System.out.println("Neighbor removed, between " + p_CountryName + " and " + p_NeighboringCountry);
     }
+
+    /**
+     * Creates a new player with the specified name.
+     *
+     * @param p_PlayerName  The name of the player to create.
+     * @throws WarzoneValidationException if a player with the same name already exists.
+     */
     public void createPlayer(String p_PlayerName) throws WarzoneValidationException {
         if (d_CurrGameSession.getPlayers().containsKey(p_PlayerName)) {
             System.out.println("Player with name: "+ p_PlayerName + " already exists");
@@ -259,6 +308,13 @@ public class GameSession {
         d_Players.put(p_PlayerName, l_CreatedPlayer);
         System.out.println("Player creation accomplished: "+ p_PlayerName);
     }
+
+    /**
+     * Deletes the player with the specified name.
+     *
+     * @param p_PlayerName  The name of the player to delete.
+     * @throws WarzoneValidationException if the player doesn't exist.
+     */
     public void deletePlayer(String p_PlayerName) throws WarzoneValidationException {
         if (!d_CurrGameSession.getPlayers().containsKey(p_PlayerName)) {
             System.out.println("Player with name: "+ p_PlayerName + " doesn't exist");
@@ -275,6 +331,14 @@ public class GameSession {
         }
         System.out.println("Player deletion accomplished: "+ p_PlayerName);
     }
+
+    /**
+     * Assigns the specified country to the specified player.
+     *
+     * @param p_PlayerName    The name of the player.
+     * @param p_CountryName   The name of the country to assign.
+     * @throws WarzoneValidationException if either the player or the country doesn't exist.
+     */
     public void assignCountryToPlayer(String p_PlayerName, String p_CountryName) throws WarzoneValidationException {
         if (!d_CurrGameSession.getPlayers().containsKey(p_PlayerName)) {
             throw new WarzoneValidationException("Player with given name: " + p_PlayerName + "doesn't exist");

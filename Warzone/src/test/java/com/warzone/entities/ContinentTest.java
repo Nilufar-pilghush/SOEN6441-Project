@@ -1,6 +1,5 @@
 package test.java.com.warzone.entities;
-        import main.java.com.warzone.Entities.Continent;
-        import main.java.com.warzone.Entities.Country;
+        import main.java.warzone.entities.Continent;
         import org.junit.jupiter.api.Assertions;
         import org.junit.jupiter.api.Test;
 

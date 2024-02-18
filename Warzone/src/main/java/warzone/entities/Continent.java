@@ -1,11 +1,11 @@
-package main.java.com.warzone.Entities;
+package main.java.warzone.entities;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Represents a continent in the Warzone game.
+ * Represents a continent in the Warzone main.java.game.
  *
- * This class encapsulates the properties and behavior of a continent in the Warzone game,
+ * This class encapsulates the properties and behavior of a continent in the Warzone main.java.game,
  * including its name, control value, owner, and the countries it contains.
  * Continents play a crucial role in determining gameplay strategy and control.
  *

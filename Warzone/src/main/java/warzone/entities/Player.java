@@ -1,12 +1,12 @@
-package main.java.com.warzone.Entities;
+package main.java.warzone.entities;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * Represents a player in the Warzone game.
+ * Represents a player in the Warzone main.java.game.
  *
- * This class encapsulates the properties and behavior of a player in the Warzone game,
+ * This class encapsulates the properties and behavior of a player in the Warzone main.java.game,
  * including the player's name, owned countries, number of armies, and orders.
  * Players can issue deploy orders to reinforce their territories or attack orders to conquer new territories.
  *

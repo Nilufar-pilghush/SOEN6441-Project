@@ -1,9 +1,9 @@
-package main.java.com.warzone.Entities;
+package main.java.warzone.entities;
 
 /**
- * Represents an order issued by a player in the Warzone game.
+ * Represents an order issued by a player in the Warzone main.java.game.
  *
- * This class encapsulates the properties and behavior of an order in the Warzone game,
+ * This class encapsulates the properties and behavior of an order in the Warzone main.java.game,
  * including the player name, target country, source country (if applicable), and number of armies involved.
  * Orders can be either deploy orders or attack orders, each with different execution logic.
  *
@@ -129,7 +129,7 @@ public class Order {
     /**
      * Executes the order, either as a deploy order or an attack order, based on the source country.
      *
-     * @param gameSession The game session in which the order is executed.
+     * @param gameSession The main.java.game session in which the order is executed.
      */
     public void execute(GameSession gameSession) {
         if (this.d_SourceCountry != null) {
@@ -144,7 +144,7 @@ public class Order {
     /**
      * Executes the logic for a deploy order, including updating territory ownership and army counts.
      *
-     * @param gameSession The game session in which the order is executed.
+     * @param gameSession The main.java.game session in which the order is executed.
      */
     private void executeDeployOrder(GameSession gameSession) {
         Country targetCountry = gameSession.getCountriesInSession().get(this.d_TargetCountry);
@@ -175,7 +175,7 @@ public class Order {
     /**
      * Executes the logic for an attack order, including updating territory ownership and army counts.
      *
-     * @param gameSession The game session in which the order is executed.
+     * @param gameSession The main.java.game session in which the order is executed.
      */
     private void executeAttackOrder(GameSession gameSession) {
         Country sourceCountry = gameSession.getCountriesInSession().get(this.d_SourceCountry);

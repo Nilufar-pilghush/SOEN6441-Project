@@ -1,8 +1,9 @@
-package main.java.com.warzone;
+package main.java.warzone;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import main.java.com.warzone.Exceptions.WarzoneBaseException;
+
+import main.java.warzone.exceptions.WarzoneBaseException;
 
 public class GamePlay {
 

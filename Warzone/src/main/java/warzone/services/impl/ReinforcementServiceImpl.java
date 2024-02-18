@@ -1,13 +1,13 @@
-package main.java.com.warzone.Service.impl;
-import main.java.com.warzone.Entities.*;
-import main.java.com.warzone.Service.GamePhaseService;
+package main.java.warzone.services.impl;
+import main.java.warzone.entities.*;
+import main.java.warzone.services.GamePhaseService;
 
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Implements the {@link GamePhaseService} Orchestrating reinforcement distribution based on owned territories and continent control, ensuring fair play and strategic depth. It updates game state, transitions phases, and reflects the dynamic nature of military allocation in gameplay, emphasizing the importance of strategic territory control and player progression.
- * Used to handle the reinforcement phase of the game.
+ * Implements the {@link GamePhaseService} Orchestrating reinforcement distribution based on owned territories and continent control, ensuring fair play and strategic depth. It updates main.java.game state, transitions phases, and reflects the dynamic nature of military allocation in gameplay, emphasizing the importance of strategic territory control and player progression.
+ * Used to handle the reinforcement phase of the main.java.game.
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
@@ -19,7 +19,7 @@ import java.util.Map;
 public class ReinforcementServiceImpl implements GamePhaseService {
 
     /**
-     * Instance of the current game session
+     * Instance of the current main.java.game session
      */
     private GameSession d_GameSession;
 
@@ -37,11 +37,11 @@ public class ReinforcementServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Manages the current game phase in relation to the army reinforcements for players
-     * Carries out reinforcement operations and sets the stage for the next game phase
+     * Manages the current main.java.game phase in relation to the army reinforcements for players
+     * Carries out reinforcement operations and sets the stage for the next main.java.game phase
      *
-     * @param p_CurrPhase the current game phase associated with reinforcements.
-     * @return the next game phase after assigning reinforcements which transitions to {@link GamePhase#ISSUE_ORDERS}
+     * @param p_CurrPhase the current main.java.game phase associated with reinforcements.
+     * @return the next main.java.game phase after assigning reinforcements which transitions to {@link GamePhase#ISSUE_ORDERS}
      * @see {@link GamePhaseService#handleGamePhase(GamePhase)}
      */
     @Override
@@ -68,8 +68,8 @@ public class ReinforcementServiceImpl implements GamePhaseService {
 
 
     /**
-     * Checks if any player has won the game.
-     * Iterates through all players in the current game session
+     * Checks if any player has won the main.java.game.
+     * Iterates through all players in the current main.java.game session
      * to determine if a player owns all countries,indicating they have won.
      */
     private void checkIfPlayerWinner() {
@@ -78,7 +78,7 @@ public class ReinforcementServiceImpl implements GamePhaseService {
             Map.Entry<String, Player> l_CurrPlayer = l_Players.next();
             Player l_Player = l_CurrPlayer.getValue();
             if (l_Player.getOwnedCountries().size() == d_GameSession.getCountriesInSession().size()) {
-                System.out.println("Player " + l_Player.getName() + "has won the game!");
+                System.out.println("Player " + l_Player.getName() + "has won the main.java.game!");
                 System.exit(0);
             }
         }

@@ -1,10 +1,14 @@
-package main.java.com.warzone.utils;
+package main.java.warzone.utils;
 
-import main.java.com.warzone.Entities.*;
+import main.java.warzone.entities.GameSession;
+import main.java.warzone.entities.Continent;
+import main.java.warzone.entities.Country;
+import main.java.warzone.entities.*;
+
 import java.util.*;
 
 /**
- * validates the created game Session.
+ * validates the created main.java.game Session.
  * Validations include: All the countries and continents are reachable from a given point.
  * All the continents are connected.
  * every continent has at least one country.
@@ -19,13 +23,13 @@ import java.util.*;
 public class GameSessionValidator {
 
     /**
-     * Method to validate a given game world.
+     * Method to validate a given main.java.game world.
      *
-     * @param p_GameSession Entire game world which has all the continents and their countries with adjacency
-     * @return true if given game world map is valid, false otherwise.
+     * @param p_GameSession Entire main.java.game world which has all the continents and their countries with adjacency
+     * @return true if given main.java.game world map is valid, false otherwise.
      */
     public static boolean validateMap(GameSession p_GameSession) {
-        System.out.println("Please wait while we are validating your game world....");
+        System.out.println("Please wait while we are validating your main.java.game world....");
         if (isWorldEmpty(p_GameSession)) {
             return false;
         }
@@ -44,9 +48,9 @@ public class GameSessionValidator {
     }
 
     /**
-     * Validates if the given game Session is empty (no continents).
+     * Validates if the given main.java.game Session is empty (no continents).
      *
-     * @param p_GameSession game Session to be validated
+     * @param p_GameSession main.java.game Session to be validated
      * @return true if the given Session is empty, false otherwise
      */
     public static boolean isWorldEmpty(GameSession p_GameSession) {
@@ -58,24 +62,24 @@ public class GameSessionValidator {
     }
 
     /**
-     * Method to validate if players are added to game world
+     * Method to validate if players are added to main.java.game world
      *
-     * @param p_GameSession Current game Session instance
-     * @return True if players are added to the game Session, false otherwise
+     * @param p_GameSession Current main.java.game Session instance
+     * @return True if players are added to the main.java.game Session, false otherwise
      */
     public static boolean arePlayersAdded(GameSession p_GameSession) {
         if (Objects.isNull(p_GameSession) || p_GameSession.getPlayers().isEmpty()) {
-            System.out.println("No players added to the game");
+            System.out.println("No players added to the main.java.game");
             return false;
         }
         return true;
     }
 
     /**
-     * Validates if given game world minimum number countries in every continent
+     * Validates if given main.java.game world minimum number countries in every continent
      *
-     * @param p_GameSession current game world which has all the countries and continents along with their neighbors
-     * @return true if given game world continents have at least minimum countries present, false otherwise
+     * @param p_GameSession current main.java.game world which has all the countries and continents along with their neighbors
+     * @return true if given main.java.game world continents have at least minimum countries present, false otherwise
      */
     private static boolean doesContinentHaveAtLeastMinimumCountries(GameSession p_GameSession) {
         boolean isValid = true;
@@ -92,7 +96,7 @@ public class GameSessionValidator {
     /**
      * Validates if all the countries of every continent are connected
      *
-     * @param p_GameSession current game world which has all the countries and continents along with their neighbors
+     * @param p_GameSession current main.java.game world which has all the countries and continents along with their neighbors
      * @return true if all the countries of every continent are connected, false otherwise
      */
     private static boolean areAllCountriesConnectedInEveryContinent(GameSession p_GameSession) {
@@ -116,7 +120,7 @@ public class GameSessionValidator {
      * Helper method to perform depth-first traversal to validate if all countries are connected in a given continent.
      *
      * @param p_StartCountry        Country under observation for dfs
-     * @param p_GameSession           Entire game world which has all the continents and their countries with adjacency
+     * @param p_GameSession           Entire main.java.game world which has all the continents and their countries with adjacency
      * @param p_VisitedCountries    Countries visited in the current dfs
      * @param p_ValidatingContinent Continent getting validated
      */
@@ -134,7 +138,7 @@ public class GameSessionValidator {
     /**
      * Method to validate if all the continents of the world are connected or not
      *
-     * @param p_GameSession Entire game world which has all the continents and their countries with adjacency
+     * @param p_GameSession Entire main.java.game world which has all the continents and their countries with adjacency
      * @return true if all the continents of the world are connected, false otherwise
      */
     private static boolean areContinentsConnected(GameSession p_GameSession) {
@@ -156,7 +160,7 @@ public class GameSessionValidator {
      * Helper method to perform depth-first traversal to validate if all continents are connected in the world.
      *
      * @param p_StartCountry      Country under observation for dfs
-     * @param p_GameSession         Entire game world which has all the continents and their countries with adjacency
+     * @param p_GameSession         Entire main.java.game world which has all the continents and their countries with adjacency
      * @param p_VisitedContinents Continents visited in the current dfs
      * @param p_VisitedCountries  Countries visited in the current dfs
      */
