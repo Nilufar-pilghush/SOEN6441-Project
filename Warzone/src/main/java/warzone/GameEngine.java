@@ -10,8 +10,12 @@ package main.java.warzone;
  * The GameEngine class is responsible for managing the flow and different segments of the main.java.game.
  * It drives the complete main.java.game by recursively handling main.java.game segments until the main.java.game exits.
  *
- * @author Ali Sayed Salehi
- */
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0 */
 public class GameEngine {
 
     /**
