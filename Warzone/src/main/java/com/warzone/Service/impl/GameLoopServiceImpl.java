@@ -10,6 +10,7 @@ import java.util.*;
 
 /**
  * Implements the {@link GamePhaseService} interface. Used to handle the different phases in the game loop.
+ *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji

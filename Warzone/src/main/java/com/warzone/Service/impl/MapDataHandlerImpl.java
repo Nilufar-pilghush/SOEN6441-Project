@@ -5,7 +5,7 @@ import main.java.com.warzone.Entities.Country;
 import main.java.com.warzone.Entities.GameSession;
 import main.java.com.warzone.Exceptions.WarzoneRuntimeException;
 import main.java.com.warzone.Exceptions.WarzoneValidationException;
-import main.java.com.warzone.Service.GameMapDataHandler;
+import main.java.com.warzone.Service.MapDataHandler;
 import main.java.com.warzone.constants.WarzoneConstants;
 import main.java.com.warzone.Service.GamePhaseService;
 
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Implements the {@link GameMapDataHandler} interface.
+ * Implements the {@link MapDataHandler} interface.
  * Handles the creation and saving of game maps, including continents, countries, and borders.
  * Reads map data from an input stream and writes formatted map data to an output stream.
  * Supports operations such as creating continents, countries, and borders, and saving the modified map data to a new file.
@@ -27,7 +27,7 @@ import java.util.Map;
  * @author Fatemeh Chaji
  * @version 1.0.0
  */
-public class GameMapDataHandlerImpl implements GameMapDataHandler {
+public class GameMapDataHandlerImpl implements MapDataHandler {
 
     /**
      * Instance of the current game session
@@ -99,7 +99,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("[continents]");
         l_NewMapData.append("\n");
         for (String l_ContinentName : l_ContinentsInOrder) {
-            l_NewMapData.append(l_ContinentName).append(WarzoneConstants.SPACE_REGEX).append(l_CurrContinentsInSession.get(l_ContinentName).getD_ControlValue());
+            l_NewMapData.append(l_ContinentName).append(WarzoneConstants.SPACE_REGEX).append(l_CurrContinentsInSession.get(l_ContinentName).getControlValue());
             l_NewMapData.append("\n");
         }
 
@@ -109,8 +109,8 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("\n");
         for (String l_CountryName : d_CurrGameMap.getCountriesInSession().keySet()) {
             Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
-            int l_ContinentIndex = l_ContinentsInOrder.indexOf(l_Country.get_IsInContinent()) + 1;
-            l_NewMapData.append(l_Country.get_Id()).append(WarzoneConstants.SPACE_REGEX).append(l_CountryName).append(WarzoneConstants.SPACE_REGEX).append(l_ContinentIndex);
+            int l_ContinentIndex = l_ContinentsInOrder.indexOf(l_Country.getIsInContinent()) + 1;
+            l_NewMapData.append(l_Country.getId()).append(WarzoneConstants.SPACE_REGEX).append(l_CountryName).append(WarzoneConstants.SPACE_REGEX).append(l_ContinentIndex);
             l_NewMapData.append("\n");
         }
 
@@ -120,8 +120,8 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
         l_NewMapData.append("\n");
         for (String l_CountryName : d_CurrGameMap.getCountriesInSession().keySet()) {
             Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
-            l_NewMapData.append(l_Country.get_Id());
-            for (Long l_Neighbor : l_Country.getD_AdjacentCountries().keySet()) {
+            l_NewMapData.append(l_Country.getId());
+            for (Long l_Neighbor : l_Country.getAdjacentCountries().keySet()) {
                 l_NewMapData.append(WarzoneConstants.SPACE_REGEX).append(l_Neighbor);
             }
             l_NewMapData.append("\n");

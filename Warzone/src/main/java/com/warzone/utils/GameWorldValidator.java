@@ -116,7 +116,7 @@ public class GameWorldValidator {
      * @param p_ValidatingContinent Continent getting validated
      */
     private static void depthFirstTraversal(Country p_StartCountry, GameSession p_GameSession, Set<String> p_VisitedCountries, Continent p_ValidatingContinent) {
-        p_VisitedCountries.add(p_StartCountry.getName());
+        p_VisitedCountries.add(p_StartCountry.get_Name());
         for (String l_NeighbourCountryName : p_StartCountry.getAdjacentCountries().values()) {
             Country l_NeighborCountry = p_GameSession.getCountriesInSession().get(l_NeighbourCountryName);
             if (!p_VisitedCountries.contains(l_NeighbourCountryName) && l_NeighborCountry.getIsInContinent().equals(p_ValidatingContinent.getName())) {
