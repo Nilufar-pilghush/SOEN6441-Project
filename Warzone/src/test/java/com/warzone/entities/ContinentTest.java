@@ -1,6 +1,7 @@
 package test.java.com.warzone.entities;
 
 import main.java.warzone.entities.Continent;
+import main.java.warzone.entities.Country;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +33,7 @@ import org.junit.jupiter.api.Test;
          *
          */
         @Test
-        public void whenGetName_ExpectContinentName(){
+        public void whenGetName_ExpectContinentNameTest(){
             d_Continent.setName("Asia");
             Assertions.assertEquals("Asia", d_Continent.getName());
         }
@@ -41,7 +42,7 @@ import org.junit.jupiter.api.Test;
          *
          */
         @Test
-        public void whenSetName_ExpectContinentNameSet(){
+        public void whenSetName_ExpectContinentNameSetTest(){
             d_Continent.setName("Asia");
             Assertions.assertEquals("Asia", d_Continent.getName());
         }
@@ -50,7 +51,7 @@ import org.junit.jupiter.api.Test;
          *
          */
         @Test
-        public void whenGetControl_ExpectContinentControlValue(){
+        public void whenGetControl_ExpectContinentControlValueTest(){
             d_Continent.setControlValue(5);
             Assertions.assertEquals(5, d_Continent.getControlValue());
         }
@@ -59,7 +60,7 @@ import org.junit.jupiter.api.Test;
          *
          */
         @Test
-        public void whenSetControl_ExpectContinentControlValueSet(){
+        public void whenSetControl_ExpectContinentControlValueSetTest(){
             d_Continent.setControlValue(5);
             Assertions.assertEquals(5, d_Continent.getControlValue());
         }
@@ -68,7 +69,7 @@ import org.junit.jupiter.api.Test;
          *
          */
         @Test
-        public void whenGetOwner_ExpectContinentOwner(){
+        public void whenGetOwner_ExpectContinentOwnerTest(){
             d_Continent.setOwner("Niloufar");
             Assertions.assertEquals("Niloufar", d_Continent.getOwner());
         }
@@ -77,7 +78,7 @@ import org.junit.jupiter.api.Test;
          *
          */
         @Test
-        public void whenSetOwner_ExpectContinentOwnerSet(){
+        public void whenSetOwner_ExpectContinentOwnerSetTest(){
             d_Continent.setOwner("Niloufar");
             Assertions.assertEquals("Niloufar", d_Continent.getOwner());
         }
@@ -86,9 +87,9 @@ import org.junit.jupiter.api.Test;
          *
          */
         @Test
-        public void whenGetCountries_ExpectCountries(){
-//        d_Continent.getCountries().put("India", new Country("India", "Asia", 1L));
-//        Assertions.assertTrue(d_Continent.getCountries().containsKey("India"));
+        public void whenGetCountries_ExpectCountriesTest(){
+        d_Continent.getCountries().put("India", new Country(12, "Asia", "Yes"));
+        Assertions.assertTrue(d_Continent.getCountries().containsKey("India"));
         }
     }
 
