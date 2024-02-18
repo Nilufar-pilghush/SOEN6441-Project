@@ -101,7 +101,11 @@ following is the sample YAML instructions for our CI pipeline:
 ```yaml
 name: Java CI with Maven
 
-on: push
+on:
+   push:
+      branches: [ "main" ]
+   pull_request:
+      branches: [ "main" ]
 
 jobs:
   build:
