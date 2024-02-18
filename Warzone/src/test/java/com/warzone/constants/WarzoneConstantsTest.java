@@ -1,4 +1,5 @@
 package test.java.com.warzone.constants;
+import main.java.warzone.constants.WarzoneConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ public class WarzoneConstantsTest {
      */
     @Test
     public void whenWarzoneConstantUsed_ExpectCorrectValue(){
-//        Assertions.assertEquals("editcontinent", WarzoneConstants.EDIT_CONTINENT);
+        Assertions.assertEquals("editcontinent", WarzoneConstants.EDIT_CONTINENT);
     }
 
     /**
@@ -28,7 +29,7 @@ public class WarzoneConstantsTest {
      */
     @Test
     public void whenWarzoneConstantUsed_ExpectCorrectValue2(){
-//        Assertions.assertEquals("editcountry", WarzoneConstants.EDIT_COUNTRY);
+        Assertions.assertEquals("editcountry", WarzoneConstants.EDIT_COUNTRY);
     }
 
     /**
@@ -36,6 +37,6 @@ public class WarzoneConstantsTest {
      */
     @Test
     public void whenWarzoneConstantUsed_ExpectCorrectValue3(){
-//        Assertions.assertEquals("editneighbor", WarzoneConstants.EDIT_NEIGHBOR);
+        Assertions.assertEquals("editneighbor", WarzoneConstants.EDIT_NEIGHBOR);
     }
 }

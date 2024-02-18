@@ -1,6 +1,6 @@
 package test.java.com.warzone.entities;
 
-        import main.java.com.warzone.Entities.Country;
+        import main.java.warzone.entities.Country;
         import org.junit.jupiter.api.BeforeEach;
         import org.junit.jupiter.api.Test;
         import java.util.Map;

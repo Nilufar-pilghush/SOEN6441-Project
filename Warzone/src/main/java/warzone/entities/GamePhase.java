@@ -1,11 +1,7 @@
 package main.java.warzone.entities;
 
 import main.java.warzone.services.GamePhaseService;
-import main.java.warzone.services.impl.OrderExecutorServiceImpl;
-import main.java.warzone.services.impl.OrderIssuanceServiceImpl;
-import main.java.warzone.services.impl.ReinforcementServiceImpl;
-import main.java.warzone.services.impl.GameLoopServiceImpl;
-import main.java.warzone.services.impl.MapEditorServiceImpl;
+import main.java.warzone.services.impl.*;
 
 /**
  * This enum is designed for different phases of the main.java.game.
@@ -47,9 +43,9 @@ public enum GamePhase {
                         case MAP_EDITOR -> {
                                 return new MapEditorServiceImpl();
                         }
-//                        case START_UP -> {
-//                                return new StartupPhaseServiceImpl();
-//                        }
+                        case START_UP -> {
+                                return new StartupPhaseServiceImpl();
+                        }
                         case MAIN_GAME_LOOP -> {
                                 return new GameLoopServiceImpl();
                         }
