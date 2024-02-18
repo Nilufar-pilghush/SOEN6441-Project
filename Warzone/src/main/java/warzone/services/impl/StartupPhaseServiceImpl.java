@@ -1,8 +1,5 @@
 package main.java.warzone.services.impl;
-
-
-
-        import main.java.warzone.constants.WarzoneConstants;
+import main.java.warzone.constants.WarzoneConstants;
         import main.java.warzone.exceptions.WarzoneRuntimeException;
         import main.java.warzone.exceptions.WarzoneValidationException;
         import main.java.warzone.services.MapDataHandler;
@@ -22,19 +19,19 @@ package main.java.warzone.services.impl;
 
 
 /**
- * Realization of {@link GamePhaseService} that represents the main.java.game's startup phase.
+ * Implements the {@link GamePhaseService} that represents the main.java.game's startup phase.
  *
- * @author Snehil Sharma
- * @author Jatin
- * @author Kenish Rajeshbhai Halani
- * @author Udhisha
- * @author Aazam Arvind
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
  * @version 1.0.0
  */
 public class StartupPhaseServiceImpl implements GamePhaseService {
 
     /**
-     * Singleton instance of the main.java.game world.
+     *Iinstance of the main.java.game world.
      */
     private GameSession d_CurrGameSession;
 
@@ -47,13 +44,13 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
 
 
     /**
-     * Handles the main.java.game segment based on user input.
+     * Handles the main.java.game phase based on user input.
      *
-     * @param p_CurrSegment Current main.java.game segment.
-     * @return Next main.java.game segment after handling.
+     * @param p_CurrPhase Current main.java.game phase.
+     * @return Next main.java.game phase after handling.
      */
     @Override
-    public GamePhase handleGamePhase(GamePhase p_CurrSegment) {
+    public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
         Scanner l_InputScanner = new Scanner(System.in);
         System.out.println();
         System.out.println("************ Welcome to Game Startup Phase ************");
@@ -99,7 +96,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
      *
      * @param p_UserInputParts the user input command
      * @throws WarzoneValidationException if the given command is invalid
-     * @throws WarzoneRuntimeException if the main.java.game worlds directory with maps is not present
+     * @throws WarzoneRuntimeException if the main.java.game sessions directory with maps is not present
      */
     private void listMapsHandler(List<String> p_UserInputParts) throws WarzoneValidationException, WarzoneRuntimeException {
         if (p_UserInputParts.size() > 1) {
@@ -108,7 +105,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         try {
             FileUtils.listMaps();
         } catch (FileNotFoundException e) {
-            throw new WarzoneRuntimeException("Unable to find gameworlds directory.");
+            throw new WarzoneRuntimeException("Unable to find game sessions directory.");
         }
     }
 
@@ -123,20 +120,20 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
             throw new WarzoneValidationException("Invalid loadmap command!");
         }
         String l_GameFileName = p_UserInputParts.get(1);
-        InputStream l_GameSceneMap = null;
+        InputStream l_GameMap = null;
 
         try {
-            l_GameSceneMap = FileUtils.getStreamFromGameFile(l_GameFileName);
+            l_GameMap = FileUtils.getStreamFromGameFile(l_GameFileName);
         } catch (FileNotFoundException e) {
             throw new WarzoneRuntimeException("Unable to find map!");
         }
 
         MapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
-        l_GameMapDataManager.createGameMap(l_GameSceneMap);
+        l_GameMapDataManager.createGameMap(l_GameMap);
 
         if(!GameSessionValidator.validateMap(d_CurrGameSession)){
             d_CurrGameSession.clearExistingMap();
-            throw new WarzoneValidationException("Game world is not valid to play.");
+            throw new WarzoneValidationException("Game session is not valid to play.");
         }
         System.out.println("...Enter 'help' at any time to view available commands in this phase...");
     }
@@ -158,7 +155,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         switch (l_SubAction) {
             case WarzoneConstants.ADD -> {
                 // Only add player if map is loaded
-                if(GameSessionValidator.isWorldEmpty(d_CurrGameSession)){
+                if(GameSessionValidator.isSessionEmpty(d_CurrGameSession)){
                     System.out.println("Please load a map first");
                     return;
                 }
@@ -208,7 +205,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Displays the help commands for the current main.java.game segment.
+     * Displays the help commands for the current main.java.game phase.
      */
     private void displayHelpCommandsForGamePhase() {
         System.out.println(".......................................Startup Phase Commands..........................................");

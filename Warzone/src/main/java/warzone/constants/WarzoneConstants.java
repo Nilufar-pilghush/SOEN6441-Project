@@ -117,7 +117,7 @@ public class WarzoneConstants {
     /**
      * Constant to refer game sessions directory
      */
-    public static final String GAME_WORLDS = "GameWorlds";
+    public static final String GAME_SESSIONS = "GameWorlds";
 
     /**
      * Constant to save map
