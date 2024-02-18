@@ -10,6 +10,7 @@ import java.util.Map;
 /**
  * This class is designed for managing the session of the game
  * Each session represents a distinct part the game including phase, players, map of continents and countries
+ *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
@@ -223,8 +224,8 @@ public class GameSession {
             System.out.println("The Country " + p_CountryName + " doesn't exist");
             throw new WarzoneValidationException("The Country " + p_CountryName + " doesn't exist");
         }
-        String l_ContinentOfCountry = d_CurrGameSession.d_CountriesInSession.get(p_CountryName).get_IsInContinent();
-        Long l_CountryId = d_CurrGameSession.getCountriesInSession().get(p_CountryName).get_Id();
+        String l_ContinentOfCountry = d_CurrGameSession.d_CountriesInSession.get(p_CountryName).getIsInContinent();
+        Long l_CountryId = d_CurrGameSession.getCountriesInSession().get(p_CountryName).getId();
         d_CurrGameSession.getCountriesInSession().remove(p_CountryName);
         d_CurrGameSession.getContinentsInSession().get(l_ContinentOfCountry).getCountries().remove(p_CountryName);
         d_CurrGameSession.getCountryIds().remove(l_CountryId);
@@ -241,15 +242,15 @@ public class GameSession {
             System.out.println("The country " + p_NeighboringCountry + " doesn't exist");
             throw new WarzoneValidationException("The country " + p_NeighboringCountry + " doesn't exist");
         }
-        if (!l_CountriesInSession.get(p_CountryName).getD_AdjacentCountries().containsValue(p_NeighboringCountry)) {
+        if (!l_CountriesInSession.get(p_CountryName).getAdjacentCountries().containsValue(p_NeighboringCountry)) {
             System.out.println("The country " + p_CountryName + "and " + p_NeighboringCountry + "are not neighbors");
             throw new WarzoneValidationException("The country " + p_CountryName + "and " + p_NeighboringCountry + "are not neighbors");
         }
 
         Country l_Country = l_CountriesInSession.get(p_CountryName);
         Country l_NeighboringCountry = l_CountriesInSession.get(p_NeighboringCountry);
-        l_Country.getD_AdjacentCountries().remove(l_NeighboringCountry.get_Id());
-        l_NeighboringCountry.getD_AdjacentCountries().remove((l_Country.get_Id()));
+        l_Country.getAdjacentCountries().remove(l_NeighboringCountry.getId());
+        l_NeighboringCountry.getAdjacentCountries().remove((l_Country.getId()));
         System.out.println("Neighbor removed, between " + p_CountryName + " and " + p_NeighboringCountry);
     }
 }
