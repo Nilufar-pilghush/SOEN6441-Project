@@ -1,9 +1,10 @@
-package main.java.com.warzone.utils;
+package main.java.warzone.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import main.java.com.warzone.constants.WarzoneConstants;
+
+import main.java.warzone.constants.WarzoneConstants;
 
 /**
  * Contains helper methods to manage command line operation

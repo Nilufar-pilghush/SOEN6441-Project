@@ -1,15 +1,15 @@
-package main.java.com.warzone.Service.impl;
+package main.java.warzone.services.impl;
 
-import main.java.com.warzone.Entities.Country;
-import main.java.com.warzone.Entities.GamePhase;
-import main.java.com.warzone.Entities.GameSession;
-import main.java.com.warzone.Service.GamePhaseService;
-import main.java.com.warzone.utils.CmdUtils;
+import main.java.warzone.entities.Country;
+import main.java.warzone.entities.GamePhase;
+import main.java.warzone.entities.GameSession;
+import main.java.warzone.services.GamePhaseService;
+import main.java.warzone.utils.CmdUtils;
 
 import java.util.*;
 
 /**
- * Implements the {@link GamePhaseService} interface. Used to handle the different phases in the game loop.
+ * Implements the {@link GamePhaseService} interface. Used to handle the different phases in the main.java.game loop.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -23,7 +23,7 @@ import java.util.*;
 public class GameLoopServiceImpl implements GamePhaseService {
 
     /**
-     * Instance of the current game session
+     * Instance of the current main.java.game session
      */
     private GameSession d_GameSession;
 
@@ -35,10 +35,10 @@ public class GameLoopServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Method to process user commands within the current game phase
+     * Method to process user commands within the current main.java.game phase
      *
-     * @param p_CurrPhase Current game phase.
-     * @return Next or current game phase based on user input.
+     * @param p_CurrPhase Current main.java.game phase.
+     * @return Next or current main.java.game phase based on user input.
      */
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
@@ -59,7 +59,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
                         // will display help text
                     }
                     case "exit" -> {
-                        System.out.println("Exit game");
+                        System.out.println("Exit main.java.game");
                         return GamePhase.EXIT;
                     }
                     default -> {
@@ -67,7 +67,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
                     }
                 }
             }
-            // Proceed with game if no input is given
+            // Proceed with main.java.game if no input is given
             catch (IndexOutOfBoundsException e) {
                 d_GameSession.setCurrGamePhase(l_NextPhase);
             }
@@ -79,9 +79,9 @@ public class GameLoopServiceImpl implements GamePhaseService {
         System.out.println("  Current phase: " + d_GameSession.getCurrGamePhase());
         System.out.println("  Next phase: " + p_NextPhase);
         System.out.println("  Enter 'showmap' to view the map.");
-        System.out.println("  Enter 'exit' to exit the game.");
+        System.out.println("  Enter 'exit' to exit the main.java.game.");
         System.out.println("  Enter 'help' to display these instructions.");
-        System.out.println("  Enter nothing to continue with the game.");
+        System.out.println("  Enter nothing to continue with the main.java.game.");
         System.out.println("*******************************************************************");
     }
 

@@ -6,7 +6,14 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * Test class
+ * JUnit test cases for the Continent class.
+ * Test case to verify the correct retrieval of the continent name.
+ * Test case to verify the correct setting of the continent name.
+ * Test case to verify the correct retrieval of the continent control value.
+ * Test case to verify the correct setting of the continent control value.
+ * Test case to verify the correct getting of the continent owner value.
+ * Test case to verify the correct setting of the continent owner value.
+ * Test case to verify the correct retrieval of the countries of continent.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -92,3 +99,4 @@ import org.junit.jupiter.api.Test;
 //        Assertions.assertTrue(d_Continent.getCountries().containsKey("India"));
         }
     }
+
