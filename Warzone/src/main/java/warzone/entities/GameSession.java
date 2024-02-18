@@ -214,8 +214,8 @@ public class GameSession {
 
         Country l_Country = l_CountriesInSession.get(p_CountryName);
         Country l_NeighboringCountry = l_CountriesInSession.get(p_NeighboringCountry);
-        l_Country.AddAdjacentCountry(l_NeighboringCountry.getId(), p_NeighboringCountry);
-        l_NeighboringCountry.AddAdjacentCountry(l_Country.getId(), p_CountryName);
+        l_Country.addAdjacentCountry(l_NeighboringCountry.getId(), p_NeighboringCountry);
+        l_NeighboringCountry.addAdjacentCountry(l_Country.getId(), p_CountryName);
         System.out.println("Neighbors created, The " + p_CountryName + " neighbors with " + p_NeighboringCountry);
     }
 
@@ -352,6 +352,15 @@ public class GameSession {
         d_CurrGameSession.getCountriesInSession().get(p_CountryName).setOwner(p_PlayerName);
         System.out.println("Country: " + p_CountryName + " assigned to player: " + p_PlayerName);
     }
-
+    /**
+     * Clears all the data structures, effectively resetting the game world.
+     */
+    public void deletePreviousSession() {
+        d_CurrGameSession.getContinentsInSession().clear();
+        d_CurrGameSession.getCountriesInSession().clear();
+        d_CurrGameSession.getPlayers().clear();
+        d_CurrGameSession.getContinentsInOrder().clear();
+        d_CurrGameSession.getCountryIds().clear();
+    }
 }
 

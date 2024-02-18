@@ -44,7 +44,7 @@ public class Player {
     /**
      * Default constructor
      */
-    Player(String p_Name) {
+    public Player(String p_Name) {
         this.d_Name = p_Name;
         d_OwnedCountries = new HashSet<>();
         d_OrderList = new java.util.ArrayList<>();

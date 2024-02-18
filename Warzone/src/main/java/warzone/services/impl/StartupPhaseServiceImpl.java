@@ -2,7 +2,7 @@ package main.java.warzone.services.impl;
 import main.java.warzone.constants.WarzoneConstants;
         import main.java.warzone.exceptions.WarzoneRuntimeException;
         import main.java.warzone.exceptions.WarzoneValidationException;
-        import main.java.warzone.services.MapDataHandler;
+        import main.java.warzone.services.GameMapDataHandler;
         import main.java.warzone.services.io.GameMapDataHandlerImpl;
         import main.java.warzone.entities.GamePhase;
         import main.java.warzone.entities.GameSession;
@@ -128,7 +128,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
             throw new WarzoneRuntimeException("Unable to find map!");
         }
 
-        MapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
+        GameMapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
         l_GameMapDataManager.createGameMap(l_GameMap);
 
         if(!GameSessionValidator.validateMap(d_CurrGameSession)){
