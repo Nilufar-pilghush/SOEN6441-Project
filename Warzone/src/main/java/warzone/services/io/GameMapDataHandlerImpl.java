@@ -48,11 +48,12 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
     }
 
     /**
-     * Reads the map data from the input stream and creates the main.java.game map.
+     * Reads the map data from the input stream and creates the game map.
      * Parses the input stream to extract continent, country, and border data.
      *
      * @param p_InputStream The input stream containing map data.
-     * @throws Exception If the input stream is null or if there's an error reading the data.
+     * @throws WarzoneRuntimeException If the input stream is null or if there's an error reading the data.
+     * @throws WarzoneValidationException If the map data is invalid.
      */
     @Override
     public void createGameMap(InputStream p_InputStream) throws WarzoneRuntimeException, WarzoneValidationException{

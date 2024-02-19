@@ -16,6 +16,8 @@ import main.java.warzone.entities.GamePhase;
  */
 
 public interface GamePhaseService {
-
+    /**
+     * @exclude
+     */
     GamePhase handleGamePhase(GamePhase p_CurrPhase);
 }
