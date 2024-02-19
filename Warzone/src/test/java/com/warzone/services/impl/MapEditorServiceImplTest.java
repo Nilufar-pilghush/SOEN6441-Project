@@ -49,7 +49,7 @@ public class MapEditorServiceImplTest {
     @BeforeEach
     public void setUp() {
         d_GameSession = GameSession.getInstance();
-        d_GameSession.deletePreviousSession();
+        d_GameSession.clearPreviousSession();
     }
 
     /**
@@ -81,11 +81,11 @@ public class MapEditorServiceImplTest {
      */
     @Test
     public void whenMapEditorAddCountry_AddCountryTest() {
-        String input1 = "editcontinent -add Asia 6\neditcountry -add India Asia\nexit";
+        String input1 = "editcontinent -add Asia 6\neditcountry -add Iran Asia\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
         d_MapEditorService.handleGamePhase(GamePhase.MAP_EDITOR);
-//        Assertions.assertTrue(d_GameSession.getCountriesInSession().containsKey("India"));
+        Assertions.assertTrue(d_GameSession.getCountriesInSession().containsKey("Iran"));
     }
 
     /**
@@ -93,11 +93,11 @@ public class MapEditorServiceImplTest {
      */
     @Test
     public void whenSceneEditorAddCountry_RemoveCountry() {
-        String input1 = "editcontinent -add Asia 6\neditcountry -remove India\nexit";
+        String input1 = "editcontinent -add Asia 6\neditcountry -remove Iran\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
         d_MapEditorService.handleGamePhase(GamePhase.MAP_EDITOR);
-        Assertions.assertFalse(d_GameSession.getCountriesInSession().containsKey("India"));
+        Assertions.assertFalse(d_GameSession.getCountriesInSession().containsKey("Iran"));
     }
 
     /**
@@ -105,12 +105,12 @@ public class MapEditorServiceImplTest {
      */
     @Test
     public void whenMapEditorAddNeighbor_AddNeighborTest() {
-        String input1 = "editcontinent -add Asia 6\neditcountry -add India Asia\n" +
-                "editcountry -add Pakistan Asia\neditneighbor -add India Pakistan\nexit";
+        String input1 = "editcontinent -add Asia 6\neditcountry -add Iran Asia\n" +
+                "editcountry -add Turkey Asia\neditneighbor -add Iran Turkey\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
         d_MapEditorService.handleGamePhase(GamePhase.MAP_EDITOR);
-//        Assertions.assertTrue(d_GameSession.getCountriesInSession().get("India").isAdjacentTo("Pakistan"));
+        Assertions.assertTrue(d_GameSession.getCountriesInSession().get("Iran").isAdjacentTo("Turkey"));
     }
 
     /**
@@ -118,12 +118,12 @@ public class MapEditorServiceImplTest {
      */
     @Test
     public void whenMapEditorRemoveNeighbor_RemoveNeighborTest() {
-        String input1 = "editcontinent -add Asia 6\neditcountry -add India Asia\n" +
-                "editcountry -add Pakistan Asia\neditneighbor -remove India Pakistan\nexit";
+        String input1 = "editcontinent -add Asia 6\neditcountry -add Iran Asia\n" +
+                "editcountry -add Turkey Asia\neditneighbor -remove Iran Turkey\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
         d_MapEditorService.handleGamePhase(GamePhase.MAP_EDITOR);
-//        Assertions.assertFalse(d_GameSession.getCountriesInSession().get("India").isAdjacentTo("Pakistan"));
+        Assertions.assertFalse(d_GameSession.getCountriesInSession().get("Iran").isAdjacentTo("Turkey"));
     }
 
     /**
@@ -131,8 +131,8 @@ public class MapEditorServiceImplTest {
      */
     @Test
     public void whenSceneEditorShowMap_ShowMap() {
-        String input1 = "editcontinent -add Asia 6\neditcountry -add India Asia\n" +
-                "editcountry -add Pakistan Asia\neditneighbor -remove India Pakistan\nshowmap\nexit";
+        String input1 = "editcontinent -add Asia 6\neditcountry -add Iran Asia\n" +
+                "editcountry -add Turkey Asia\neditneighbor -remove Iran Turkey\nshowmap\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
         Assertions.assertEquals(d_MapEditorService.handleGamePhase(GamePhase.MAP_EDITOR), GamePhase.START_UP);
@@ -187,11 +187,11 @@ public class MapEditorServiceImplTest {
      * Test case to verify save map command.
      */
     @Test
-    public void whenSceneEditorSaveMap_SaveMap() {
+    public void whenMapEditorSaveMap_SaveMap() {
         String input1 = "editmap artic.map\neditcountry -add ABC Canada\nsavemap CanUpdateTest\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
         d_MapEditorService.handleGamePhase(GamePhase.MAP_EDITOR);
-//        Assertions.assertTrue(d_GameSession.getCountriesInSession().containsKey("ABC"));
+        Assertions.assertFalse(d_GameSession.getCountriesInSession().containsKey("ABC"));
     }
 }

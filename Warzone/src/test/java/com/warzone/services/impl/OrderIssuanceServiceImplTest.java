@@ -47,11 +47,11 @@ public class OrderIssuanceServiceImplTest {
      */
     @BeforeEach
     public void setUp() throws WarzoneValidationException {
-//        d_GameSession.deletePreviousSession();
-//        d_GameSession.createContinent("Asia", String.valueOf(5));
-//        d_GameSession.createCountry("India", "Asia");
-//        d_GameSession.createCountry("Sri", "Asia");
-//        d_GameSession.createNeighbors("India", "Sri");
+        d_GameSession.clearPreviousSession();
+        d_GameSession.createContinent("Asia", String.valueOf(1));
+        d_GameSession.createCountry("Iran", "Asia");
+        d_GameSession.createCountry("Turkey", "Asia");
+        d_GameSession.makeNeighbors("Iran", "Turkey");
     }
 
     /**
@@ -59,7 +59,7 @@ public class OrderIssuanceServiceImplTest {
      */
     @Test
     public void whenHandleOrderIssuePhase_ExpectPhaseHandledTest(){
-//        Assertions.assertDoesNotThrow(()-> orderIssuanceService.handleGamePhase(GamePhase.ISSUE_ORDERS));
+        Assertions.assertDoesNotThrow(()-> orderIssuanceService.handleGamePhase(GamePhase.ISSUE_ORDERS));
     }
 
     /**
@@ -67,6 +67,6 @@ public class OrderIssuanceServiceImplTest {
      */
     @AfterEach
     public void clean() {
-        GameSession.getInstance().deletePreviousSession();
+        GameSession.getInstance().clearPreviousSession();
     }
 }

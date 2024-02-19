@@ -50,29 +50,29 @@ public class GameLoopServiceImplTest {
      */
     @BeforeEach
     public void setUp() throws WarzoneValidationException {
-        d_GameSession.deletePreviousSession();
-        d_GameSession.createContinent("Asia", String.valueOf(5));
-//        d_GameSession.createCountry("India", "Asia");
-//        d_GameSession.createCountry("Sri", "Asia");
-        d_GameSession.createNeighbors("Iran", "Turkey");
+        d_GameSession.clearPreviousSession();
+        d_GameSession.createContinent("Asia", String.valueOf(1));
+        d_GameSession.createCountry("Iran", "Asia");
+        d_GameSession.createCountry("Turkey", "Asia");
+        d_GameSession.makeNeighbors("Iran", "Turkey");
     }
 
     /**
      * Test case to verify the user commands execution for issue orders.
      */
-//    @Test
-//    public void whenHandleMainGameLoopPhase_ExpectPhaseHandledTest(){
-//        String input1 = "showmap\nexit";
-//        InputStream in = new ByteArrayInputStream(input1.getBytes());
-//        System.setIn(in);
-//        Assertions.assertDoesNotThrow(()-> gameLoopService.handleGamePhase(GamePhase.MAIN_GAME_LOOP));
-//    }
+    @Test
+    public void whenHandleMainGameLoopPhase_ExpectPhaseHandledTest(){
+        String input1 = "showmap\nexit";
+        InputStream in = new ByteArrayInputStream(input1.getBytes());
+        System.setIn(in);
+        Assertions.assertDoesNotThrow(()-> gameLoopService.handleGamePhase(GamePhase.MAIN_GAME_LOOP));
+    }
 
     /**
      * Method to clean up the created world
      */
     @AfterEach
     public void clean() {
-        GameSession.getInstance().deletePreviousSession();
+        GameSession.getInstance().clearPreviousSession();
     }
 }

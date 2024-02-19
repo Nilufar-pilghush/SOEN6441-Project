@@ -35,8 +35,8 @@ public class OrderTest {
     @BeforeEach
     public void setUp() {
         d_GameSession = GameSession.getInstance();
-//        d_GameSession.deletePreviousSession();
-        d_Order = new Order("Niloufar", "Iran", "Canada", 10);
+        d_GameSession.clearPreviousSession();
+        d_Order = new Order("Niloufar", "Iran", "Turkey", 10);
     }
 
     /**
@@ -61,7 +61,7 @@ public class OrderTest {
      */
     @Test
     public void whenGetTargetCountry_ExpectTargetCountryNameTest() {
-        Assertions.assertEquals("Canada", d_Order.getTargetCountry());
+        Assertions.assertEquals("Turkey", d_Order.getTargetCountry());
     }
 
     /**
@@ -114,15 +114,15 @@ public class OrderTest {
      */
     @Test
     public void whenExecuteOrder_ExpectOrderExecutedTest() throws WarzoneValidationException {
-//        d_GameSession.createPlayer("Nasrin");
+        d_GameSession.createPlayer("Nasrin");
         d_Order.setPlayerName("Nasrin");
-//        d_GameSession.createContinent("Asia", String.valueOf(10));
-//        d_GameSession.createCountry("Iran", "Asia", 10);
-//        d_GameSession.createCountry("Canada", "NorthAmerica", 13);
-//        d_GameSession.getCountriesInSession().get("Iran").setOwner("Niloufar");
-//        d_GameSession.getCountriesInSession().get("Canada").setOwner("Nasrin");
-//        d_GameSession.createNeighbors("Iran", "Sri Lanka");
-//        Assertions.assertDoesNotThrow(() -> d_Order.execute(d_GameSession));
+        d_GameSession.createContinent("Asia", String.valueOf(10));
+        d_GameSession.createCountry("Iran", "Asia");
+        d_GameSession.createCountry("Turkey", "Asia");
+        d_GameSession.getCountriesInSession().get("Iran").setOwner("Niloufar");
+        d_GameSession.getCountriesInSession().get("Turkey").setOwner("Nasrin");
+        d_GameSession.makeNeighbors("Iran", "Turkey");
+        Assertions.assertDoesNotThrow(() -> d_Order.execute(d_GameSession));
     }
 
     /**
@@ -136,12 +136,12 @@ public class OrderTest {
         d_Order.setPlayerName("Nasrin");
         d_GameSession.createPlayer("Nasrin");
         d_GameSession.createContinent("Asia", String.valueOf(10));
-//        d_GameSession.createCountry("Iran", "Asia",14);
-//        d_GameSession.createCountry("Canada", "NorthAmerica",13);
-//        d_GameSession.getCountriesInSession().get("Iran").setOwner("Niloufar");
-//        d_GameSession.getCountriesInSession().get("Canada").setOwner("Nasrin");
-//        d_GameSession.createNeighbors("India", "Sri Lanka");
-//        Assertions.assertDoesNotThrow(() -> d_Order.execute(d_GameSession));
+        d_GameSession.createCountry("Iran", "Asia");
+        d_GameSession.createCountry("Turkey", "Asia");
+        d_GameSession.getCountriesInSession().get("Iran").setOwner("Niloufar");
+        d_GameSession.getCountriesInSession().get("Turkey").setOwner("Nasrin");
+        d_GameSession.makeNeighbors("Iran", "Turkey");
+        Assertions.assertDoesNotThrow(() -> d_Order.execute(d_GameSession));
     }
 }
 
