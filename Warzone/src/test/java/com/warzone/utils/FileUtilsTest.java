@@ -28,7 +28,7 @@ public class FileUtilsTest {
      */
     @Test
     public void whenFileUtilsGetStreamFromGameFile_ExpectValidInputStreamTest() throws FileNotFoundException {
-//        Assertions.assertNotNull(FileUtils.getStreamFromGameFile("artic"));
+        Assertions.assertNotNull(FileUtils.getStreamFromGameFile("europeMap"));
     }
 
     /**
@@ -46,6 +46,6 @@ public class FileUtilsTest {
      */
     @Test
     public void whenFileUtilsListMaps_ExpectListMaps() throws FileNotFoundException {
-//        Assertions.assertTrue(FileUtils.listMaps());
+        Assertions.assertTrue(FileUtils.listMaps());
     }
 }

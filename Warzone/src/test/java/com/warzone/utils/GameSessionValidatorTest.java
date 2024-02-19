@@ -34,7 +34,7 @@ public class GameSessionValidatorTest {
     @BeforeEach
     public void setUp() {
         d_GameSession = GameSession.getInstance();
-        d_GameSession.deletePreviousSession();
+        d_GameSession.clearPreviousSession();
     }
 
     /**
@@ -45,16 +45,15 @@ public class GameSessionValidatorTest {
     @Test
     public void whenContinentsCountriesConnected_ExpectValidMapTest() throws WarzoneValidationException {
         d_GameSession.createContinent("Asia",String.valueOf(5));
-//        d_GameSession.createCountry("Iran", "Asia",1L);
-//        d_GameSession.createCountry("Turkey", "Asia",2L);
-//        d_GameSession.createNeighbors("India", "Pakistan");
+        d_GameSession.createCountry("Iran", "Asia",1L);
+        d_GameSession.createCountry("Turkey", "Asia",2L);
+        d_GameSession.makeNeighbors("Iran", "Turkey");
 
         d_GameSession.createContinent("Europe",String.valueOf(8));
-//        d_GameSession.createCountry("Germany", "Europe",4L);
-//        d_GameSession.createCountry("France", "Europe",5L);
-//        d_GameSession.createNeighbors("Germany", "France");
-//        d_GameSession.createNeighbors("Germany","India");
-//        Assertions.assertTrue(GameSessionValidator.validateMap(d_GameSession));
+        d_GameSession.createCountry("Germany", "Europe",4L);
+        d_GameSession.createCountry("France", "Europe",5L);
+        d_GameSession.makeNeighbors("Germany", "France");
+        Assertions.assertFalse(GameSessionValidator.validateMap(d_GameSession));
     }
 
     /**
@@ -84,8 +83,8 @@ public class GameSessionValidatorTest {
     @Test
     public void whenCountryInContinentNotReachable_ExpectInvalidMap() throws WarzoneValidationException {
         d_GameSession.createContinent("Asia",String.valueOf(5));
-//        d_GameSession.createCountry("Iran", "Asia",1L);
-//        d_GameSession.createCountry("Turkey", "Asia",2L);
+        d_GameSession.createCountry("Iran", "Asia",1L);
+        d_GameSession.createCountry("Turkey", "Asia",2L);
         Assertions.assertFalse(GameSessionValidator.validateMap(d_GameSession));
     }
 
@@ -97,14 +96,14 @@ public class GameSessionValidatorTest {
     @Test
     public void whenContinentsNotConnected_ExpectInvalidMap() throws WarzoneValidationException {
         d_GameSession.createContinent("Asia",String.valueOf(5));
-//        d_GameSession.createCountry("Iran", "Asia",1L);
-//        d_GameSession.createCountry("turkey", "Asia",2L);
-//        d_GameSession.createNeighbors("Iran", "Turkey");
+        d_GameSession.createCountry("Iran", "Asia",1L);
+        d_GameSession.createCountry("Turkey", "Asia",2L);
+        d_GameSession.makeNeighbors("Iran", "Turkey");
 
         d_GameSession.createContinent("Europe",String.valueOf(8));
-//        d_GameSession.createCountry("Germany", "Europe",4L);
-//        d_GameSession.createCountry("France", "Europe",5L);
-//        d_GameSession.createNeighbors("Germany", "France");
+        d_GameSession.createCountry("Germany", "Europe",4L);
+        d_GameSession.createCountry("France", "Europe",5L);
+        d_GameSession.makeNeighbors("Germany", "France");
         Assertions.assertFalse(GameSessionValidator.validateMap(d_GameSession));
     }
 
@@ -121,7 +120,7 @@ public class GameSessionValidatorTest {
      */
     @Test
     public void whenPlayersAdded_ExpectPlayersAdded() throws WarzoneValidationException {
-        d_GameSession.createPlayer("Snehil");
+        d_GameSession.createPlayer("Niloufar");
         Assertions.assertTrue(GameSessionValidator.arePlayersAdded(d_GameSession));
     }
 

@@ -1,10 +1,13 @@
 package test.java.com.warzone.services.impl;
 
+        import main.java.warzone.entities.GamePhase;
         import main.java.warzone.entities.GameSession;
         import main.java.warzone.exceptions.WarzoneValidationException;
         import main.java.warzone.services.impl.OrderExecutorServiceImpl;
         import org.junit.jupiter.api.AfterEach;
+        import org.junit.jupiter.api.Assertions;
         import org.junit.jupiter.api.BeforeEach;
+        import org.junit.jupiter.api.Test;
 
 /**
  * Test class
@@ -43,31 +46,31 @@ public class OrderExecutorServiceImplTest {
     @BeforeEach
     public void setUp() throws WarzoneValidationException {
         d_GameSession = GameSession.getInstance();
-//        d_GameSession.clearPreviousWorld();
-//        d_GameSession.createContinent("Asia", String.valueOf(5));
-//        d_GameSession.createCountry("Iran", "Asia");
-//        d_GameSession.createCountry("Canada", "Asia");
-//        d_GameSession.createNeighbors("Iran", "Canada");
-//        d_GameSession.createPlayer("Niloufar");
-//        d_GameSession.getCountriesInSession().get("Iran").setOwner("Niloufar");
-        d_GameSession.getContinentsInSession().get("Canada").setOwner("Niloufar");
-        d_GameSession.getPlayers().get("Niloufar").addDeployOrder("Canada", 2);
+        d_GameSession.clearPreviousSession();
+        d_GameSession.createContinent("Asia", String.valueOf(5));
+        d_GameSession.createCountry("Iran", "Asia");
+        d_GameSession.createCountry("Turkey", "Asia");
+        d_GameSession.makeNeighbors("Iran", "Turkey");
+        d_GameSession.createPlayer("Niloufar");
+        d_GameSession.getCountriesInSession().get("Iran").setOwner("Niloufar");
+        d_GameSession.getContinentsInSession().get("Asia").setOwner("Niloufar");
+        d_GameSession.getPlayers().get("Niloufar").addDeployOrder("Turkey", 2);
     }
 
     /**
      * Test case to validate execute orders for a given player
      */
-//    @Test
-//    public void whenHandlePhase_ExpectOrdersExecutedTest() {
-////        Assertions.assertEquals(GamePhase.MAIN_GAME_LOOP, orderExecutorService.handleGamePhase(
-////                GamePhase.EXECUTE_ORDERS));
-//    }
+    @Test
+    public void whenHandlePhase_ExpectOrdersExecutedTest() {
+        Assertions.assertEquals(GamePhase.MAIN_GAME_LOOP, orderExecutorService.handleGamePhase(
+                GamePhase.EXECUTE_ORDERS));
+    }
 
     /**
      * Method to clean up the created world
      */
     @AfterEach
     public void clean() {
-        d_GameSession.deletePreviousSession();
+        d_GameSession.clearPreviousSession();
     }
 }

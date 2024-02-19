@@ -7,7 +7,7 @@ import main.java.warzone.exceptions.WarzoneValidationException;
 import main.java.warzone.entities.Country;
 import main.java.warzone.entities.GamePhase;
 import main.java.warzone.entities.GameSession;
-import main.java.warzone.services.MapDataHandler;
+import main.java.warzone.services.GameMapDataHandler;
 import main.java.warzone.services.GamePhaseService;
 import main.java.warzone.utils.CmdUtils;
 import main.java.warzone.utils.FileUtils;
@@ -140,7 +140,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
         if (!GameSessionValidator.validateMap(d_GameSession)) {
             throw new WarzoneValidationException("Game session is not valid to save.");
         }
-        MapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
+        GameMapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
         l_GameMapDataManager.saveGameMap(l_FileName);
     }
 
@@ -175,7 +175,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
             System.out.println("Failed to edit map file---> " + l_GameFileName);
             throw new WarzoneRuntimeException("Unable to edit map file!");
         }
-        MapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
+        GameMapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
         l_GameMapDataManager.createGameMap(l_GameSceneMap);
     }
 

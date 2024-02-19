@@ -47,13 +47,13 @@ public class ReinforcementServiceImplTest {
      */
     @BeforeEach
     public void setUp() throws WarzoneValidationException {
-        d_GameSession.deletePreviousSession();
-//        d_GameSession.createContinent("Asia", String.valueOf(5));
-//        d_GameSession.createCountry("India", "Asia");
-//        d_GameSession.createCountry("Sri", "Asia");
-//        d_GameSession.createNeighbors("India", "Sri");
-//        d_GameSession.getContinentsInSession().get("Asia").setOwner("Snehil");
-//        d_GameSession.createPlayer("Snehil");
+        d_GameSession.clearPreviousSession();
+        d_GameSession.createContinent("Asia", String.valueOf(5));
+        d_GameSession.createCountry("Iran", "Asia");
+        d_GameSession.createCountry("Turkey", "Asia");
+        d_GameSession.makeNeighbors("Iran", "Turkey");
+        d_GameSession.getContinentsInSession().get("Asia").setOwner("Niloufar");
+        d_GameSession.createPlayer("Niloufar");
     }
 
     /**
@@ -69,6 +69,6 @@ public class ReinforcementServiceImplTest {
      */
     @AfterEach
     public void clean() {
-        GameSession.getInstance().deletePreviousSession();
+        GameSession.getInstance().clearPreviousSession();
     }
 }
