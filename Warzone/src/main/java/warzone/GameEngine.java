@@ -1,26 +1,32 @@
 package main.java.warzone;
 
-
-        import main.java.warzone.entities.GamePhase;
-        import main.java.warzone.exceptions.WarzoneBaseException;
-        import main.java.warzone.services.GamePhaseService;
+import main.java.warzone.entities.GamePhase;
+import main.java.warzone.exceptions.WarzoneBaseException;
+import main.java.warzone.services.GamePhaseService;
 
 /**
- * Class to handle different segments of main.java.game and drive the complete main.java.game.
- * The GameEngine class is responsible for managing the flow and different segments of the main.java.game.
- * It drives the complete main.java.game by recursively handling main.java.game segments until the main.java.game exits.
+ * Class to handle different phase of main.java.game and drive the complete main.java.game.
+ * The GameEngine class is responsible for managing the flow and different phases of the main.java.game.
+ * It drives the complete main.java.game by recursively handling main.java.game phases until the main.java.game exits.
  *
- * @author Ali Sayed Salehi
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 1.0.0
+ *
  */
+
 public class GameEngine {
 
     /**
-     * Handles the given main.java.game segment. If the segment is not EXIT, it retrieves
-     * the appropriate segment service to handle the segment, and recursively
-     * handles the upcoming segment.
+     * Handles the given game phase. If the phase is not EXIT, it retrieves
+     * the appropriate phase service to handle the phase, and recursively
+     * handles the upcoming phase.
      *
-     * @param p_GamePhase The current main.java.game segment to handle.
-     * @throws WarzoneBaseException If there's a validation issue within the segment.
+     * @param p_GamePhase The current game phase to handle.
+     * @throws WarzoneBaseException If there's a validation issue within the phase.
      */
     public void handleGamePhases(GamePhase p_GamePhase) throws WarzoneBaseException {
         if (p_GamePhase != GamePhase.EXIT) {
@@ -28,7 +34,7 @@ public class GameEngine {
             GamePhase l_UpcomingPhase = l_PhaseService.handleGamePhase(p_GamePhase);
             handleGamePhases(l_UpcomingPhase);
         } else {
-            System.out.println("Exiting main.java.game play loop....");
+            System.out.println("Exiting game play loop....");
         }
     }
 }

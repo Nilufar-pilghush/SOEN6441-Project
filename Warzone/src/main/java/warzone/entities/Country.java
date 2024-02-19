@@ -123,7 +123,7 @@ public class Country {
      * @param p_AdjacentCountryId The ID of the adjacent country.
      * @param p_AdjacentCountry   The name of the adjacent country.
      */
-    public void AddAdjacentCountry(Long p_AdjacentCountryId, String p_AdjacentCountry){
+    public void addAdjacentCountry(Long p_AdjacentCountryId, String p_AdjacentCountry){
 
            this.d_AdjacentCountries.put(p_AdjacentCountryId,p_AdjacentCountry);
     }
@@ -185,6 +185,5 @@ public class Country {
     public int addArmies(int p_NumberOfArmies) {
         return this.d_NumberOfArmies += p_NumberOfArmies;
     }
-
 
 }

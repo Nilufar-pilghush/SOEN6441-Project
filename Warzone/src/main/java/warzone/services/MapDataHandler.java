@@ -34,6 +34,6 @@ public interface MapDataHandler {
      * Saves the current main.java.game map to an OutputStream.
      * @param p_OutputStream The destination stream to save the map.
      */
-    void saveGameMap(OutputStream p_OutputStream);
+    void saveGameMap(String p_OutputStream);
 
 }

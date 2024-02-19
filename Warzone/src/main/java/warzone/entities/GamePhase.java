@@ -1,11 +1,7 @@
 package main.java.warzone.entities;
 
 import main.java.warzone.services.GamePhaseService;
-import main.java.warzone.services.impl.OrderExecutorServiceImpl;
-import main.java.warzone.services.impl.OrderIssuanceServiceImpl;
-import main.java.warzone.services.impl.ReinforcementServiceImpl;
-import main.java.warzone.services.impl.GameLoopServiceImpl;
-import main.java.warzone.services.impl.MapEditorServiceImpl;
+import main.java.warzone.services.impl.*;
 
 /**
  * This enum is designed for different phases of the main.java.game.
@@ -18,38 +14,60 @@ import main.java.warzone.services.impl.MapEditorServiceImpl;
  * @version 1.0.0
  */
 
-/* different phases of the main.java.game */
-public enum GamePhase {
 
+
+
+public enum GamePhase {
+        /**
+         * Scene Editor phase of gameplay
+         */
         MAP_EDITOR,
 
+        /**
+         * Start up phase of gameplay
+         */
         START_UP,
 
+        /**
+         * Main game loop phase of gameplay
+         */
         MAIN_GAME_LOOP,
 
+        /**
+         * Reinforcement phase of gameplay
+         */
         REINFORCEMENT,
 
+        /**
+         * Issue orders phase of gameplay
+         */
         ISSUE_ORDERS,
 
+        /**
+         * Execute orders phase of gameplay
+         */
         EXECUTE_ORDERS,
 
+        /**
+         * Exit phase of gameplay
+         */
         EXIT;
 
 
         /**
-         * method to return corresponding service implementation for a given main.java.game phase.
+         * Retrieves the corresponding service implementation for a given game segment.
          *
-         * @param p_CurrGamePhase Current main.java.game phase.
-         * @return Instance of the PhaseService corresponding to the provided main.java.game phase.
+         * @param p_CurrGamePhase Current game segment.
+         * @return Instance of the PhaseService corresponding to the provided game segment.
          */
         public GamePhaseService getWarzonePhase(GamePhase p_CurrGamePhase) {
                 switch (p_CurrGamePhase) {
                         case MAP_EDITOR -> {
                                 return new MapEditorServiceImpl();
                         }
-//                        case START_UP -> {
-//                                return new StartupPhaseServiceImpl();
-//                        }
+                        case START_UP -> {
+                                return new StartupPhaseServiceImpl();
+                        }
                         case MAIN_GAME_LOOP -> {
                                 return new GameLoopServiceImpl();
                         }
@@ -60,16 +78,17 @@ public enum GamePhase {
                                 return new OrderIssuanceServiceImpl();
                         }
                         case EXECUTE_ORDERS -> {
-                               return new OrderExecutorServiceImpl();
+                                return new OrderExecutorServiceImpl();
                         }
                 }
                 return null;
         }
 
         /**
-         * method to return next phase of the main.java.game based on the current phase
-         * @param  p_CurrGamePhase: GamePhase
-         * @return next phase of the main.java.game
+         * Method to get next game segment from current game segment.
+         *
+         * @param p_CurrGamePhase Current game segment.
+         * @return Next game segment from current game segment
          */
         public GamePhase getNextPhaseInLoop(GamePhase p_CurrGamePhase) {
                 if (p_CurrGamePhase == null) {
@@ -90,9 +109,4 @@ public enum GamePhase {
                         }
                 }
         }
-
-
-
-
-
-    }
+}
