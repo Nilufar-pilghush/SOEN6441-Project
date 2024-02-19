@@ -38,7 +38,9 @@ public class Continent {
        * The owner of the continent.
        */
       private  String d_Owner;
-
+      /**
+       * @exclude
+       */
       public Continent(){
               d_Countries = new HashMap<>();
       }

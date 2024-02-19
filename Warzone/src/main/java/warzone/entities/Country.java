@@ -50,6 +50,9 @@ public class Country {
     private Map<Long, String> d_AdjacentCountries;
 
     //constructor
+    /**
+     * @exclude
+     */
     public Country(long p_Id, String p_Name, String p_IsInContinent) {
 
         this.d_Id = p_Id;

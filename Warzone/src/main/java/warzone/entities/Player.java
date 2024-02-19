@@ -42,7 +42,7 @@ public class Player {
     private List<Order> d_OrderList;
 
     /**
-     * Default constructor
+     * @exclude
      */
     public Player(String p_Name) {
         this.d_Name = p_Name;

@@ -37,7 +37,9 @@ public class Order {
      */
     private int d_NumberOfArmies;
 
-
+    /**
+     * Default constructor
+     */
     public Order(String p_PlayerName, String p_TargetCountry, int p_NumberOfArmies) {
         this.d_PlayerName = p_PlayerName;
         this.d_TargetCountry = p_TargetCountry;
@@ -45,6 +47,10 @@ public class Order {
         this.d_SourceCountry = null;
     }
 
+    /**
+     *
+     * @exclude
+     */
     public Order(String p_PlayerName, String p_SourceCountry, String p_TargetCountry, int p_NumberOfArmies) {
         this.d_PlayerName = p_PlayerName;
         this.d_SourceCountry = p_SourceCountry;
