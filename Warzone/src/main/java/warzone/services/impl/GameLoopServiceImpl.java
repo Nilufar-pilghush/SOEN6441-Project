@@ -1,5 +1,6 @@
 package main.java.warzone.services.impl;
 
+import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.entities.Country;
 import main.java.warzone.entities.GamePhase;
 import main.java.warzone.entities.GameSession;
@@ -19,115 +20,119 @@ import java.util.*;
  * @version 1.0.0
  */
 
-
 public class GameLoopServiceImpl implements GamePhaseService {
 
     /**
-     * Instance of the current main.java.game session
+     * Current game session instamce
      */
     private GameSession d_GameSession;
 
     /**
-     * Initialization constructor for the GameLoopService
+     * Constructor to initialize MainGameLoopService
      */
-    public GameLoopServiceImpl() {
+    public GameLoopServiceImpl(){
         d_GameSession = GameSession.getInstance();
     }
 
-    /**
-     * Method to process user commands within the current main.java.game phase
-     *
-     * @param p_CurrPhase Current main.java.game phase.
-     * @return Next or current main.java.game phase based on user input.
-     */
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
-        System.out.println("Game Loop Service Controller");
+        System.out.println("Main game loop service handler");
         Scanner l_InputScanner = new Scanner(System.in);
-        GamePhase l_NextPhase = p_CurrPhase.getNextPhaseInLoop(d_GameSession.getCurrGamePhase());
+        GamePhase l_NextGamePhase = p_CurrPhase.getNextPhaseInLoop(d_GameSession.getCurrGamePhase());
         while (true) {
-            displayHelpCommandsMenu(l_NextPhase);
+            displayHelpCommandsForGamePhase(l_NextGamePhase);
             String l_UserInput = l_InputScanner.nextLine();
-            List<String> l_UserInputTokens = CmdUtils.tokenizeUserInput(l_UserInput);
-            try {
-                String l_PrimaryCommand = l_UserInputTokens.get(0).toLowerCase();
-                switch (l_PrimaryCommand) {
-                    case "showmap" -> {
+            List<String> l_UserInputParts = CmdUtils.tokenizeUserInput(l_UserInput);
+            try{
+                String l_PrimaryAction = l_UserInputParts.get(0).toLowerCase();
+                switch (l_PrimaryAction) {
+                    case WarzoneConstants.SHOW_MAP -> {
                         showMap();
                     }
-                    case "help" -> {
-                        // will display help text
+                    case WarzoneConstants.HELP -> {
+                        // Do nothing
                     }
-                    case "exit" -> {
-                        System.out.println("Exit main.java.game");
+                    case WarzoneConstants.EXIT -> {
                         return GamePhase.EXIT;
                     }
                     default -> {
-                        d_GameSession.setCurrGamePhase(l_NextPhase);
+                        return proceedToGamePhase(l_NextGamePhase);
                     }
                 }
             }
-            // Proceed with main.java.game if no input is given
-            catch (IndexOutOfBoundsException e) {
-                d_GameSession.setCurrGamePhase(l_NextPhase);
+            // In case empty input is given
+            catch(IndexOutOfBoundsException e){
+                proceedToGamePhase(l_NextGamePhase);
             }
+
         }
     }
 
-    /**
-     * Displays the help commands menu for the current game phase.
-     *
-     * @param p_NextPhase The next phase in the game loop.
-     */
-    private void displayHelpCommandsMenu(GamePhase p_NextPhase) {
-        System.out.println("*************************Main Game Loop*************************");
-        System.out.println("  Current phase: " + d_GameSession.getCurrGamePhase());
-        System.out.println("  Next phase: " + p_NextPhase);
-        System.out.println("  Enter 'showmap' to view the map.");
-        System.out.println("  Enter 'exit' to exit the main.java.game.");
-        System.out.println("  Enter 'help' to display these instructions.");
-        System.out.println("  Enter nothing to continue with the main.java.game.");
-        System.out.println("*******************************************************************");
+    private void displayHelpCommandsForGamePhase(GamePhase p_nextPhase) {
+        System.out.println(".......................................MainGameLoop..........................................");
+        System.out.println("Current phase: " + d_GameSession.getCurrGamePhase());
+        System.out.println("Next phase in queue: " + p_nextPhase);
+        System.out.println("...Enter 'showmap' at any time to view the current state of the map...");
+        System.out.println("...Enter 'exit' at any time to exit the game...");
+        System.out.println("...Enter 'help' show this message...");
+        System.out.println("...Enter nothing to continue to the next phase...");
+        System.out.println("....................................................................................................");
+
     }
 
-    /**
-     * Displays the map including players, continents, countries, and their details.
-     */
     private void showMap() {
         System.out.println("Showing map");
+        // Print all players
         System.out.println();
-
-        //Display players
-        System.out.println("Players");
-        for (String l_Player : d_GameSession.getPlayers().keySet()) {
+        System.out.println("--Players:");
+        for (String l_PlayerName : d_GameSession.getPlayers().keySet()) {
             System.out.println();
-            System.out.println("-" + l_Player);
-            System.out.println("--Armies " + d_GameSession.getPlayers().get(l_Player).getNumberOfArmies());
-            System.out.println("--Owned countries:");
-            for (String l_Country : d_GameSession.getPlayers().get(l_Player).getOwnedCountries()) {
-                System.out.println("----" + l_Country);
+            System.out.println("--"+l_PlayerName);
+            System.out.println("----Armies: "+ d_GameSession.getPlayers().get(l_PlayerName).getNumberOfArmies());
+            System.out.println("----Owned countries:");
+            for (String l_CountryName : d_GameSession.getPlayers().get(l_PlayerName).getOwnedCountries()) {
+                System.out.println("------" + l_CountryName);
             }
         }
-        System.out.println();
-        System.out.println();
 
-        // Display Continents
-        System.out.println("Continents:");
+        System.out.println();
+        System.out.println();
+        // Print all continents
+        System.out.println("---Continents:");
         for (String l_ContinentName : d_GameSession.getContinentsInSession().keySet()) {
-            System.out.println("-" + l_ContinentName);
-            System.out.println("--Countries:");
+            System.out.println();
+            System.out.println("--"+l_ContinentName);
+            System.out.println("----Countries:");
 
-            Iterator<Map.Entry<String, Country>> l_CountriesInContinent = d_GameSession.getContinentsInSession().get(l_ContinentName).getCountries().entrySet().iterator();
-            while (l_CountriesInContinent.hasNext()) {
-                Map.Entry<String, Country> l_Country = l_CountriesInContinent.next();
-                System.out.println("----" + l_Country.getKey());
-                System.out.println("------Armies: " + l_Country.getValue().getNumberOfArmies());
-                System.out.println("------Player owner: " + l_Country.getValue().getOwner());
+            Iterator<Map.Entry<String, Country>> l_CountryIterator = d_GameSession.getContinentsInSession().get(l_ContinentName).getCountries().entrySet().iterator();
+            while (l_CountryIterator.hasNext()) {
+                Map.Entry<String, Country> l_CountryEntry = l_CountryIterator.next();
+                System.out.println("----"+l_CountryEntry.getKey());
+                System.out.println("------Armies: "+l_CountryEntry.getValue().getNumberOfArmies());
+                System.out.println("------Owned by:");
+                System.out.println("--------"+l_CountryEntry.getValue().getOwner());
                 System.out.println("------Adjacent countries:");
-                for (String l_AdjacentCountry : l_Country.getValue().getAdjacentCountries().values()) {
-                    System.out.println("------" + l_AdjacentCountry);
+                for (String l_AdjacentCountryName : l_CountryEntry.getValue().getAdjacentCountries().values()) {
+                    System.out.println("--------"+l_AdjacentCountryName);
                 }
+
             }
         }
+
     }
+
+    /**
+     * Method to proceed to next game phase
+     *
+     * @param p_NextPhase Next game phase.
+     * @return Updated game phase.
+     */
+    private GamePhase proceedToGamePhase(GamePhase p_NextPhase){
+        d_GameSession.setCurrGamePhase(p_NextPhase);
+        return p_NextPhase;
+    }
+
+
 }
+
+

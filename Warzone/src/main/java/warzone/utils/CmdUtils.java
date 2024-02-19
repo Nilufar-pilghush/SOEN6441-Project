@@ -23,18 +23,17 @@ public class CmdUtils {
      * @return A list containing tokens.
      */
     public static List<String> tokenizeUserInput(String p_UserInput) {
-        List<String> l_Tokens = new ArrayList<>();
+        List<String> l_InputParts = new ArrayList<>();
         if (p_UserInput.contains(WarzoneConstants.HYPHEN)) {
             String[] l_HyphenSplit = p_UserInput.split(WarzoneConstants.HYPHEN);
             for (String l_Part : l_HyphenSplit) {
-                l_Tokens.add(l_Part.trim());
+                l_InputParts.add(l_Part.trim());
             }
-            return l_Tokens;
+            return l_InputParts;
         } else {
             String[] l_SpaceSplit = p_UserInput.split(WarzoneConstants.SPACE_REGEX);
-            l_Tokens.addAll(Arrays.asList(l_SpaceSplit));
-            return l_Tokens;
+            l_InputParts.addAll(Arrays.asList(l_SpaceSplit));
+            return l_InputParts;
         }
-
     }
 }
