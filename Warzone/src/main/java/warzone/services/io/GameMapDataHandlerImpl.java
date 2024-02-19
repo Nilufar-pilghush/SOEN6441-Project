@@ -60,7 +60,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
             throw new WarzoneRuntimeException("Unable to find map file.");
         }
         d_MapReader = new BufferedReader(new InputStreamReader(p_InputStream, StandardCharsets.UTF_8));
-        d_CurrGameMap.clearExistingMap();
+        d_CurrGameMap.clearPreviousSession();
         String l_CurrMapDataLine = null;
         try {
             while ((l_CurrMapDataLine = d_MapReader.readLine()) != null) {
@@ -86,52 +86,45 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
      * Formats the map data including continents, countries, and borders.
      * Writes the formatted data to the specified output stream.
      *
-     * @param p_GameMapNewFileName The name of the new file to save the map data.
+     * @param p_GameMapFileName The name of the new file to save the map data.
      */
     @Override
-    public void saveGameMap(OutputStream p_GameMapNewFileName) {
-        StringBuilder l_NewMapData = new StringBuilder();
-        Map<String, Continent> l_CurrContinentsInSession = d_CurrGameMap.getContinentsInSession();
-        List<String> l_ContinentsInOrder = d_CurrGameMap.getContinentsInOrder();
-
-        // loop through the continents and add their data to l_NewMapData
-        l_NewMapData.append("[continents]");
-        l_NewMapData.append("\n");
-        for (String l_ContinentName : l_ContinentsInOrder) {
-            l_NewMapData.append(l_ContinentName).append(WarzoneConstants.SPACE_REGEX).append(l_CurrContinentsInSession.get(l_ContinentName).getControlValue());
-            l_NewMapData.append("\n");
+    public void saveGameMap(String p_GameMapFileName) {
+        StringBuilder l_Content = new StringBuilder();
+        l_Content.append(WarzoneConstants.CONTINENTS);
+        l_Content.append(WarzoneConstants.NEW_LINE);
+        Map<String, Continent> l_ContinentsOfWorld = d_CurrGameMap.getContinentsInSession();
+        List<String> l_ContinentsOrder = d_CurrGameMap.getContinentsInOrder();
+        //store continents of world with continentName controlValue
+        for (String l_ContinentName : l_ContinentsOrder) {
+            l_Content.append(l_ContinentName).append(WarzoneConstants.SPACE).append(l_ContinentsOfWorld.get(l_ContinentName).getControlValue());
+            l_Content.append(WarzoneConstants.NEW_LINE);
         }
-
-        /* Loop through the countries and add their data to l_NewMapData */
-        l_NewMapData.append("\n");
-        l_NewMapData.append("[countries]");
-        l_NewMapData.append("\n");
+        l_Content.append(WarzoneConstants.NEW_LINE);
+        l_Content.append(WarzoneConstants.COUNTRIES);
+        l_Content.append(WarzoneConstants.NEW_LINE);
+        //store countries in [countryId countryName continentIndex] order
         for (String l_CountryName : d_CurrGameMap.getCountriesInSession().keySet()) {
             Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
-            int l_ContinentIndex = l_ContinentsInOrder.indexOf(l_Country.getIsInContinent()) + 1;
-            l_NewMapData.append(l_Country.getId()).append(WarzoneConstants.SPACE_REGEX).append(l_CountryName).append(WarzoneConstants.SPACE_REGEX).append(l_ContinentIndex);
-            l_NewMapData.append("\n");
+            int l_IndexOfContinent = l_ContinentsOrder.indexOf(l_Country.getIsInContinent()) + 1;
+            l_Content.append(l_Country.getId()).append(WarzoneConstants.SPACE).append(l_CountryName).append(WarzoneConstants.SPACE).append(l_IndexOfContinent);
+            l_Content.append(WarzoneConstants.NEW_LINE);
         }
-
-        /* Loop through the borders and add their data to l_NewMapData */
-        l_NewMapData.append("\n");
-        l_NewMapData.append("[borders]");
-        l_NewMapData.append("\n");
+        l_Content.append(WarzoneConstants.NEW_LINE);
+        l_Content.append(WarzoneConstants.BORDERS);
+        l_Content.append(WarzoneConstants.NEW_LINE);
         for (String l_CountryName : d_CurrGameMap.getCountriesInSession().keySet()) {
             Country l_Country = d_CurrGameMap.getCountriesInSession().get(l_CountryName);
-            l_NewMapData.append(l_Country.getId());
+            l_Content.append(l_Country.getId());
             for (Long l_Neighbor : l_Country.getAdjacentCountries().keySet()) {
-                l_NewMapData.append(WarzoneConstants.SPACE_REGEX).append(l_Neighbor);
+                l_Content.append(WarzoneConstants.SPACE).append(l_Neighbor);
             }
-            l_NewMapData.append("\n");
+            l_Content.append(WarzoneConstants.NEW_LINE);
         }
 
-        /* write l_NewMapData to the newMapfile stated on the outpstream */
-        PrintWriter l_FileWrite = null;
-        try {
-            l_FileWrite = new PrintWriter("GameMap" + "/" + p_GameMapNewFileName);
-            l_FileWrite.println(l_NewMapData);
-            System.out.println("Map successfully saved in the file " + p_GameMapNewFileName);
+        try (PrintWriter l_Out = new PrintWriter(WarzoneConstants.GAME_SESSIONS + WarzoneConstants.FORWARD_SLASH + p_GameMapFileName)) {
+            l_Out.println(l_Content);
+            System.out.println("Map successfully stored in file: " + p_GameMapFileName);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -221,7 +214,7 @@ public class GameMapDataHandlerImpl implements GameMapDataHandler {
                 if (l_CountryName != null) {
                     for (int neighbor = 1; neighbor < l_BordersData.length; neighbor++) {
                         String l_NeighboringCountry = d_CurrGameMap.getCountryIds().get(Long.parseLong(l_BordersData[neighbor]));
-                        d_CurrGameMap.createNeighbors(l_CountryName, l_NeighboringCountry);
+                        d_CurrGameMap.makeNeighbors(l_CountryName, l_NeighboringCountry);
                     }
                 }
             }

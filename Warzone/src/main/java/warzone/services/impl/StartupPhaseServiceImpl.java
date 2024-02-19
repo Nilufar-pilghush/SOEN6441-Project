@@ -31,7 +31,7 @@ import main.java.warzone.constants.WarzoneConstants;
 public class StartupPhaseServiceImpl implements GamePhaseService {
 
     /**
-     *Iinstance of the main.java.game world.
+     *Instance of the main.java.game session.
      */
     private GameSession d_CurrGameSession;
 
@@ -132,7 +132,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         l_GameMapDataManager.createGameMap(l_GameMap);
 
         if(!GameSessionValidator.validateMap(d_CurrGameSession)){
-            d_CurrGameSession.clearExistingMap();
+            d_CurrGameSession.clearPreviousSession();
             throw new WarzoneValidationException("Game session is not valid to play.");
         }
         System.out.println("...Enter 'help' at any time to view available commands in this phase...");
@@ -172,7 +172,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Method to assign main.java.game world countries to the players.
+     * Method to assign main.java.game session countries to the players.
      *
      * @throws WarzoneValidationException If assignment of country to player fails.
      */

@@ -112,12 +112,13 @@ public class WarzoneConstants {
     /**
      * Constant of game map file extension
      */
-    public static final String GAME_MAP_EXTENSION = ".map";
+    public static final String GAME_MAP_EXTENSION = ".txt";
+//    public static final String GAME_MAP_EXTENSION = ".map";
 
     /**
      * Constant to refer game sessions directory
      */
-    public static final String GAME_SESSIONS = "GameWorlds";
+    public static final String GAME_SESSIONS = "GameSessions";
 
     /**
      * Constant to save map
