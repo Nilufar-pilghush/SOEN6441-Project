@@ -3,6 +3,10 @@ package main.java.warzone.entities;
 import main.java.warzone.services.GamePhaseService;
 import main.java.warzone.services.impl.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * This enum is designed for different phases of the main.java.game.
  * Each phase represents a distinct stage in the main.java.game lifecycle.
@@ -11,86 +15,127 @@ import main.java.warzone.services.impl.*;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 
-
-
-
-public enum GamePhase {
+public enum GamePhase{
         /**
-         * Scene Editor phase of gameplay
+         * Map Editor phase of gameplay
          */
-        MAP_EDITOR,
+        MAP_EDITOR {
+                @Override
+                public List<GamePhase> getPossibleGameStates() {
+                        return Collections.singletonList(START_UP);}
+
+                @Override
+                public GamePhaseService getWarzonePhase() {
+                        return new MapEditorServiceImpl();
+                }
+        },
 
         /**
          * Start up phase of gameplay
          */
-        START_UP,
+        START_UP {
+                @Override
+                public List<GamePhase> getPossibleGameStates() {
+                        return Collections.singletonList(MAIN_GAME_LOOP);
+                }
+
+                @Override
+                public GamePhaseService getWarzonePhase() {
+                        return new StartupPhaseServiceImpl();
+                }
+        },
 
         /**
          * Main game loop phase of gameplay
          */
-        MAIN_GAME_LOOP,
+        MAIN_GAME_LOOP {
+                /**
+                 * Main Game Loop phase is maintaining the loop between different phases of
+                 * game loop namely reinforcement, issue order and execute orders.
+                 *
+                 * @return List of possible game states from MainGameLoop
+                 */
+                @Override
+                public List<GamePhase> getPossibleGameStates() {
+                        return Arrays.asList(REINFORCEMENT, ISSUE_ORDERS, EXECUTE_ORDERS, EXIT);
+                }
+
+                @Override
+                public GamePhaseService getWarzonePhase() {
+                        return new GameLoopServiceImpl();
+                }
+        },
 
         /**
          * Reinforcement phase of gameplay
          */
-        REINFORCEMENT,
+        REINFORCEMENT {
+                @Override
+                public List<GamePhase> getPossibleGameStates() {
+                        return Collections.singletonList(MAIN_GAME_LOOP);
+                }
+
+                @Override
+                public GamePhaseService getWarzonePhase() {
+                        return new ReinforcementServiceImpl();
+                }
+        },
 
         /**
          * Issue orders phase of gameplay
          */
-        ISSUE_ORDERS,
+        ISSUE_ORDERS {
+                @Override
+                public List<GamePhase> getPossibleGameStates() {
+                        return Collections.singletonList(MAIN_GAME_LOOP);
+                }
+
+                @Override
+                public GamePhaseService getWarzonePhase() {
+                        return new OrderIssuanceServiceImpl();
+                }
+        },
 
         /**
          * Execute orders phase of gameplay
          */
-        EXECUTE_ORDERS,
+        EXECUTE_ORDERS {
+                @Override
+                public List<GamePhase> getPossibleGameStates() {
+                        return Collections.singletonList(MAIN_GAME_LOOP);
+                }
+
+                @Override
+                public GamePhaseService getWarzonePhase() {
+                        return new OrderExecutorServiceImpl();
+                }
+        },
 
         /**
          * Exit phase of gameplay
          */
-        EXIT;
-
-
-        /**
-         * Retrieves the corresponding service implementation for a given game segment.
-         *
-         * @param p_CurrGamePhase Current game segment.
-         * @return Instance of the PhaseService corresponding to the provided game segment.
-         */
-        public GamePhaseService getWarzonePhase(GamePhase p_CurrGamePhase) {
-                switch (p_CurrGamePhase) {
-                        case MAP_EDITOR -> {
-                                return new MapEditorServiceImpl();
-                        }
-                        case START_UP -> {
-                                return new StartupPhaseServiceImpl();
-                        }
-                        case MAIN_GAME_LOOP -> {
-                                return new GameLoopServiceImpl();
-                        }
-                        case REINFORCEMENT -> {
-                                return new ReinforcementServiceImpl();
-                        }
-                        case ISSUE_ORDERS -> {
-                                return new OrderIssuanceServiceImpl();
-                        }
-                        case EXECUTE_ORDERS -> {
-                                return new OrderExecutorServiceImpl();
-                        }
+        EXIT {
+                @Override
+                public List<GamePhase> getPossibleGameStates() {
+                        return Collections.singletonList(EXIT);
                 }
-                return null;
-        }
+
+                @Override
+                public GamePhaseService getWarzonePhase() {
+                        return null;
+                }
+        };
 
         /**
-         * Method to get next game segment from current game segment.
+         * Method to get next game phase from current game phase.
          *
-         * @param p_CurrGamePhase Current game segment.
-         * @return Next game segment from current game segment
+         * @param p_CurrGamePhase Current game phase.
+         * @return Next game phase from current game phase.
          */
-        public GamePhase getNextPhaseInLoop(GamePhase p_CurrGamePhase) {
+        public GamePhase getNextPhaseInMainGameLoop(GamePhase p_CurrGamePhase) {
                 if (p_CurrGamePhase == null) {
                         return GamePhase.REINFORCEMENT;
                 }
@@ -109,4 +154,35 @@ public enum GamePhase {
                         }
                 }
         }
+
+        /**
+         * Method to validate if allowed transition to game phase
+         * is allowed or not from the invoking phase
+         *
+         * @param p_GamePhase phase to move on
+         * @return Validated phase
+         */
+        public GamePhase validateAndMoveToNextState(GamePhase p_GamePhase) {
+                if (this.getPossibleGameStates().contains(p_GamePhase)) {
+                        return p_GamePhase;
+                } else {
+                        return this;
+                }
+        }
+
+        /**
+         * Retrieves the corresponding service implementation for a given game phase.
+         *
+         * @return Instance of the PhaseService corresponding to the provided game phase.
+         */
+        public abstract GamePhaseService getWarzonePhase();
+
+        /**
+         * Method to get possible states from a given warzone state
+         *
+         * @return List of possible states
+         */
+
+        public abstract List<GamePhase> getPossibleGameStates();
+
 }
