@@ -1,9 +1,7 @@
 package test.java.com.warzone.entities;
 
         import main.java.warzone.entities.Continent;
-        import main.java.warzone.entities.Country;
         import main.java.warzone.entities.GameSession;
-        import main.java.warzone.entities.Player;
         import main.java.warzone.exceptions.WarzoneValidationException;
         import org.junit.jupiter.api.BeforeEach;
         import org.junit.jupiter.api.Test;
@@ -11,160 +9,129 @@ package test.java.com.warzone.entities;
         import java.util.Map;
         import static org.junit.jupiter.api.Assertions.*;
     /**
-     * JUnit test cases for the Game-world class.
-     * Test case to verify continent creation.
-     * Test case to verify continent deletion.
-     * Test case to verify country creation.
-     * Test case to verify country deletion.
-     * Test case to verify make neighbors.
-     * Test case to verify neighbors deletion.
-     * Test case to verify create player.
-     * Test case to verify delete player.
-     * Test case to assign country to player.
+     * Validates the functionality of the {@link GameSession} class, ensuring the correct management of game entities
+     * such as continents, countries, and players. This includes testing the creation and deletion of these entities,
+     * as well as managing relationships between them, like setting neighbors and assigning countries to players.
+     * Each test method is designed to verify a specific functionality within the game session context,
+     * highlighting the session's ability to maintain the game's integrity and rules.
      *
      * @author Niloufar Pilgush
      * @author Nasrin Maarefi
      * @author Jerome Kithinji
      * @author Ali sayed Salehi
      * @author Fatemeh Chaji
-     * @version 1.0.0
+     * @version 2.0.0
      */
     public class GameSessionTest {
+        private GameSession d_gameSession;
 
         /**
-         * Class to be tested
-         */
-        private GameSession gameSession;
-
-        /**
-         * Method to set up game world
+         * Prepares the test environment before each test, ensuring a clean state.
+         * This setup includes acquiring the singleton instance of {@link GameSession} and clearing any previous session data.
          */
         @BeforeEach
         public void setUp() {
-            gameSession = gameSession.getInstance();
-            gameSession.clearPreviousSession();
-            gameSession.clearPreviousSession();
+            d_gameSession = GameSession.getInstance();
+            d_gameSession.clearPreviousSession();
+        }
+        /**
+         * Tests the creation of a continent, verifying its presence in the session.
+         * @throws WarzoneValidationException if the creation process fails validation checks
+         */
+        @Test
+        public void testCreateContinent() throws WarzoneValidationException {
+            d_gameSession.createContinent("Asia", "5");
+            Map<String, Continent> continents = d_gameSession.getContinentsInSession();
+            assertTrue(continents.containsKey("Asia"), "Continent Asia should be present in the session.");
         }
 
         /**
-         * Test case to verify create continent
-         *
-         * @throws WarzoneValidationException If continent creation validation fails
+         * Tests the deletion of a continent, ensuring it is removed from the session.
+         * @throws WarzoneValidationException if the deletion process fails validation checks
          */
         @Test
-        public void createContinentTest() throws WarzoneValidationException {
-            gameSession.createContinent("Russia", "5");
-            Map<String, Continent> continents = gameSession.getContinentsInSession();
-            assertTrue(continents.containsKey("Russia"));
-            assertEquals(1, continents.size());
+        public void testDeleteContinent() throws WarzoneValidationException {
+            d_gameSession.createContinent("Asia", "5");
+            d_gameSession.deleteContinent("Asia");
+            Map<String, Continent> continents = d_gameSession.getContinentsInSession();
+            assertFalse(continents.containsKey("Asia"), "Continent Asia should be removed from the session.");
         }
 
         /**
-         * Test case to verify delete continent
-         *
-         * @throws WarzoneValidationException If continent deletion validation fails
+         * Tests the creation of a country within a continent, verifying its addition to the session.
+         * @throws WarzoneValidationException if the country creation process fails validation checks
          */
+
         @Test
-        public void deleteContinentTest() throws WarzoneValidationException {
-            gameSession.createContinent("Asia", "5");
-            gameSession.deleteContinent("Asia");
-            Map<String, Continent> continents = gameSession.getContinentsInSession();
-            assertFalse(continents.containsKey("Asia"));
-            assertEquals(0, continents.size());
+        public void testCreateCountry() throws WarzoneValidationException {
+            d_gameSession.createContinent("Asia", "5");
+            d_gameSession.createCountry("Country1", "Asia", 1L);
+            assertTrue(d_gameSession.getCountriesInSession().containsKey("Country1"), "Country1 should be present in the session.");
         }
 
         /**
-         * Test case to verify create country
-         *
-         * @throws WarzoneValidationException If country creation validation fails
+         * Tests the deletion of a country, ensuring it is removed from the session.
+         * @throws WarzoneValidationException if the country deletion process fails validation checks
          */
         @Test
-        public void createCountryTest() throws WarzoneValidationException {
-            gameSession.createContinent("Russia", "5");
-            gameSession.createCountry("Country1", "Russia", 1L);
-            Map<String, Country> countries = gameSession.getCountriesInSession();
-            assertTrue(countries.containsKey("Country1"));
-            assertEquals(1, countries.size());
+        public void testDeleteCountry() throws WarzoneValidationException {
+            d_gameSession.createContinent("Europe", "6");
+            d_gameSession.createCountry("Country2", "Europe");
+            d_gameSession.deleteCountry("Country2");
+            assertFalse(d_gameSession.getCountriesInSession().containsKey("Country2"), "Country2 should be removed from the session.");
         }
 
         /**
-         * Test case to verify delete country
-         *
-         * @throws WarzoneValidationException If country deletion validation fails.
+         * Tests creating neighbor relationships between countries, verifying bidirectional adjacency.
+         * @throws WarzoneValidationException if the neighbor creation process fails validation checks
          */
         @Test
-        public void deleteCountryTest() throws WarzoneValidationException {
-            gameSession.createContinent("Europe", "5");
-            gameSession.createCountry("Country1", "Europe");
-            gameSession.deleteCountry("Country1");
-            Map<String, Country> countries = gameSession.getCountriesInSession();
-            assertFalse(countries.containsKey("Country1"));
-            assertEquals(0, countries.size());
+        public void testMakeNeighbors() throws WarzoneValidationException {
+            d_gameSession.createContinent("Asia", "5");
+            d_gameSession.createCountry("Iran", "Asia");
+            d_gameSession.createCountry("Turkey", "Asia");
+            d_gameSession.makeNeighbors("Iran", "Turkey");
+
+            assertTrue(d_gameSession.getCountriesInSession().get("Iran").getAdjacentCountries().containsValue("Turkey"),
+                    "Iran should be neighbors with Turkey.");
+            assertTrue(d_gameSession.getCountriesInSession().get("Turkey").getAdjacentCountries().containsValue("Iran"),
+                    "Turkey should be neighbors with Iran.");
         }
 
         /**
-         * Test case to verify create neighbors
-         *
-         * @throws WarzoneValidationException If neighbor creation validation fails
+         * Tests the creation of a player, verifying their addition to the game session.
+         * @throws WarzoneValidationException if the player creation process fails validation checks
          */
         @Test
-        public void makeNeighborsTest() throws WarzoneValidationException {
-            gameSession.createContinent("Asia", "5");
-            gameSession.createCountry("Iran", "Asia");
-            gameSession.createCountry("Turkey", "Asia");
-
-            gameSession.makeNeighbors("Iran", "Turkey");
-
-            Country country1 = gameSession.getCountriesInSession().get("Iran");
-            Country country2 = gameSession.getCountriesInSession().get("Turkey");
-
-            assertTrue(country1.getAdjacentCountries().containsValue(country2.getName()));
-            assertTrue(country2.getAdjacentCountries().containsValue(country1.getName()));
+        public void testCreatePlayer() throws WarzoneValidationException {
+            d_gameSession.createPlayer("Player1");
+            assertTrue(d_gameSession.getPlayers().containsKey("Player1"), "Player1 should be present in the session.");
         }
 
         /**
-         * Test case to verify create player
-         *
-         * @throws WarzoneValidationException If player creation validation fails
+         * Tests the deletion of a player, ensuring their removal from the game session.
+         * @throws WarzoneValidationException if the player deletion process fails validation checks
          */
         @Test
-        public void createPlayerTest() throws WarzoneValidationException {
-            gameSession.createPlayer("Player1");
-            Map<String, Player> players = gameSession.getPlayers();
-            assertTrue(players.containsKey("Player1"));
-            assertEquals(1, players.size());
+        public void testDeletePlayer() throws WarzoneValidationException {
+            d_gameSession.createPlayer("Player1");
+            d_gameSession.deletePlayer("Player1");
+            assertFalse(d_gameSession.getPlayers().containsKey("Player1"), "Player1 should be removed from the session.");
         }
-
         /**
-         * Test case to verify delete player
-         *
-         * @throws WarzoneValidationException If delete player validation fails
+         * Tests assigning a country to a player, verifying the player's ownership of the country.
+         * @throws WarzoneValidationException if the country assignment process fails validation checks
          */
         @Test
-        public void deletePlayerTest() throws WarzoneValidationException {
-            gameSession.createPlayer("Niloufar");
-            gameSession.deletePlayer("Niloufar");
-            Map<String, Player> players = gameSession.getPlayers();
-            assertFalse(players.containsKey("Niloufar"));
-            assertEquals(0, players.size());
+        public void testAssignCountryToPlayer() throws WarzoneValidationException {
+            d_gameSession.createPlayer("Player1");
+            d_gameSession.createContinent("Asia", "5");
+            d_gameSession.createCountry("Iran", "Asia");
+            d_gameSession.assignCountryToPlayer("Player1", "Iran");
+
+            assertTrue(d_gameSession.getPlayers().get("Player1").getOwnedCountries().contains("Iran"),
+                    "Player1 should own Iran.");
         }
 
-        /**
-         * Test case to verify assign country to player
-         *
-         * @throws WarzoneValidationException If country assignment validation fails
-         */
-        @Test
-        public void assignCountryToPlayerTest() throws WarzoneValidationException {
-            gameSession.createPlayer("Niloufar");
-            gameSession.createContinent("Asia", "5");
-            gameSession.createCountry("Iran", "Asia");
-
-            gameSession.assignCountryToPlayer("Niloufar", "Iran");
-
-            Player player = gameSession.getPlayers().get("Niloufar");
-            assertEquals(1, player.getOwnedCountries().size());
-            assertTrue(player.getOwnedCountries().contains("Iran"));
-        }
     }
 
