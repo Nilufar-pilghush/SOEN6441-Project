@@ -9,64 +9,59 @@ package test.java.com.warzone.services.impl;
         import org.junit.jupiter.api.BeforeEach;
         import org.junit.jupiter.api.Test;
 
-/**
- * JUnit test cases for the game issue order service phase.
- * Test case to verify the user commands execution for issue orders.
- *
- * @author Niloufar Pilgush
- * @author Nasrin Maarefi
- * @author Jerome Kithinji
- * @author Ali sayed Salehi
- * @author Fatemeh Chaji
- * @version 1.0.0
- */
-public class OrderIssuanceServiceImplTest {
-
     /**
-     * Class to be tested
-     */
-    private OrderIssuanceServiceImpl orderIssuanceService;
-
-    /**
-     * Current game world instance
-     */
-    private GameSession d_GameSession;
-
-    /**
-     * Constructor to initialize issue orders service
-     */
-    public OrderIssuanceServiceImplTest(){
-        orderIssuanceService = new OrderIssuanceServiceImpl();
-        d_GameSession = GameSession.getInstance();
-    }
-
-    /**
-     * Setup game world before every test case
+     * Tests the {@link OrderIssuanceServiceImpl} for handling the issue order phase in the game.
+     * It verifies that orders can be issued to players without throwing exceptions, ensuring the game phase
+     * transitions smoothly. This class sets up a minimal game environment and assesses the service's
+     * capability to process user commands for issuing orders.
      *
-     * @throws WarzoneValidationException If game world creation is not possible
+     * @author Niloufar Pilgush
+     * @author Nasrin Maarefi
+     * @author Jerome Kithinji
+     * @author Ali sayed Salehi
+     * @author Fatemeh Chaji
+     * @version 2.0.0
      */
-    @BeforeEach
-    public void setUp() throws WarzoneValidationException {
-        d_GameSession.clearPreviousSession();
-        d_GameSession.createContinent("Asia", String.valueOf(1));
-        d_GameSession.createCountry("Iran", "Asia");
-        d_GameSession.createCountry("Turkey", "Asia");
-        d_GameSession.makeNeighbors("Iran", "Turkey");
-    }
+    public class OrderIssuanceServiceImplTest {
+        private OrderIssuanceServiceImpl d_orderIssuanceService;
+        private GameSession d_gameSession;
 
-    /**
-     * Test case to verify the user commands execution for issue orders.
-     */
-    @Test
-    public void whenHandleOrderIssuePhase_ExpectPhaseHandledTest(){
-        Assertions.assertDoesNotThrow(()-> orderIssuanceService.handleGamePhase(GamePhase.ISSUE_ORDERS));
+        /**
+         * Initializes the OrderIssuanceServiceImpl and a fresh game session instance for testing.
+         */
+        public OrderIssuanceServiceImplTest() {
+            d_orderIssuanceService = new OrderIssuanceServiceImpl();
+            d_gameSession = GameSession.getInstance();
+        }
+        /**
+         * Prepares the game environment before each test by resetting the game session and setting up
+         * a basic game world structure with continents, countries, and neighbors.
+         *
+         * @throws WarzoneValidationException If setup fails due to invalid game world configuration.
+         */
+        @BeforeEach
+        public void setUp() throws WarzoneValidationException {
+            d_gameSession.clearPreviousSession();
+            d_gameSession.createContinent("Asia", "5");
+            d_gameSession.createCountry("Iran", "Asia");
+            d_gameSession.createCountry("Turkey", "Asia");
+            d_gameSession.makeNeighbors("Iran", "Turkey");
+        }
+        /**
+         * Verifies that the ISSUE_ORDERS phase can be handled without any exceptions being thrown,
+         * ensuring the order issuance process is functioning as expected.
+         */
+        @Test
+        public void testOrderIssueHandling() {
+            Assertions.assertDoesNotThrow(()-> d_orderIssuanceService.handleGamePhase(GamePhase.ISSUE_ORDERS),
+                    "Order issuance phase should be handled without throwing exceptions.");
+        }
+        /**
+         * Cleans up the game session by clearing any existing data after each test,
+         * ensuring a clean state for subsequent tests.
+         */
+        @AfterEach
+        public void cleanUp() {
+            d_gameSession.clearPreviousSession();
+        }
     }
-
-    /**
-     * Method to clean up the created world
-     */
-    @AfterEach
-    public void clean() {
-        GameSession.getInstance().clearPreviousSession();
-    }
-}

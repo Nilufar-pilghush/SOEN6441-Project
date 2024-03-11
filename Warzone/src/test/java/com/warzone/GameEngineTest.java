@@ -6,35 +6,36 @@ package test.java.com.warzone;
         import org.junit.jupiter.api.Test;
 
 /**
- * JUnit test cases for the Game Engine class.
- * Test case to verify game exit.
+ * Unit tests for {@link GameEngine} focusing on critical functionalities such as game phase transitions.
+ * This class tests the behavior of the game engine, particularly verifying its ability to handle
+ * the game exit phase without errors, ensuring that the game can be exited as expected.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 public class GameEngineTest {
 
-    /**
-     * Class to be tested
-     */
-    private GameEngine d_GameEngine;
+    private GameEngine d_gameEngine;
 
     /**
-     * Constructor to initialize game engine
+     * Initializes a new instance of GameEngine for testing its phase handling capabilities,
+     * particularly focusing on the game exit phase.
      */
-    public GameEngineTest() {
-        d_GameEngine = new GameEngine();
+    public void testGameEngine() {
+        d_gameEngine = new GameEngine();
     }
-
     /**
-     * Test case to validate game exiting
+     * Validates that the GameEngine can handle the EXIT phase without throwing any exceptions.
+     * This test ensures that the game engine correctly processes the command to exit the game, demonstrating
+     * proper handling of the exit phase.
      */
     @Test
-    public void whenGameEngineExits_ExpectGameExitsTest() {
-        Assertions.assertDoesNotThrow(() -> d_GameEngine.handleGamePhases(GamePhase.EXIT));
+    public void testExitGame() {
+        Assertions.assertDoesNotThrow(() -> d_gameEngine.handleGamePhases(GamePhase.EXIT),
+                "Game engine should exit the game without throwing exceptions.");
     }
 }

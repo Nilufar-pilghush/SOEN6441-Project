@@ -1,6 +1,5 @@
 package test.java.com.warzone.services.impl;
         import main.java.warzone.entities.GamePhase;
-        import main.java.warzone.entities.GameSession;
         import main.java.warzone.services.impl.StartupPhaseServiceImpl;
         import org.junit.jupiter.api.AfterEach;
         import org.junit.jupiter.api.Assertions;
@@ -10,73 +9,75 @@ package test.java.com.warzone.services.impl;
         import java.io.InputStream;
 
 /**
- * Test class
+ * Tests the functionality of {@link StartupPhaseServiceImpl} during the game's start-up phase.
+ * It verifies that various commands such as loading maps, adding players, listing maps, displaying help,
+ * and assigning countries can be executed without errors, ensuring the game can transition through the
+ * START_UP phase as expected.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 public class StartupPhaseServiceImplTest {
 
-    /**
-     * Class to be tested
-     */
-    private StartupPhaseServiceImpl startupPhaseService;
+    private StartupPhaseServiceImpl d_startupPhaseService;
 
-    /**
-     * Constructor to initialize game startup phase service
-     */
-    public StartupPhaseServiceImplTest(){
-        startupPhaseService = new StartupPhaseServiceImpl();
+    public void testStartupPhaseServiceImpl() {
+        d_startupPhaseService = new StartupPhaseServiceImpl();
     }
 
     /**
-     * Test case to verify add gameplayer
+     * Verifies adding a game player during the start-up phase processes without throwing exceptions.
      */
     @Test
-    public void whenHandlePhaseGamePlayer_ExpectGamePlayerHandledTest() {
+    public void testAddGamePlayer() {
         String input1 = "loadmap artic\ngameplayer -add Snehil\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
-        Assertions.assertDoesNotThrow(() -> startupPhaseService.handleGamePhase(GamePhase.START_UP));
+        Assertions.assertDoesNotThrow(() -> d_startupPhaseService.handleGamePhase(GamePhase.START_UP));
     }
-
     /**
-     * Test case to verify list maps
+     * Verifies listing maps during the start-up phase processes without throwing exceptions.
      */
     @Test
-    public void whenHandleListMap_ExpectListMapsTest() {
+    public void testListMaps() {
         String input1 = "listmaps\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
-        Assertions.assertDoesNotThrow(() -> startupPhaseService.handleGamePhase(GamePhase.START_UP));
+        Assertions.assertDoesNotThrow(() -> d_startupPhaseService.handleGamePhase(GamePhase.START_UP));
     }
 
     /**
-     * Test case to verify help
+     * Verifies that the help command during the start-up phase processes without throwing exceptions.
      */
     @Test
-    public void whenHandleHelp_ExpectHelp() {
+    public void testHelpCommand() {
         String input1 = "help\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
-        Assertions.assertDoesNotThrow(() -> startupPhaseService.handleGamePhase(GamePhase.START_UP));
+        Assertions.assertDoesNotThrow(() -> d_startupPhaseService.handleGamePhase(GamePhase.START_UP));
     }
-
     /**
-     * Test case to verify assign countries
+     * Verifies assigning countries to players during the start-up phase processes without throwing exceptions.
      */
     @Test
-    public void whenHandleAssignCountries_ExpectAssignCountriesTest() {
+    public void testAssignCountries() {
         String input1 = "loadmap artic\ngameplayer -add Snehil\nassigncountries\nexit";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
-        Assertions.assertDoesNotThrow(() -> startupPhaseService.handleGamePhase(GamePhase.START_UP));
+        Assertions.assertDoesNotThrow(() -> d_startupPhaseService.handleGamePhase(GamePhase.START_UP));
     }
-
+    /**
+     * Cleans up after tests by resetting system inputs and potentially clearing any game session data.
+     */
+    @AfterEach
+    public void cleanUp() {
+        System.setIn(System.in); // Reset system input to its original source
+        // GameSession.getInstance().clearPreviousSession();
+    }
     /**
      * Method to clean up the created world
      */
