@@ -1,4 +1,6 @@
 package main.java.warzone.entities;
+import main.java.warzone.entities.GameSession;
+import  main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 /**
  * Represents an order issued by a player in the Warzone main.java.game.
@@ -12,205 +14,173 @@ package main.java.warzone.entities;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 public class Order {
 
     /**
-     * Represents the name of the player issuing the order.
+     * Member to hold details of the order
      */
-    private String d_PlayerName;
+    private OrderDetails d_OrderDetails;
 
     /**
-     * Represents the name of the target country of the order.
+     * LogEntryBuffer object to log the information
+     * and notifying all the observers
      */
-    private String d_TargetCountry;
+    private LogEntryBuffer d_LogEntryBuffer;
 
     /**
-     * Represents the name of the source country of the order, if applicable.
+     * Boolean to check if capture was successful
      */
-    private String d_SourceCountry;
+    private boolean d_captureFlag = false;
 
     /**
-     * Represents the number of armies involved in the order.
+     * Order type
      */
-    private int d_NumberOfArmies;
+    private String d_OrderType;
 
     /**
-     * Default constructor
+     * Constructor to instantiate order
+     *
+     * @param p_PlayerName     Name of the player
+     * @param p_TargetCountry  Name of target country
+     * @param p_NumberOfArmies Number of armies to attack
      */
     public Order(String p_PlayerName, String p_TargetCountry, int p_NumberOfArmies) {
-        this.d_PlayerName = p_PlayerName;
-        this.d_TargetCountry = p_TargetCountry;
-        this.d_NumberOfArmies = p_NumberOfArmies;
-        this.d_SourceCountry = null;
+        d_OrderDetails = new OrderDetails();
+        d_OrderDetails.setPlayerName(p_PlayerName);
+        d_OrderDetails.setTargetCountry(p_TargetCountry);
+        d_OrderDetails.setNumberOfArmies(p_NumberOfArmies);
+        d_OrderDetails.setSourceCountry(null);
+        this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
     }
 
+
     /**
+     * Constructor to create order instance for given player name, target country
+     * and number of armies.
      *
-     * @exclude
+     * @param p_PlayerName     Name of the player
+     * @param p_TargetCountry  Name of target country
+     * @param p_SourceCountry  Name of source country
+     * @param p_NumberOfArmies Count of armies
      */
     public Order(String p_PlayerName, String p_SourceCountry, String p_TargetCountry, int p_NumberOfArmies) {
-        this.d_PlayerName = p_PlayerName;
-        this.d_SourceCountry = p_SourceCountry;
-        this.d_TargetCountry = p_TargetCountry;
-        this.d_NumberOfArmies = p_NumberOfArmies;
+        d_OrderDetails = new OrderDetails();
+        d_OrderDetails.setPlayerName(p_PlayerName);
+        d_OrderDetails.setSourceCountry(p_SourceCountry);
+        d_OrderDetails.setTargetCountry(p_TargetCountry);
+        d_OrderDetails.setNumberOfArmies(p_NumberOfArmies);
+        this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
+    }
+
+    /**
+     * Method to get order details
+     * @return Details of the given order
+     */
+    public OrderDetails getOrderDetails() {
+        return this.d_OrderDetails;
+    }
+
+    /**
+     * Method to set order details for a given order
+     *
+     * @param p_OrderDetails Details of the order
+     */
+    public void setOrderDetails(OrderDetails p_OrderDetails) {
+        this.d_OrderDetails = p_OrderDetails;
+    }
+
+    /**
+     * Abstract Method to execute order
+     *
+     * @param p_GameSession Current game session instance
+     */
+    public abstract void execute(GameSession p_GameSession);
+
+    /**
+     * Method to check if capture was successful
+     *
+     * @return true if capture was successful, false otherwise
+     */
+    public boolean isCaptureSuccessful() {
+        return d_captureFlag;
+    }
+
+    /**
+     * Method to set capture flag
+     *
+     * @param p_CaptureFlag true if capture was successful, false otherwise
+     */
+    public void setCaptureFlag(boolean p_CaptureFlag) {
+        this.d_captureFlag = p_CaptureFlag;
     }
 
 
     /**
-     * Retrieves the name of the player issuing the order.
+     * Method to run post execute
+     * Will run after execute method for logic like awarding cards
+     * on successful capture
      *
-     * @return The name of the player.
+     * @param p_GameSession Current game session instance
      */
-    public String getPlayerName() {
-        return d_PlayerName;
-    }
-
-    /**
-     * Retrieves the name of the target country of the order.
-     *
-     * @return The name of the target country.
-     */
-    public String getTargetCountry() {
-        return d_TargetCountry;
-    }
-
-    /**
-     * Retrieves the name of the source country of the order, if applicable.
-     *
-     * @return The name of the source country, or null if not applicable.
-     */
-    public String getSourceCountry() {
-        return d_SourceCountry;
-    }
-
-    /**
-     * Retrieves the number of armies involved in the order.
-     *
-     * @return The number of armies.
-     */
-    public int getNumberOfArmies() {
-        return d_NumberOfArmies;
-    }
-
-    /**
-     * Sets the name of the player issuing the order.
-     *
-     * @param p_PlayerName The name of the player.
-     */
-    public void setPlayerName(String p_PlayerName) {
-        this.d_PlayerName = p_PlayerName;
-    }
-
-
-    /**
-     * Sets the name of the target country of the order.
-     *
-     * @param p_TargetCountry The name of the target country.
-     */
-    public void setTargetCountry(String p_TargetCountry) {
-        this.d_TargetCountry = p_TargetCountry;
-    }
-
-    /**
-     * Sets the name of the source country of the order, if applicable.
-     *
-     * @param p_SourceCountry The name of the source country.
-     */
-    public void setSourceCountry(String p_SourceCountry) {
-        this.d_SourceCountry = p_SourceCountry;
-    }
-
-    /**
-     * Sets the number of armies involved in the order.
-     *
-     * @param p_NumberOfArmies The number of armies.
-     */
-    public void setNumberOfArmies(int p_NumberOfArmies) {
-        this.d_NumberOfArmies = p_NumberOfArmies;
-    }
-
-    /**
-     * Executes the order, either as a deploy order or an attack order, based on the source country.
-     *
-     * @param gameSession The main.java.game session in which the order is executed.
-     */
-    public void execute(GameSession gameSession) {
-        if (this.d_SourceCountry != null) {
-            System.out.println("Executing attack order for " + this.d_PlayerName + " on " + this.d_TargetCountry + " from " + this.d_SourceCountry + " with " + this.d_NumberOfArmies + " armies");
-            this.executeAttackOrder(gameSession);
-        } else {
-            System.out.println("Executing deploy order for " + this.d_PlayerName + " on " + this.d_TargetCountry + " with " + this.d_NumberOfArmies + " armies");
-            this.executeDeployOrder(gameSession);
-        }
-    }
-
-    /**
-     * Executes the logic for a deploy order, including updating territory ownership and army counts.
-     *
-     * @param gameSession The main.java.game session in which the order is executed.
-     */
-    private void executeDeployOrder(GameSession gameSession) {
-        Country targetCountry = gameSession.getCountriesInSession().get(this.d_TargetCountry);
-        // If not owned by player then subtract armies & update owner
-        if (targetCountry.getOwner() == null || !targetCountry.getOwner().equals(this.d_PlayerName)) {
-            if (this.d_NumberOfArmies > targetCountry.getNumberOfArmies()) {
-                System.out.println("Successfully captured territory.");
-                if (targetCountry.getOwner() != null) {
-                    Player oldOwner = gameSession.getPlayers().get(targetCountry.getOwner());
-                    oldOwner.removeOwnedCountry(this.d_TargetCountry);
-                }
-                targetCountry.setOwner(this.d_PlayerName);
-                Player newOwner = gameSession.getPlayers().get(this.d_PlayerName);
-                newOwner.addOwnedCountry(targetCountry.getName());
-                targetCountry.setNumberOfArmies(this.d_NumberOfArmies - targetCountry.getNumberOfArmies());
-            } else {
-                System.out.println("Failed to capture territory.");
-                targetCountry.setNumberOfArmies(targetCountry.getNumberOfArmies() - this.d_NumberOfArmies);
-            }
-
-        } else {
-            System.out.println("Adding armies to owned territory.");
-            targetCountry.addArmies(this.d_NumberOfArmies);
+    public void runPostExecute(GameSession p_GameSession) {
+        if (isCaptureSuccessful()) {
+            // Award player a card
+            p_GameSession.getPlayers().get(this.getOrderDetails().getPlayerName()).setEarnedCardThisTurn(true);
 
         }
     }
 
     /**
-     * Executes the logic for an attack order, including updating territory ownership and army counts.
+     * Method to get order type
      *
-     * @param gameSession The main.java.game session in which the order is executed.
+     * @return Order type
      */
-    private void executeAttackOrder(GameSession gameSession) {
-        Country sourceCountry = gameSession.getCountriesInSession().get(this.d_SourceCountry);
-        Country targetCountry = gameSession.getCountriesInSession().get(this.d_TargetCountry);
-        // If not owned by player then subtract armies & update owner
-        if (targetCountry.getOwner() == null || !targetCountry.getOwner().equals(this.d_PlayerName)) {
-            if (this.d_NumberOfArmies > targetCountry.getNumberOfArmies()) {
-                System.out.println("Successfully captured territory.");
-                if (targetCountry.getOwner() != null) {
-                    Player oldOwner = gameSession.getPlayers().get(targetCountry.getOwner());
-                    oldOwner.removeOwnedCountry(this.d_TargetCountry);
-                }
-                targetCountry.setOwner(this.d_PlayerName);
-                Player newOwner = gameSession.getPlayers().get(this.d_PlayerName);
-                newOwner.addOwnedCountry(targetCountry.getName());
-                targetCountry.setNumberOfArmies(this.d_NumberOfArmies - targetCountry.getNumberOfArmies());
-            } else {
-                System.out.println("Failed to capture territory.");
-                targetCountry.setNumberOfArmies(targetCountry.getNumberOfArmies() - this.d_NumberOfArmies);
-            }
-
-        } else {
-            System.out.println("Adding armies to owned territory.");
-            targetCountry.addArmies(this.d_NumberOfArmies);
-        }
-
-        // Reduce source country armies
-        sourceCountry.addArmies(-this.d_NumberOfArmies);
+    public String getOrderType() {
+        return d_OrderType;
     }
 
+    /**
+     * Method to set order type
+     *
+     * @param p_OrderType Order type
+     */
+    public void setOrderType(String p_OrderType) {
+        this.d_OrderType = p_OrderType;
+    }
+
+    /**
+     * Method to get remaining defenders
+     *
+     * @param p_AttackingArmies Number of attacking armies
+     * @param p_DefendingArmies Number of defending armies
+     * @return Remaining defenders
+     */
+    public int getRemainingDefenders(int p_AttackingArmies, int p_DefendingArmies) {
+        // 60% of attacking armies chance to kill 1 defending army
+        int l_RemainingDefenders = (int) Math.round(p_DefendingArmies - (p_AttackingArmies * 0.6));
+        if (l_RemainingDefenders < 0) {
+            return 0;
+        }
+        return l_RemainingDefenders;
+    }
+
+    /**
+     * Method to get remaining attackers
+     *
+     * @param p_AttackingArmies Number of attacking armies
+     * @param p_DefendingArmies Number of defending armies
+     * @return Remaining attackers
+     */
+    public int getRemainingAttackers(int p_AttackingArmies, int p_DefendingArmies) {
+        // 70% of defending armies chance to kill 1 attacking army
+        int l_RemainingAttackers = (int) Math.round(p_AttackingArmies - (p_DefendingArmies * 0.7));
+        if (l_RemainingAttackers < 0) {
+            return 0;
+        }
+        return l_RemainingAttackers;
+    }
 
 }
