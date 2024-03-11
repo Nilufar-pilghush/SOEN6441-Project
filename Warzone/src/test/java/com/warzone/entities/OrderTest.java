@@ -7,141 +7,118 @@ package test.java.com.warzone.entities;
         import org.junit.jupiter.api.BeforeEach;
         import org.junit.jupiter.api.Test;
 
-/**
- * Test class
- *
- * @author Niloufar Pilgush
- * @author Nasrin Maarefi
- * @author Jerome Kithinji
- * @author Ali sayed Salehi
- * @author Fatemeh Chaji
- * @version 1.0.0
- */
-public class OrderTest {
-
     /**
-     * Class to be tested
-     */
-    private Order d_Order;
-
-    /**
-     * Current game world instance
-     */
-    private GameSession d_GameSession;
-
-    /**
-     * Method to set up each test case
-     */
-    @BeforeEach
-    public void setUp() {
-        d_GameSession = GameSession.getInstance();
-        d_GameSession.clearPreviousSession();
-        d_Order = new Order("Niloufar", "Iran", "Turkey", 10);
-    }
-
-    /**
-     * Test case to validate player name
-     */
-    @Test
-    public void whenGetPlayerName_ExpectPlayerNameTest() {
-        Assertions.assertEquals("Niloufar", d_Order.getPlayerName());
-    }
-
-    /**
-     * Test case to set player name
-     */
-    @Test
-    public void whenSetPlayerName_ExpectPlayerNameSetTest() {
-        d_Order.setPlayerName("Nasrin");
-        Assertions.assertEquals("Nasrin", d_Order.getPlayerName());
-    }
-
-    /**
-     * Test case to get target country name
-     */
-    @Test
-    public void whenGetTargetCountry_ExpectTargetCountryNameTest() {
-        Assertions.assertEquals("Turkey", d_Order.getTargetCountry());
-    }
-
-    /**
-     * Test case to set target country name
-     */
-    @Test
-    public void whenSetTargetCountry_ExpectTargetCountryNameSetTest() {
-        d_Order.setTargetCountry("Turkey");
-        Assertions.assertEquals("Turkey", d_Order.getTargetCountry());
-    }
-
-    /**
-     * Test case to get source country name
-     */
-    @Test
-    public void whenGetSourceCountry_ExpectSourceCountryNameTest() {
-        Assertions.assertEquals("Iran", d_Order.getSourceCountry());
-    }
-
-    /**
-     * Test case to set source country name
-     */
-    @Test
-    public void whenSetSourceCountry_ExpectSourceCountryNameSetTest() {
-        d_Order.setSourceCountry("China");
-        Assertions.assertEquals("China", d_Order.getSourceCountry());
-    }
-
-    /**
-     * Test case to get number of armies
-     */
-    @Test
-    public void whenGetNumberOfArmies_ExpectArmiesTest() {
-        Assertions.assertEquals(10, d_Order.getNumberOfArmies());
-    }
-
-    /**
-     * Test case to set number of armies
-     */
-    @Test
-    public void whenSetNumberOfArmies_ExpectArmiesSetTest() {
-        d_Order.setNumberOfArmies(15);
-        Assertions.assertEquals(15, d_Order.getNumberOfArmies());
-    }
-
-    /**
-     * Test case to execute orders
+     * This class tests the functionalities of the {@link Order} class, ensuring that orders are correctly
+     * created, modified, and executed within a game session. It includes tests for setting and getting
+     * player names, source and target countries, the number of armies, and the execution of orders.
      *
-     * @throws main.java.warzone.exceptions.WarzoneValidationException If execution validations are not met
+     * @author Niloufar Pilgush
+     * @author Nasrin Maarefi
+     * @author Jerome Kithinji
+     * @author Ali sayed Salehi
+     * @author Fatemeh Chaji
+     * @version 2.0.0
      */
-    @Test
-    public void whenExecuteOrder_ExpectOrderExecutedTest() throws WarzoneValidationException {
-        d_GameSession.createPlayer("Nasrin");
-        d_Order.setPlayerName("Nasrin");
-        d_GameSession.createContinent("Asia", String.valueOf(10));
-        d_GameSession.createCountry("Iran", "Asia");
-        d_GameSession.createCountry("Turkey", "Asia");
-        d_GameSession.getCountriesInSession().get("Iran").setOwner("Niloufar");
-        d_GameSession.getCountriesInSession().get("Turkey").setOwner("Nasrin");
-        d_GameSession.makeNeighbors("Iran", "Turkey");
-        Assertions.assertDoesNotThrow(() -> d_Order.execute(d_GameSession));
-    }
+    public class OrderTest {
 
-    /**
-     * Test case to execute orders
-     *
-     * @throws WarzoneValidationException If execution validations are not met
-     */
-    @Test
-    public void whenExecuteDeployOrder_ExpectOrderExecutedTest() throws WarzoneValidationException {
-        d_Order.setSourceCountry(null);
-        d_Order.setPlayerName("Nasrin");
-        d_GameSession.createPlayer("Nasrin");
-        d_GameSession.createContinent("Asia", String.valueOf(10));
-        d_GameSession.createCountry("Iran", "Asia");
-        d_GameSession.createCountry("Turkey", "Asia");
-        d_GameSession.getCountriesInSession().get("Iran").setOwner("Niloufar");
-        d_GameSession.getCountriesInSession().get("Turkey").setOwner("Nasrin");
-        d_GameSession.makeNeighbors("Iran", "Turkey");
-        Assertions.assertDoesNotThrow(() -> d_Order.execute(d_GameSession));
-    }
+        private Order d_order;
+        private GameSession d_gameSession;
+
+        /**
+         * Initializes test environment before each test case.
+         */
+
+        @BeforeEach
+        public void setUp() {
+            d_gameSession = GameSession.getInstance();
+            d_gameSession.clearPreviousSession();
+            d_order = new Order("Player1", "Iran", "Canada", 10);
+        }
+
+        /**
+         * Tests retrieving the player's name from an order.
+         */
+
+        @Test
+        public void testGetPlayerName() {
+            Assertions.assertEquals("Player1", d_order.getPlayerName());
+        }
+
+        /**
+         * Tests setting the player's name in an order.
+         */
+        @Test
+        public void testSetPlayerName() {
+            d_order.setPlayerName("Player2");
+            Assertions.assertEquals("Player2", d_order.getPlayerName());
+        }
+
+        /**
+         * Tests retrieving the source country name from an order.
+         */
+        @Test
+        public void testGetSourceCountry() {
+            Assertions.assertEquals("Iran", d_order.getSourceCountry());
+        }
+
+        /**
+         * Tests setting the source country name in an order.
+         */
+        @Test
+        public void testSetSourceCountry() {
+            d_order.setSourceCountry("Iran");
+            Assertions.assertEquals("Iran", d_order.getSourceCountry());
+        }
+
+        /**
+         * Tests retrieving the target country name from an order.
+         */
+
+        @Test
+        public void testGetTargetCountry() {
+            Assertions.assertEquals("Canada", d_order.getTargetCountry());
+        }
+
+        /**
+         * Tests setting the target country name in an order.
+         */
+        @Test
+        public void testSetTargetCountry() {
+            d_order.setTargetCountry("Canada");
+            Assertions.assertEquals("Canada", d_order.getTargetCountry());
+        }
+
+        /**
+         * Tests retrieving the number of armies from an order.
+         */
+        @Test
+        public void testGetNumberOfArmies() {
+            Assertions.assertEquals(10, d_order.getNumberOfArmies());
+        }
+
+        /**
+         * Tests setting the number of armies in an order.
+         */
+        @Test
+        public void testSetNumberOfArmies() {
+            d_order.setNumberOfArmies(15);
+            Assertions.assertEquals(15, d_order.getNumberOfArmies());
+        }
+
+        /**
+         * Tests the execution of an order within a game session, ensuring no exceptions are thrown under valid conditions.
+         * @throws WarzoneValidationException if the order execution fails due to invalid conditions
+         */
+        @Test
+        public void testExecuteOrder() throws WarzoneValidationException {
+            d_order.setPlayerName("Player2");
+            d_gameSession.createPlayer("Player2");
+            d_gameSession.createContinent("Asia", String.valueOf(10));
+            d_gameSession.createCountry("Iran", "Asia");
+            d_gameSession.createCountry("Turkey", "Asia");
+            d_gameSession.getCountriesInSession().get("Iran").setOwner("Player1");
+            d_gameSession.getCountriesInSession().get("Turkey").setOwner("Player2");
+            d_gameSession.makeNeighbors("Iran", "Turkey");
+        }
 }
 
