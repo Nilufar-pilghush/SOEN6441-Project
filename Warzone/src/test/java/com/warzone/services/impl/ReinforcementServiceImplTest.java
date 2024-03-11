@@ -9,66 +9,62 @@ package test.java.com.warzone.services.impl;
         import org.junit.jupiter.api.BeforeEach;
         import org.junit.jupiter.api.Test;
 
-/**
- * JUnit test cases for the reinforcement phase.
- * Test case to verify the user commands execution for reinforcements.
- *
- * @author Niloufar Pilgush
- * @author Nasrin Maarefi
- * @author Jerome Kithinji
- * @author Ali sayed Salehi
- * @author Fatemeh Chaji
- * @version 1.0.0
- */
-public class ReinforcementServiceImplTest {
-
     /**
-     * Class to be tested
-     */
-    private ReinforcementServiceImpl reinforcementService;
-
-    /**
-     * Current game world instance
-     */
-    private GameSession d_GameSession;
-
-    /**
-     * Constructor to initialize issue orders service
-     */
-    public ReinforcementServiceImplTest() {
-        reinforcementService = new ReinforcementServiceImpl();
-        d_GameSession = GameSession.getInstance();
-    }
-
-    /**
-     * Setup game world before every test case
+     * Tests the {@link ReinforcementServiceImpl} to ensure correct handling of the reinforcement phase in the game.
+     * This includes setting up a game world, assigning continents and owners, and verifying the reinforcement
+     * service processes reinforcement commands without throwing exceptions.
      *
-     * @throws WarzoneValidationException If game world creation is not possible
+     * @author Niloufar Pilgush
+     * @author Nasrin Maarefi
+     * @author Jerome Kithinji
+     * @author Ali sayed Salehi
+     * @author Fatemeh Chaji
+     * @version 2.0.0
      */
-    @BeforeEach
-    public void setUp() throws WarzoneValidationException {
-        d_GameSession.clearPreviousSession();
-        d_GameSession.createContinent("Asia", String.valueOf(5));
-        d_GameSession.createCountry("Iran", "Asia");
-        d_GameSession.createCountry("Turkey", "Asia");
-        d_GameSession.makeNeighbors("Iran", "Turkey");
-        d_GameSession.getContinentsInSession().get("Asia").setOwner("Niloufar");
-        d_GameSession.createPlayer("Niloufar");
-    }
+    public class ReinforcementServiceImplTest {
 
-    /**
-     * Test case to verify the user commands execution for issue orders.
-     */
-    @Test
-    public void whenHandleReinforcementPhase_ExpectPhaseHandledTest() {
-        Assertions.assertDoesNotThrow(() -> reinforcementService.handleGamePhase(GamePhase.REINFORCEMENT));
-    }
+        private ReinforcementServiceImpl d_reinforcementService;
+        private GameSession d_gameSession;
 
-    /**
-     * Method to clean up the created world
-     */
-    @AfterEach
-    public void clean() {
-        GameSession.getInstance().clearPreviousSession();
+        /**
+         * Initializes the reinforcement service and game session for testing. Prepares the testing environment
+         * by instantiating the {@link ReinforcementServiceImpl} and retrieving the singleton instance of {@link GameSession}.
+         */
+        public ReinforcementServiceImplTest() {
+            d_reinforcementService = new ReinforcementServiceImpl();
+            d_gameSession = GameSession.getInstance();
+        }
+        /**
+         * Sets up a mock game world environment before each test. This setup includes clearing any existing
+         * game session data and configuring a basic game state with continents, countries, neighbors, and a player.
+         *
+         * @throws WarzoneValidationException if an error occurs during game world setup.
+         */
+        @BeforeEach
+        public void setUp() throws WarzoneValidationException {
+            d_gameSession.clearPreviousSession();
+            d_gameSession.createContinent("Asia", "5");
+            d_gameSession.createCountry("Iran", "Asia");
+            d_gameSession.createCountry("Turkey", "Asia");
+            d_gameSession.makeNeighbors("Iran", "Turkey");
+            d_gameSession.getContinentsInSession().get("Asia").setOwner("Player1");
+            d_gameSession.createPlayer("Player1");
+        }
+        /**
+         * Validates that the reinforcement phase can be processed without throwing exceptions,
+         * ensuring that the game logic related to reinforcements is correctly implemented.
+         */
+        @Test
+        public void testReinforcementPhaseHandling() {
+            Assertions.assertDoesNotThrow(() -> d_reinforcementService.handleGamePhase(GamePhase.REINFORCEMENT),
+                    "Reinforcement phase should be processed without exceptions.");
+        }
+        /**
+         * Cleans up the game session by clearing any existing game state after each test, ensuring
+         * a fresh start for subsequent tests.
+         */
+        @AfterEach
+        public void cleanUp() {
+            d_gameSession.clearPreviousSession();
+        }
     }
-}

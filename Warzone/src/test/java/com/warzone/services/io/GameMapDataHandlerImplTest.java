@@ -8,37 +8,35 @@ package test.java.com.warzone.services.io;
         import java.io.InputStream;
 
 /**
- * JUnit test cases for the game map data manager class.
- * Test case to verify the game world creation from map.
- * Test case to verify the correct game world file saved on save file command.
+ * Tests for {@link GameMapDataHandlerImpl} focusing on game map creation and saving functionalities.
+ * These tests verify the capability to correctly interpret and save map data, ensuring that the game world
+ * can be initialized and persisted based on map file inputs.
+ *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 public class GameMapDataHandlerImplTest {
+    private GameMapDataHandlerImpl d_gameMapDataHandler;
 
     /**
-     * Class to be tested
+     * Initializes the {@link GameMapDataHandlerImpl} for testing its functionalities related to game map handling.
      */
-    private GameMapDataHandlerImpl gameMapDataHandler;
-
-    /**
-     * Constructor for initialization
-     */
-    public GameMapDataHandlerImplTest(){
-        gameMapDataHandler = new GameMapDataHandlerImpl();
+    public void testGameMapDataHandlerImpl() {
+        d_gameMapDataHandler = new GameMapDataHandlerImpl();
     }
-
     /**
-     * Test case to create game world from file
+     * Validates that a game map can be created from a map file input without throwing exceptions.
+     * This test simulates the reading of a basic map file structure, asserting that the map creation process is successful.
      */
     @Test
-    public void whenMakeGameSession_ExpectGameSessionTest(){
-        String input1 = "[continents]\n[countries]\n[borders]";
-        InputStream in = new ByteArrayInputStream(input1.getBytes());
-        Assertions.assertDoesNotThrow(()-> gameMapDataHandler.createGameMap(in));
+    public void testCreateGameMap() {
+        String mapContent = "[continents]\n[countries]\n[borders]";
+        InputStream in = new ByteArrayInputStream(mapContent.getBytes());
+        Assertions.assertDoesNotThrow(() -> d_gameMapDataHandler.createGameMap(in),
+                "Creating a game map from provided input should not throw exceptions.");
     }
 }
