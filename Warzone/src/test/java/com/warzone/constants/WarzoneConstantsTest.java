@@ -4,39 +4,42 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test class to validate the constants value stored in main.java.main.java.com.warzone constants
- *
+ * Tests to validate the constant values in WarzoneConstants.
+ * Ensures that each constant retains its expected value, guarding against accidental changes. *
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 public class WarzoneConstantsTest {
 
     /**
-     * Test case to validate edit continent constant value
+     * Validates the EDIT_CONTINENT constant's value.
      */
     @Test
-    public void whenWarzoneConstantUsed_ExpectCorrectValueTest(){
-        Assertions.assertEquals("editcontinent", WarzoneConstants.EDIT_CONTINENT);
+    public void testWhenWarzoneConstantUsed_ExpectCorrectValue(){
+        final String expected = "edit_continent";
+        Assertions.assertEquals(expected, WarzoneConstants.EDIT_CONTINENT);
     }
 
     /**
-     * Test case to validate edit country constant value
+     * Validates the EDIT_COUNTRY constant's value.
      */
     @Test
-    public void whenWarzoneConstantUsed_ExpectCorrectValue2Test(){
-        Assertions.assertEquals("editcountry", WarzoneConstants.EDIT_COUNTRY);
+    public void testWhenWarzoneConstantUsed_ExpectCorrectValue2(){
+        final String expected ="edit_country";
+        Assertions.assertEquals(expected, WarzoneConstants.EDIT_COUNTRY);
     }
 
     /**
-     * Test case to validate edit neighbor constant value
+     * Validates the EDIT_NEIGHBOR constant's value.
      */
     @Test
-    public void whenWarzoneConstantUsed_ExpectCorrectValue3Test(){
-        Assertions.assertEquals("editneighbor", WarzoneConstants.EDIT_NEIGHBOR);
+    public void testWhenWarzoneConstantUsed_ExpectCorrectValue3Test(){
+        final String expected = "edit_neighbor";
+        Assertions.assertEquals(expected, WarzoneConstants.EDIT_NEIGHBOR);
     }
 }

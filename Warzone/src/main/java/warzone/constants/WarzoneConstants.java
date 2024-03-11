@@ -57,17 +57,17 @@ public class WarzoneConstants {
     /**
      * Constant to edit continent
      */
-    public static final String EDIT_CONTINENT = "editcontinent";
+    public static final String EDIT_CONTINENT = "edit_continent";
 
     /**
      * Constant to edit country
      */
-    public static final String EDIT_COUNTRY = "editcountry";
+    public static final String EDIT_COUNTRY = "edit_country";
 
     /**
      * Constant to edit neighbor
      */
-    public static final String EDIT_NEIGHBOR = "editneighbor";
+    public static final String EDIT_NEIGHBOR = "edit_neighbor";
 
     /**
      * Constant to handle add sub action
@@ -92,7 +92,7 @@ public class WarzoneConstants {
     /**
      * Constant to edit map
      */
-    public static final String EDIT_MAP = "editmap";
+    public static final String EDIT_MAP = "edit_map";
 
     /**
      * Constant to refer continents in game map
@@ -123,32 +123,32 @@ public class WarzoneConstants {
     /**
      * Constant to save map
      */
-    public static final String SAVE_MAP = "savemap";
+    public static final String SAVE_MAP = "save_map";
 
     /**
      * Constant to load map
      */
-    public static final String LOAD_MAP = "loadmap";
+    public static final String LOAD_MAP = "load_map";
 
     /**
      * Constant to list maps
      */
-    public static final String LIST_MAPS = "listmaps";
+    public static final String LIST_MAPS = "list_maps";
 
     /**
      * Constant to refer game player
      */
-    public static final String GAME_PLAYER = "gameplayer";
+    public static final String GAME_PLAYER = "game_player";
 
     /**
      * Constant to assign countries
      */
-    public static final String ASSIGN_COUNTRIES = "assigncountries";
+    public static final String ASSIGN_COUNTRIES = "assign_countries";
 
     /**
      * Constant to show map
      */
-    public static final String SHOW_MAP = "showmap";
+    public static final String SHOW_MAP = "show_map";
 
     /**
      * Constant to deploy armies
@@ -163,5 +163,5 @@ public class WarzoneConstants {
     /**
      * Constant to validate map
      */
-    public static final String VALIDATE_MAP = "validatemap";
+    public static final String VALIDATE_MAP = "validate_map";
 }
