@@ -7,101 +7,95 @@ package test.java.com.warzone.entities;
         import static org.junit.jupiter.api.Assertions.*;
 
     /**
-     * JUnit test cases for the Country class.
-     * Test case to verify the correct retrieval of the country ID, name.
-     * Test case to verify the correct setting of the country name.
-     * Test case to verify the correct retrieval and setting of the continent name.
-     * Test case to ensure that the map of adjacent countries is initially empty.
-     * Test case to verify the correct addition of adjacent countries to the map.
+     * Provides comprehensive test coverage for the {@link Country} class, focusing on
+     * validating the functionality of ID, name, continent presence, and adjacency relationship management.
+     * This includes testing the retrieval and assignment of country properties and the integrity of the adjacency relationships.
      *
      * @author Niloufar Pilgush
      * @author Nasrin Maarefi
      * @author Jerome Kithinji
      * @author Ali sayed Salehi
      * @author Fatemeh Chaji
-     * @version 1.0.0
+     * @version 2.0.0
      */
     public class CountryTest {
+        private Country d_country;
 
         /**
-         * Class to be tested.
+         * Initializes a {@link Country} instance with predefined attributes before each test, ensuring a consistent test environment.
          */
-        private Country country;
 
-        /**
-         * Method to se tup country before every test.
-         */
         @BeforeEach
         public void setUp() {
-            country = new Country(100, "Iran", "Yes");
+            d_country = new Country(100, "Iran", "Yes");
         }
 
         /**
-         * Test case to test getId
+         * Validates the retrieval of a country's ID, ensuring the getter method correctly returns the ID set upon instantiation.
          */
+
         @Test
-        public void getIdTest() {
-            assertEquals(100, country.getId());
+        public void testGetId() {
+            assertEquals(100, d_country.getId());
         }
 
         /**
-         * Test case to test getName
+         * Verifies that the country's name is correctly retrieved and consistent with initialization.
          */
+
         @Test
-        public void getNameTest() {
-            assertEquals("Iran", country.getName());
+        public void testGetName() {
+            assertEquals("Iran", d_country.getName());
         }
 
         /**
-         * Test case to set name
+         * Tests the ability to change and retrieve a country's name.
          */
+
         @Test
-        public void setNameTest() {
-            country.setName("Iran");
-            assertEquals("Iran", country.getName());
+        public void testSetName() {
+            d_country.setName("Iran");
+            assertEquals("Iran", d_country.getName());
         }
 
         /**
-         * Test case to check if present in country
+         * Verifies the retrieval of a country's continent presence status.
          */
+
         @Test
-        public void getPresentInContinentTest() {
-            assertEquals("Yes", country.getIsInContinent());
+        public void testGetPresentInContinent() {
+            assertEquals("Yes", d_country.getIsInContinent());
         }
 
         /**
-         * Test case to check set present in continent
+         * Tests setting and getting a country's continent presence status.
          */
+
         @Test
-        public void setPresentInContinentTest() {
-            country.setIsInContinent("Asia");
-            assertEquals("Asia", country.getIsInContinent());
+        public void testSetPresentInContinent() {
+            d_country.setIsInContinent("Asia");
+            assertEquals("Asia", d_country.getIsInContinent());
         }
 
         /**
-         * Test case to get adjacent countries initially empty
+         * Verifies that a new country's adjacent countries map is initially empty.
          */
+
         @Test
-        public void getAdjacentCountriesInitiallyEmptyTest() {
-            Map<Long, String> adjacentCountries = country.getAdjacentCountries();
-            assertNotNull(adjacentCountries);
-            assertTrue(adjacentCountries.isEmpty());
+        public void testGetAdjacentCountriesInitiallyEmpty() {
+            assertTrue(d_country.getAdjacentCountries().isEmpty());
         }
 
         /**
-         * Test case to add adjacent country
+         * Tests the addition of adjacent countries and verifies the updated adjacency relationship.
          */
-        @Test
-        public void addAdjacentCountryTest() {
-            country.addAdjacentCountry(2L, "Country2");
-            country.addAdjacentCountry(3L, "Country3");
 
-            Map<Long, String> adjacentCountries = country.getAdjacentCountries();
-            assertNotNull(adjacentCountries);
-            assertEquals(2, adjacentCountries.size());
-            assertTrue(adjacentCountries.containsKey(2L));
-            assertTrue(adjacentCountries.containsKey(3L));
-            assertEquals("Country2", adjacentCountries.get(2L));
-            assertEquals("Country3", adjacentCountries.get(3L));
+        @Test
+        public void testAddAdjacentCountry() {
+            d_country.addAdjacentCountry(2L, "Country2");
+            d_country.addAdjacentCountry(3L, "Country3");
+
+            Map<Long, String> adjacentCountries = d_country.getAdjacentCountries();
+            assertEquals(Map.of(2L, "Country2", 3L, "Country3"), adjacentCountries);
         }
     }
