@@ -1,4 +1,4 @@
-package main.java.warzone.entities;
+package main.java.warzone.entities.orders;
 import main.java.warzone.entities.GameSession;
 import  main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
@@ -17,7 +17,7 @@ import  main.java.warzone.utils.logging.impl.LogEntryBuffer;
  * @version 2.0.0
  */
 
-public class Order {
+public abstract class Order {
 
     /**
      * Member to hold details of the order
