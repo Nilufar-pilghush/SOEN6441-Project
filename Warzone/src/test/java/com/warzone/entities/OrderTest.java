@@ -1,7 +1,7 @@
 package test.java.com.warzone.entities;
 
         import main.java.warzone.entities.GameSession;
-        import main.java.warzone.entities.Order;
+        import main.java.warzone.entities.orders.Order;
         import main.java.warzone.exceptions.WarzoneValidationException;
         import org.junit.jupiter.api.Assertions;
         import org.junit.jupiter.api.BeforeEach;

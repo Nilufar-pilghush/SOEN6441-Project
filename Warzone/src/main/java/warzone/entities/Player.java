@@ -1,4 +1,5 @@
 package main.java.warzone.entities;
+import main.java.warzone.entities.orders.Order;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
