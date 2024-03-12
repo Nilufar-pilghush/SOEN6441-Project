@@ -1,4 +1,4 @@
-package main.java.warzone.entities;
+package main.java.warzone.entities.orders;
 
 /**
  * Stores the details of a given order

@@ -1,7 +1,7 @@
 package main.java.warzone.services.impl;
 import main.java.warzone.entities.GamePhase;
 import main.java.warzone.entities.GameSession;
-import main.java.warzone.entities.Order;
+import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.Player;
 import main.java.warzone.services.GamePhaseService;
 
