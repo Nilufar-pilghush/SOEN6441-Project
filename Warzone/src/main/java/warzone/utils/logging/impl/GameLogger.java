@@ -19,6 +19,10 @@ import java.util.Objects;
  */
 public class GameLogger implements Observer {
 
+    public GameLogger() {
+        clearLogContent();
+    }
+
     /**
      * Handles the update notifications by logging them to a file.
      * This method is called whenever an observed object changes and needs
@@ -30,10 +34,7 @@ public class GameLogger implements Observer {
      */
     @Override
     public boolean update(String p_NotificationMessage) {
-        File l_LogDirectory = new File("LOGS_DIR");
-        if (!l_LogDirectory.exists()) {
-            l_LogDirectory.mkdirs();
-        }
+        makeDirectoryIfAbsent("logs");
         PrintWriter l_LogWriter = null;
         try {
             l_LogWriter = new PrintWriter(new BufferedWriter(new FileWriter("logs" + "/" + "warzoneLogs.log", true)));
@@ -47,4 +48,29 @@ public class GameLogger implements Observer {
         }
         return true;
     }
+
+    /**
+     * Creates the log directory if it does not exist.
+     *
+     * @param p_DirectoryName The name of the directory to create.
+     */
+    private static void makeDirectoryIfAbsent(String p_DirectoryName) {
+        File l_LogDirectory = new File(p_DirectoryName);
+        if (!l_LogDirectory.exists()) {
+            l_LogDirectory.mkdirs();
+        }
+    }
+
+    /**
+     * Method to clear the existing logs in the log file.
+     */
+    private void clearLogContent() {
+        makeDirectoryIfAbsent("logs");
+        File l_LogFile = new File("logs" + "/" + "warzoneLogs.log");
+        if (l_LogFile.exists()) {
+            l_LogFile.delete();
+        }
+    }
+
+
 }

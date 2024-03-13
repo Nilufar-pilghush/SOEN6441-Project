@@ -9,7 +9,6 @@ import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 /**
  * Deals with the bomb order execution in {@link Order}.
- * It halves the number of armies in a specified target country.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi

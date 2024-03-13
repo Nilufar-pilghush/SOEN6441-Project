@@ -8,16 +8,41 @@ import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
+/**
+ * Deals with the deploy order execution in {@link Order}.
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali Sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 2.0.0
+ */
 public class DeployOrderCommand extends Order {
 
+    /**
+     * LogEntryBuffer object for logging the user play data.
+     */
     private LogEntryBuffer d_LogEntryBuffer;
 
+    /**
+     * Constructor to create a deployment order command.
+     *
+     * @param p_PlayerName      Name of the player initiating the deployment.
+     * @param p_TargetCountry   Name of the target country for deployment.
+     * @param p_NumberOfArmies  Number of armies to be deployed.
+     */
     public DeployOrderCommand(String p_PlayerName, String p_TargetCountry, int p_NumberOfArmies) {
         super(p_PlayerName, p_TargetCountry, p_NumberOfArmies);
         this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
         this.setOrderType(WarzoneConstants.DEPLOY);
     }
 
+    /**
+     * Executes the deployment order command.
+     *
+     * @param p_GameSession Current game session.
+     */
     @Override
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
