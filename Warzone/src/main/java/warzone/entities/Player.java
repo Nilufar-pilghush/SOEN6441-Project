@@ -43,12 +43,19 @@ public class Player {
     private List<Order> d_OrderList;
 
     /**
+     * Set of players with whom player has diplomacy with.
+     */
+    private Set<String> d_DiplomacyPlayers;
+
+    /**
      * @exclude
      */
     public Player(String p_Name) {
         this.d_Name = p_Name;
         d_OwnedCountries = new HashSet<>();
         d_OrderList = new java.util.ArrayList<>();
+        d_DiplomacyPlayers = new HashSet<>();
+
     }
 
     /**
@@ -195,5 +202,24 @@ public class Player {
     public boolean ownsCountry(String p_CountryName) {
 
         return this.d_OwnedCountries.contains(p_CountryName);
+    }
+
+
+    /**
+     * Method to retrieves the collection of players currently engaged in diplomacy.
+     *
+     * @return A set containing the names of players involved in diplomatic agreements.
+     */
+    public Set<String> getDiplomacyPlayers() {
+        return d_DiplomacyPlayers;
+    }
+
+    /**
+     * Method to add a diplomacy player
+     *
+     * @param p_DiplomacyPlayer Name of player to be added as a diplomatic
+     */
+    public void addDiplomacyPlayer(String p_DiplomacyPlayer) {
+        this.d_DiplomacyPlayers.add(p_DiplomacyPlayer);
     }
 }

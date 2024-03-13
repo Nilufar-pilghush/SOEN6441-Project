@@ -169,4 +169,9 @@ public class WarzoneConstants {
      * Constant to bomb
      */
     public static final String BOMB = "bomb";
+
+    /**
+     * Constant for negotiate
+     */
+    public static final String NEGOTIATE = "negotiate";
 }
