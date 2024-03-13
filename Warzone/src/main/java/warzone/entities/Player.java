@@ -54,7 +54,7 @@ public class Player {
     private boolean d_EarnedCardThisTurn;
 
     /**
-     * Set of players with whom player has diplomacy
+     * Set of players with whom player has diplomacy with.
      */
     private Set<String> d_DiplomacyPlayers;
 
@@ -62,6 +62,7 @@ public class Player {
      * Cards owned by player
      */
     private Set<String> d_OwnedCards;
+  
     /**
      * Constructs a new Player with the given name and initializes the set of owned country IDs.
      *
@@ -327,9 +328,9 @@ public class Player {
     }
 
     /**
-     * Method to add diplomacy player
+     * Method to add a diplomacy player
      *
-     * @param p_DiplomacyPlayer Name of diplomacy player
+     * @param p_DiplomacyPlayer Name of player to be added as a diplomatic
      */
     public void addDiplomacyPlayer(String p_DiplomacyPlayer) {
         this.d_DiplomacyPlayers.add(p_DiplomacyPlayer);
@@ -360,10 +361,4 @@ public class Player {
     public void resetDiplomacyPlayers() {
         this.d_DiplomacyPlayers = new HashSet<>();
     }
-
-
-
-
-
-
 }
