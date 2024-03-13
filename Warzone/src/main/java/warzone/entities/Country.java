@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 public class Country {
@@ -49,20 +49,21 @@ public class Country {
      */
     private Map<Long, String> d_AdjacentCountries;
 
-    //constructor
     /**
-     * @exclude
+     * Constructs a new Country with the specified name, continent, and ID.
+     *
+     * @param p_Name               Name of the country.
+     * @param p_IsInContinent Continent in which the country is present.
+     * @param p_Id                 Unique identifier for the country.
      */
-    public Country(long p_Id, String p_Name, String p_IsInContinent) {
-
-        this.d_Id = p_Id;
+    public Country(String p_Name, String p_IsInContinent, Long p_Id) {
         this.d_Name = p_Name;
-        this.d_Owner = null;
-        //default number of armies in each country
-        this.d_NumberOfArmies = 1;
         this.d_IsInContinent = p_IsInContinent;
-        this.d_AdjacentCountries = new HashMap<>();
-
+        this.d_Id = p_Id;
+        this.d_Owner = null;
+        d_AdjacentCountries = new HashMap<>();
+        // Default number of armies in a country is 1
+        this.d_NumberOfArmies = 1;
     }
 
     /**
