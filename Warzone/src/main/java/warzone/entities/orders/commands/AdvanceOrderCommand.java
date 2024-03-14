@@ -7,16 +7,46 @@ import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
+
+/**
+ * Implementation of the {@link Order} interface for executing the advance order.
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali Sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 2.0.0
+ */
 public class AdvanceOrderCommand extends Order {
 
+
+    /**
+     * LogEntryBuffer instance for recording log data.
+     */
     private LogEntryBuffer d_LogEntryBuffer;
 
+
+    /**
+     * Constructor for Initializing an advance order with the specified details.
+     *
+     * @param p_PlayerName     The name of the commanding player.
+     * @param p_SourceCountry  The initiating country for the attack.
+     * @param p_TargetCountry  The receiving country of the attack.
+     * @param p_NumberOfArmies The count of armies involved in the attack.
+     */
     public AdvanceOrderCommand(String p_PlayerName, String p_SourceCountry, String p_TargetCountry, int p_NumberOfArmies) {
         super(p_PlayerName, p_SourceCountry, p_TargetCountry, p_NumberOfArmies);
         this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
         this.setOrderType(WarzoneConstants.ADVANCE);
     }
 
+
+    /**
+     * Executes the advance order within the given game session.
+     *
+     * @param p_GameSession The current instance of the game session.
+     */
     @Override
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
