@@ -7,16 +7,42 @@ import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
+/**
+ * Implementation of the {@link Order} interface for executing the airlift order.
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali Sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 2.0.0
+ */
 public class AirliftOrderCommand extends Order {
 
+    /**
+     * LogEntryBuffer instance for recording log data.
+     */
     private LogEntryBuffer d_LogEntryBuffer;
 
+    /**
+     * Constructor for Initializing an airlift order with the specified details.
+     *
+     * @param p_PlayerName     Name of the player
+     * @param p_SourceCountry  Source country to attack
+     * @param p_TargetCountry  Target country to attack
+     * @param p_NumberOfArmies Number of armies in attack
+     */
     public AirliftOrderCommand(String p_PlayerName, String p_SourceCountry, String p_TargetCountry, int p_NumberOfArmies) {
         super(p_PlayerName, p_SourceCountry, p_TargetCountry, p_NumberOfArmies);
         this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
         this.setOrderType(WarzoneConstants.AIRLIFT);
     }
 
+    /**
+     * Executes the airlift order within the given game session.
+     *
+     * @param p_GameSession The current instance of the game session.
+     */
     @Override
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
