@@ -3,6 +3,7 @@ package main.java.warzone.entities.orders.commands;
 import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.entities.Country;
 import main.java.warzone.entities.GameSession;
+import main.java.warzone.entities.Player;
 import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
@@ -38,7 +39,7 @@ public class AdvanceOrderCommand extends Order {
     public AdvanceOrderCommand(String p_PlayerName, String p_SourceCountry, String p_TargetCountry, int p_NumberOfArmies) {
         super(p_PlayerName, p_SourceCountry, p_TargetCountry, p_NumberOfArmies);
         this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
-        this.setOrderType(WarzoneConstants.ADVANCE);
+        this.setOrderType("advance");
     }
 
 
@@ -51,8 +52,8 @@ public class AdvanceOrderCommand extends Order {
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
         d_LogEntryBuffer.logData("Executing attack order for " + this.getOrderDetails().getPlayerName() + " on " + this.getOrderDetails().getTargetCountry() + " from " + this.getOrderDetails().getSourceCountry() + " with " + this.getOrderDetails().getNumberOfArmies() + " armies");
-        Country l_SourceCountry = p_GameSession.getCountriesOfSession().get(this.getOrderDetails().getSourceCountry());
-        Country l_TargetCountry = p_GameSession.getCountriesOfSession().get(l_OrderDetails.getTargetCountry());
+        Country l_SourceCountry = p_GameSession.getCountriesInSession().get(this.getOrderDetails().getSourceCountry());
+        Country l_TargetCountry = p_GameSession.getCountriesInSession().get(l_OrderDetails.getTargetCountry());
         // If not owned by player then subtract armies & update owner
         int l_RemainingAttackers = this.getRemainingAttackers(l_OrderDetails.getNumberOfArmies(), l_TargetCountry.getNumberOfArmies());
         int l_RemainingDefenders = this.getRemainingDefenders(l_OrderDetails.getNumberOfArmies(), l_TargetCountry.getNumberOfArmies());

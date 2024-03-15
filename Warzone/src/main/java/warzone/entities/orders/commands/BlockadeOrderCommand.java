@@ -29,14 +29,12 @@ public class BlockadeOrderCommand extends Order {
      * Constructor for Initializing a blockade order with the specified details.
      *
      * @param p_PlayerName     Name of the player
-     * @param p_SourceCountry  Source country to attack
      * @param p_TargetCountry  Target country to attack
-     * @param p_NumberOfArmies Number of armies in attack
      */
     public BlockadeOrderCommand(String p_PlayerName, String p_TargetCountry) {
         super(p_PlayerName, p_TargetCountry, 0);
         this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
-        this.setOrderType(WarzoneConstants.BLOCKADE);
+        this.setOrderType("blockade");
     }
 
 
@@ -51,7 +49,7 @@ public class BlockadeOrderCommand extends Order {
         d_LogEntryBuffer.logData("Executing blockade order for " + l_OrderDetails.getPlayerName() + " on " + l_OrderDetails.getTargetCountry());
 
         // Triple the number of armies in the target country
-        Country l_TargetCountry = p_GameSession.getCountriesOfSession().get(l_OrderDetails.getTargetCountry());
+        Country l_TargetCountry = p_GameSession.getCountriesInSession().get(l_OrderDetails.getTargetCountry());
         int l_Armies = l_TargetCountry.getNumberOfArmies();
         l_TargetCountry.setNumberOfArmies(Math.multiplyExact(l_Armies, 3));
 

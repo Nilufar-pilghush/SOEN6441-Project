@@ -3,6 +3,7 @@ package main.java.warzone.entities.orders.commands;
 import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.entities.Country;
 import main.java.warzone.entities.GameSession;
+import main.java.warzone.entities.Player;
 import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
@@ -35,7 +36,7 @@ public class AirliftOrderCommand extends Order {
     public AirliftOrderCommand(String p_PlayerName, String p_SourceCountry, String p_TargetCountry, int p_NumberOfArmies) {
         super(p_PlayerName, p_SourceCountry, p_TargetCountry, p_NumberOfArmies);
         this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
-        this.setOrderType(WarzoneConstants.AIRLIFT);
+        this.setOrderType("airlift");
     }
 
     /**
@@ -47,8 +48,8 @@ public class AirliftOrderCommand extends Order {
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
         d_LogEntryBuffer.logData("Executing airlift order for " + l_OrderDetails.getPlayerName() + " from " + l_OrderDetails.getSourceCountry() + " to " + l_OrderDetails.getTargetCountry() + " with " + l_OrderDetails.getNumberOfArmies() + " armies");
-        Country l_SourceCountry = p_GameSession.getCountriesOfSession().get(l_OrderDetails.getSourceCountry());
-        Country l_TargetCountry = p_GameSession.getCountriesOfSession().get(l_OrderDetails.getTargetCountry());
+        Country l_SourceCountry = p_GameSession.getCountriesInSession().get(l_OrderDetails.getSourceCountry());
+        Country l_TargetCountry = p_GameSession.getCountriesInSession().get(l_OrderDetails.getTargetCountry());
         // If not owned by the player, then subtract armies & update owner
         int l_RemainingAttackers = this.getRemainingAttackers(l_OrderDetails.getNumberOfArmies(), l_TargetCountry.getNumberOfArmies());
         int l_RemainingDefenders = this.getRemainingDefenders(l_OrderDetails.getNumberOfArmies(), l_TargetCountry.getNumberOfArmies());
@@ -73,7 +74,7 @@ public class AirliftOrderCommand extends Order {
             l_TargetCountry.addArmies(l_OrderDetails.getNumberOfArmies());
         }
         // Reduce source country armies
-        l_SourceCountry.subtractArmies(l_OrderDetails.getNumberOfArmies());
+        l_SourceCountry.addArmies(l_OrderDetails.getNumberOfArmies());
         this.runPostExecute(p_GameSession);
     }
 
