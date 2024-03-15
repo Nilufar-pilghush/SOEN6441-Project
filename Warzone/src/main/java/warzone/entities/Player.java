@@ -3,12 +3,12 @@ import main.java.warzone.entities.orders.Order;
 
 import java.util.*;
 
-import main.java.warzone.entities.commands.AdvanceOrderCommand;
-import main.java.warzone.entities.commands.BombOrderCommand;
-import main.java.warzone.entities.commands.DeployOrderCommand;
-import main.java.warzone.entities.commands.BlockadeOrderCommand;
-import main.java.warzone.entities.commands.DiplomacyOrderCommand;
-import main.java.warzone.entities.commands.AirliftOrderCommand;
+import main.java.warzone.entities.orders.commands.AdvanceOrderCommand;
+import main.java.warzone.entities.orders.commands.BombOrderCommand;
+import main.java.warzone.entities.orders.commands.DeployOrderCommand;
+import main.java.warzone.entities.orders.commands.BlockadeOrderCommand;
+import main.java.warzone.entities.orders.commands.DiplomacyOrderCommand;
+import main.java.warzone.entities.orders.commands.AirliftOrderCommand;
 
 /**
  * Represents a player in the Warzone main.java.game.
