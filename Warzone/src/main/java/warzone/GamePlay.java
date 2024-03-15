@@ -2,23 +2,42 @@ package main.java.warzone;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
 import main.java.warzone.entities.GamePhase;
 
 import main.java.warzone.exceptions.WarzoneBaseException;
+import main.java.warzone.utils.logging.impl.ConsoleLogger;
+import main.java.warzone.utils.logging.impl.GameLogger;
+import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 /**
  * Concrete class to manage the main menu of the game.
  * The GamePlay class serves as the entry point for the Warzone-Risk game.
  * It enables the presentation of the main menu to the player and
  * navigates them to different game sections depending on their choice.
+ *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 public class GamePlay {
+
+    /**
+     * LogEntryBuffer object for logging the user play data.
+     */
+    private LogEntryBuffer d_LogEntryBuffer;
+
+    /**
+     * Constructor to instantiate game play.
+     */
+    public GamePlay() {
+        d_LogEntryBuffer = LogEntryBuffer.getInstance();
+        d_LogEntryBuffer.registerObserver(new ConsoleLogger());
+        d_LogEntryBuffer.registerObserver(new GameLogger());
+    }
 
     /**
      * Presents the Warzone-Risk game's main menu to the player.
@@ -32,21 +51,21 @@ public class GamePlay {
         public boolean showMainMenu() throws WarzoneBaseException {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             GamePhase l_GamePhase = null;
-            System.out.println();
-            System.out.println("********************************************************");
-            System.out.println("\t\t\tSOEN-6441, Winter 2024, Concordia University");
-            System.out.println("\t\t\tWarzone-Risk Game Project, Build 01");
-            System.out.println("\t\t\t\t\t\t\t");
-            System.out.println("********************************************************");
+            d_LogEntryBuffer.logData("");
+            d_LogEntryBuffer.logData("********************************************************");
+            d_LogEntryBuffer.logData("\t\t\tSOEN-6441, Winter 2024, Concordia University");
+            d_LogEntryBuffer.logData("\t\t\tWarzone-Risk Game Project, Build 02");
+            d_LogEntryBuffer.logData("\t\t\t\t\t\t\t");
+            d_LogEntryBuffer.logData("********************************************************");
             boolean l_IsValid = false;
             while (!l_IsValid) {
                 try {
-                    System.out.println("********************************************************");
-                    System.out.println("Choose One Option: ");
-                    System.out.println("\t\t\t\t\t  1 Edit Map");
-                    System.out.println("\t\t\t\t\t  2 Start Game");
-                    System.out.println("\t\t\t\t\t  3 Exit Game");
-                    System.out.println("********************************************************");
+                    d_LogEntryBuffer.logData("********************************************************");
+                    d_LogEntryBuffer.logData("Choose One Option: ");
+                    d_LogEntryBuffer.logData("\t\t\t\t\t  1 Edit Map");
+                    d_LogEntryBuffer.logData("\t\t\t\t\t  2 Start Game");
+                    d_LogEntryBuffer.logData("\t\t\t\t\t  3 Exit Game");
+                    d_LogEntryBuffer.logData("********************************************************");
                     int l_SelectedOption = Integer.parseInt(br.readLine());
                     switch (l_SelectedOption) {
                         case 1 -> {
@@ -64,12 +83,12 @@ public class GamePlay {
 
                         }
                         default -> {
-                            System.out.println("Invalid option--> " + l_SelectedOption);
+                            d_LogEntryBuffer.logData("Invalid option--> " + l_SelectedOption);
                             continue;
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("Invalid user command");
+                    d_LogEntryBuffer.logData("Invalid user command");
                 }
                 if(l_IsValid) {
                     GameEngine l_GameEngine = new GameEngine();

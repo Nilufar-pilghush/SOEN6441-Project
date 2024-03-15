@@ -3,6 +3,7 @@ package main.java.warzone;
 import main.java.warzone.entities.GamePhase;
 import main.java.warzone.exceptions.WarzoneBaseException;
 import main.java.warzone.services.GamePhaseService;
+import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 /**
  * Class to handle different phase of main.java.game and drive the complete main.java.game.
@@ -14,11 +15,23 @@ import main.java.warzone.services.GamePhaseService;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  *
  */
 
 public class GameEngine {
+
+    /**
+     * LogEntryBuffer object for logging the user play data.
+     */
+    private LogEntryBuffer d_LogEntryBuffer;
+
+    /**
+     * Constructor to instantiate game engine
+     */
+    public GameEngine() {
+        d_LogEntryBuffer = LogEntryBuffer.getInstance();
+    }
 
     /**
      * Handles the given game phase. If the phase is not EXIT, it retrieves
@@ -30,11 +43,11 @@ public class GameEngine {
      */
     public void handleGamePhases(GamePhase p_GamePhase) throws WarzoneBaseException {
         if (p_GamePhase != GamePhase.EXIT) {
-            GamePhaseService l_PhaseService = p_GamePhase.getWarzonePhase(p_GamePhase);
+            GamePhaseService l_PhaseService = p_GamePhase.getWarzonePhase();
             GamePhase l_UpcomingPhase = l_PhaseService.handleGamePhase(p_GamePhase);
             handleGamePhases(l_UpcomingPhase);
         } else {
-            System.out.println("Exiting game play loop....");
+            d_LogEntryBuffer.logData("Exiting game play loop....");
         }
     }
 }
