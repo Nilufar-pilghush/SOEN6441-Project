@@ -136,3 +136,42 @@ jobs:
           mvn javadoc:javadoc
 ```
 
+## Implemented Design Patterns
+### State Pattern
+The State pattern is used to manage the various phases of the application, including those in the map editor and game play. It allows an object, in this case, the GameEngine class, to change its behavior when its internal state changes. Each phase of the game, such as startup, issue order, and order execution, is represented by a concrete state class that implements a common interface. The GameEngine class delegates the behavior specific to each phase to the current state object, allowing the game to progress through its different phases seamlessly.
+
+### Command Pattern
+The Observer pattern is used to implement a game log file that records every action taken during the game. A LogEntryBuffer class acts as the subject, maintaining a list of observers that are interested in changes to the log. Whenever an action is taken, such as executing a command or issuing an order, the LogEntryBuffer is updated with information about the action. Observers, such as a LogFileWriter, are notified of these changes and write the content of the LogEntryBuffer to a log file. This pattern allows players and spectators to review all the actions that occurred during a game, providing valuable insights and improving transparency.
+
+### Observer Pattern
+The Observer pattern is used to implement a game log file that records every action taken during the game. A LogEntryBuffer class acts as the subject, maintaining a list of observers that are interested in changes to the log. Whenever an action is taken, such as executing a command or issuing an order, the LogEntryBuffer is updated with information about the action. Observers, such as a LogFileWriter, are notified of these changes and write the content of the LogEntryBuffer to a log file. This pattern allows players and spectators to review all the actions that occurred during a game, providing valuable insights and improving transparency.
+
+Below is an example method that uses the observer pattern:
+
+```java
+ /**
+  * Handles the update notifications by logging them to a file.
+  * This method is called whenever an observed object changes and needs
+  * to notify its observers.
+  *
+  * @param p_NotificationMessage The message to log, indicating a specific
+  *                              game event or state change.
+  * @return Always returns true to indicate successful logging.
+  */
+ @Override
+ public boolean update(String p_NotificationMessage) {
+     makeDirectoryIfAbsent("logs");
+     PrintWriter l_LogWriter = null;
+     try {
+         l_LogWriter = new PrintWriter(new BufferedWriter(new FileWriter("logs" + "/" + "warzoneLogs.log", true)));
+         l_LogWriter.println(p_NotificationMessage);
+     } catch (IOException e) {
+         System.out.println(e);
+     } finally {
+         if (l_LogWriter != null) {
+             l_LogWriter.close();
+         }
+     }
+     return true;
+ }
+```

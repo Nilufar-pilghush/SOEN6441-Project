@@ -11,7 +11,7 @@ import main.java.warzone.utils.logging.Observer;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @since 1.0.0
+ * @since 2.0.0
  */
 public class ConsoleLogger implements Observer {
 
