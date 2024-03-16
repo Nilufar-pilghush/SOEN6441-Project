@@ -38,7 +38,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
         System.out.println("Main game loop service handler");
         Scanner l_InputScanner = new Scanner(System.in);
-        GamePhase l_NextGamePhase = p_CurrPhase.getNextPhaseInLoop(d_GameSession.getCurrGamePhase());
+        GamePhase l_NextGamePhase = p_CurrPhase.getNextPhaseInMainGameLoop(d_GameSession.getCurrGamePhase());
         while (true) {
             displayHelpCommandsForGamePhase(l_NextGamePhase);
             String l_UserInput = l_InputScanner.nextLine();

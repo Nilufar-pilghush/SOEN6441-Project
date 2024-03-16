@@ -13,7 +13,7 @@ import main.java.warzone.constants.WarzoneConstants;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class CmdUtils {
     /**

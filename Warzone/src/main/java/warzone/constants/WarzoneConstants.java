@@ -164,4 +164,14 @@ public class WarzoneConstants {
      * Constant to validate map
      */
     public static final String VALIDATE_MAP = "validate_map";
+
+    /**
+     * Constant to bomb
+     */
+    public static final String BOMB = "bomb";
+
+    /**
+     * Constant for negotiate
+     */
+    public static final String NEGOTIATE = "negotiate";
 }

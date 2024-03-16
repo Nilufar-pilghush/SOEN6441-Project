@@ -1,0 +1,41 @@
+editcontinent -add Asia 5
+editcontinent -add Africa 4
+
+editcountry -add iran Asia
+editcountry -add china Asia
+editcountry -add india Asia
+editcountry -add iraq Asia
+editcountry -add japan Asia
+
+
+
+
+editcountry -add chad Africa
+editcountry -add cameron Africa
+editcountry -add neiger Africa
+editcountry -add chana Africa
+
+
+
+editneighbor -add chad cameron
+editneighbor -add iran iraq
+editneighbor -add japan china
+editneighbor -add india iraq
+editneighbor -add india china
+
+
+editneighbor -add chana neiger
+editneighbor -add chad neiger
+
+editneighbor -add chad iran
+
+
+validatemap
+
+
+gameplayer -add Jerome
+gameplayer -add Nasrin
+assigncountries
+
+
+

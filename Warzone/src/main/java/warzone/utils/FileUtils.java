@@ -1,5 +1,6 @@
 package main.java.warzone.utils;
 import main.java.warzone.constants.WarzoneConstants;
+import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,9 +15,15 @@ import java.io.InputStream;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class FileUtils {
+
+    /**
+     * LogEntryBuffer object to log the information
+     * and notifying all the observers
+     */
+    private static LogEntryBuffer d_LogEntryBuffer = LogEntryBuffer.getInstance();
 
     /**
      * creates the data stream from the map file
@@ -37,34 +44,34 @@ public class FileUtils {
 
 
     /**
-     * This method is used to list the main.java.game sessions maps available
-     * in the maps directory for efficient main.java.game play
+     * This method is used to list the game sessions maps available
+     * in the maps directory for efficient game play
      *
      * @return True if list maps is successful, false otherwise.
-     * @throws FileNotFoundException if the main.java.game sessions directory with maps is not present
+     * @throws FileNotFoundException if the game sessions directory with maps is not present
      */
     public static boolean listMaps() throws FileNotFoundException {
         File l_MapsDir = new File(WarzoneConstants.GAME_SESSIONS + WarzoneConstants.FORWARD_SLASH);
         if (l_MapsDir.exists()) {
             File[] l_ExistingMaps = l_MapsDir.listFiles();
             if (l_ExistingMaps == null || l_ExistingMaps.length == 0) {
-                System.out.println("No existing maps found");
+                d_LogEntryBuffer.logData("No existing maps found");
                 return true;
             }
-            System.out.print("Available maps--> ");
+            StringBuilder response = new StringBuilder("Available maps--> ");
             for (int l_MapIndex = 0; l_MapIndex < l_ExistingMaps.length; l_MapIndex++) {
                 File l_Map = l_ExistingMaps[l_MapIndex];
                 if (l_Map.getName().endsWith(WarzoneConstants.GAME_MAP_EXTENSION)) {
-                    System.out.print(l_Map.getName());
+                    response.append(l_Map.getName());
                     if (l_MapIndex != l_ExistingMaps.length - 1) {
-                        System.out.print(WarzoneConstants.COMMA + WarzoneConstants.SPACE);
+                        response.append(WarzoneConstants.COMMA + WarzoneConstants.SPACE);
                     }
                 }
             }
-            System.out.println();
+            d_LogEntryBuffer.logData(response.toString());
             return true;
         } else {
-            System.out.println("Unable to find main.java.game sessions directory.");
+            d_LogEntryBuffer.logData("Unable to find game worlds directory.");
             throw new FileNotFoundException();
         }
     }
