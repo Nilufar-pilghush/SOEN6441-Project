@@ -179,4 +179,24 @@ public class WarzoneConstants {
      * Constant to print empty
      */
     public static final String EMPTY = "";
+
+    /**
+     * Constant to attack armies
+     */
+    public static final String ADVANCE = "advance";
+
+    /**
+     * Constant for blockade
+     */
+    public static final String BLOCKADE = "blockade";
+
+    /**
+     * Constant for airlift
+     */
+    public static final String AIRLIFT = "airlift";
+
+    /**
+     * List of available cards
+     */
+    public static String[] CARDS_LIST = {BOMB, BLOCKADE, AIRLIFT, NEGOTIATE};
 }
