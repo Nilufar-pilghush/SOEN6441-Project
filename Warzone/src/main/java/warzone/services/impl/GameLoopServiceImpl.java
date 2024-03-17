@@ -6,6 +6,7 @@ import main.java.warzone.entities.GamePhase;
 import main.java.warzone.entities.GameSession;
 import main.java.warzone.services.GamePhaseService;
 import main.java.warzone.utils.CmdUtils;
+import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 import java.util.*;
 
@@ -17,7 +18,7 @@ import java.util.*;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 public class GameLoopServiceImpl implements GamePhaseService {
@@ -28,22 +29,30 @@ public class GameLoopServiceImpl implements GamePhaseService {
     private GameSession d_GameSession;
 
     /**
+     * LogEntryBuffer object to log the information
+     * and notifying all the observers
+     */
+    private LogEntryBuffer d_LogEntryBuffer;
+
+
+    /**
      * Constructor to initialize MainGameLoopService
      */
-    public GameLoopServiceImpl(){
+    public GameLoopServiceImpl() {
         d_GameSession = GameSession.getInstance();
+        d_LogEntryBuffer = LogEntryBuffer.getInstance();
     }
 
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
-        System.out.println("Main game loop service handler");
+        d_LogEntryBuffer.logData("Main game loop service handler");
         Scanner l_InputScanner = new Scanner(System.in);
-        GamePhase l_NextGamePhase = p_CurrPhase.getNextPhaseInMainGameLoop(d_GameSession.getCurrGamePhase());
+        GamePhase l_NextPhase = p_CurrPhase.getNextPhaseInMainGameLoop(d_GameSession.getCurrGamePhase());
         while (true) {
-            displayHelpCommandsForGamePhase(l_NextGamePhase);
+            displayHelpCommandsForGamePhase(l_NextPhase);
             String l_UserInput = l_InputScanner.nextLine();
             List<String> l_UserInputParts = CmdUtils.tokenizeUserInput(l_UserInput);
-            try{
+            try {
                 String l_PrimaryAction = l_UserInputParts.get(0).toLowerCase();
                 switch (l_PrimaryAction) {
                     case WarzoneConstants.SHOW_MAP -> {
@@ -53,67 +62,74 @@ public class GameLoopServiceImpl implements GamePhaseService {
                         // Do nothing
                     }
                     case WarzoneConstants.EXIT -> {
-                        return GamePhase.EXIT;
+                        return p_CurrPhase.validateAndMoveToNextState(GamePhase.EXIT);
                     }
                     default -> {
-                        return proceedToGamePhase(l_NextGamePhase);
+                        //game loop wants to move to a state, validate if this movement is allowed
+                        return p_CurrPhase.validateAndMoveToNextState(proceedToGamePhase(l_NextPhase));
                     }
                 }
-            }
-            // In case empty input is given
-            catch(IndexOutOfBoundsException e){
-                proceedToGamePhase(l_NextGamePhase);
+            } catch (IndexOutOfBoundsException e) { // In case empty input is given
+                proceedToGamePhase(l_NextPhase);
             }
 
         }
     }
 
+    /**
+     * Method to display help commands for game phase
+     *
+     * @param p_nextPhase Game phase
+     */
     private void displayHelpCommandsForGamePhase(GamePhase p_nextPhase) {
-        System.out.println(".......................................MainGameLoop..........................................");
-        System.out.println("Current phase: " + d_GameSession.getCurrGamePhase());
-        System.out.println("Next phase in queue: " + p_nextPhase);
-        System.out.println("...Enter 'showmap' at any time to view the current state of the map...");
-        System.out.println("...Enter 'exit' at any time to exit the game...");
-        System.out.println("...Enter 'help' show this message...");
-        System.out.println("...Enter nothing to continue to the next phase...");
-        System.out.println("....................................................................................................");
+        d_LogEntryBuffer.logData(".......................................MainGameLoop..........................................");
+        d_LogEntryBuffer.logData("Current phase: " + d_GameSession.getCurrGamePhase());
+        d_LogEntryBuffer.logData("Next phase in queue: " + p_nextPhase);
+        d_LogEntryBuffer.logData("...Enter 'showmap' at any time to view the current state of the map...");
+        d_LogEntryBuffer.logData("...Enter 'exit' at any time to exit the game...");
+        d_LogEntryBuffer.logData("...Enter 'help' show this message...");
+        d_LogEntryBuffer.logData("...Enter nothing to continue to the next phase...");
+        d_LogEntryBuffer.logData("....................................................................................................");
 
     }
 
+    /**
+     * Method to show map
+     */
     private void showMap() {
-        System.out.println("Showing map");
+        d_LogEntryBuffer.logData("Showing map");
         // Print all players
-        System.out.println();
-        System.out.println("--Players:");
+        d_LogEntryBuffer.logData(WarzoneConstants.EMPTY);
+        d_LogEntryBuffer.logData("--Players:");
         for (String l_PlayerName : d_GameSession.getPlayers().keySet()) {
-            System.out.println();
-            System.out.println("--"+l_PlayerName);
-            System.out.println("----Armies: "+ d_GameSession.getPlayers().get(l_PlayerName).getNumberOfArmies());
-            System.out.println("----Owned countries:");
+            d_LogEntryBuffer.logData(WarzoneConstants.EMPTY);
+            d_LogEntryBuffer.logData("--" + l_PlayerName);
+            d_LogEntryBuffer.logData("----Armies: " + d_GameSession.getPlayers().get(l_PlayerName).getNumberOfArmies());
+            d_LogEntryBuffer.logData("----Owned countries:");
             for (String l_CountryName : d_GameSession.getPlayers().get(l_PlayerName).getOwnedCountries()) {
-                System.out.println("------" + l_CountryName);
+                d_LogEntryBuffer.logData("------" + l_CountryName);
             }
         }
 
-        System.out.println();
-        System.out.println();
+        d_LogEntryBuffer.logData(WarzoneConstants.EMPTY);
+        d_LogEntryBuffer.logData(WarzoneConstants.EMPTY);
         // Print all continents
-        System.out.println("---Continents:");
+        d_LogEntryBuffer.logData("---Continents:");
         for (String l_ContinentName : d_GameSession.getContinentsInSession().keySet()) {
-            System.out.println();
-            System.out.println("--"+l_ContinentName);
-            System.out.println("----Countries:");
+            d_LogEntryBuffer.logData(WarzoneConstants.EMPTY);
+            d_LogEntryBuffer.logData("--" + l_ContinentName);
+            d_LogEntryBuffer.logData("----Countries:");
 
             Iterator<Map.Entry<String, Country>> l_CountryIterator = d_GameSession.getContinentsInSession().get(l_ContinentName).getCountries().entrySet().iterator();
             while (l_CountryIterator.hasNext()) {
                 Map.Entry<String, Country> l_CountryEntry = l_CountryIterator.next();
-                System.out.println("----"+l_CountryEntry.getKey());
-                System.out.println("------Armies: "+l_CountryEntry.getValue().getNumberOfArmies());
-                System.out.println("------Owned by:");
-                System.out.println("--------"+l_CountryEntry.getValue().getOwner());
-                System.out.println("------Adjacent countries:");
+                d_LogEntryBuffer.logData("----" + l_CountryEntry.getKey());
+                d_LogEntryBuffer.logData("------Armies: " + l_CountryEntry.getValue().getNumberOfArmies());
+                d_LogEntryBuffer.logData("------Owned by:");
+                d_LogEntryBuffer.logData("--------" + l_CountryEntry.getValue().getOwner());
+                d_LogEntryBuffer.logData("------Adjacent countries:");
                 for (String l_AdjacentCountryName : l_CountryEntry.getValue().getAdjacentCountries().values()) {
-                    System.out.println("--------"+l_AdjacentCountryName);
+                    d_LogEntryBuffer.logData("--------" + l_AdjacentCountryName);
                 }
 
             }
@@ -127,11 +143,10 @@ public class GameLoopServiceImpl implements GamePhaseService {
      * @param p_NextPhase Next game phase.
      * @return Updated game phase.
      */
-    private GamePhase proceedToGamePhase(GamePhase p_NextPhase){
+    private GamePhase proceedToGamePhase(GamePhase p_NextPhase) {
         d_GameSession.setCurrGamePhase(p_NextPhase);
         return p_NextPhase;
     }
-
 
 }
 
