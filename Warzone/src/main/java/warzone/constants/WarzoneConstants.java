@@ -8,7 +8,7 @@ package main.java.warzone.constants;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 
@@ -174,4 +174,9 @@ public class WarzoneConstants {
      * Constant for negotiate
      */
     public static final String NEGOTIATE = "negotiate";
+
+    /**
+     * Constant to print empty
+     */
+    public static final String EMPTY = "";
 }

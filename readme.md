@@ -57,15 +57,15 @@ Any player that does not control at least one territory is removed from the game
 
 The following shows the class diagrams and package diagrams for the first build:
 
-![](designDocs/Warzone_Entity_Diagram.png)
+![](designDocs/Build01/Warzone_Entity_Diagram.png)
 
-![](designDocs/entitiesPackageDiagram.png)
+![](designDocs/Build01/entitiesPackageDiagram.png)
 
-![](designDocs/packagesDiagram.png)
+![](designDocs/Build01/packagesDiagram.png)
 
-![](designDocs/servicesPackageDiagram.png)
+![](designDocs/Build01/servicesPackageDiagram.png)
 
-![](designDocs/utilspackageDiagram.png)
+![](designDocs/Build01/utilspackageDiagram.png)
 
 ## Implementation
 
