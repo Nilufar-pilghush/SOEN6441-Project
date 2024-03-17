@@ -10,8 +10,9 @@ import main.java.warzone.constants.WarzoneConstants;
         import main.java.warzone.utils.CmdUtils;
         import main.java.warzone.utils.FileUtils;
         import main.java.warzone.utils.GameSessionValidator;
+import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
-        import java.io.FileNotFoundException;
+import java.io.FileNotFoundException;
         import java.io.InputStream;
         import java.util.ArrayList;
         import java.util.List;
@@ -26,7 +27,7 @@ import main.java.warzone.constants.WarzoneConstants;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 public class StartupPhaseServiceImpl implements GamePhaseService {
 
@@ -36,10 +37,17 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     private GameSession d_CurrGameSession;
 
     /**
+     * LogEntryBuffer object to log the information and
+     * notify all the observers
+     */
+    private LogEntryBuffer d_LogEntryBuffer;
+
+    /**
      * Constructor to initialize GameStartupPhaseService
      */
     public StartupPhaseServiceImpl() {
         d_CurrGameSession = GameSession.getInstance();
+        d_LogEntryBuffer = LogEntryBuffer.getInstance();
     }
 
 
@@ -52,9 +60,9 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
         Scanner l_InputScanner = new Scanner(System.in);
-        System.out.println();
-        System.out.println("************ Welcome to Game Startup Phase ************");
-        System.out.println("...Enter 'help' at any time to view available commands in this phase...");
+        d_LogEntryBuffer.logData("");
+        d_LogEntryBuffer.logData("************ Welcome to Game Startup Phase ************");
+        d_LogEntryBuffer.logData("...Enter 'help' at any time to view available commands in this phase...");
         while (true) {
             try {
                 String l_UserInput = l_InputScanner.nextLine();
@@ -77,15 +85,15 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
                         displayHelpCommandsForGamePhase();
                     }
                     case WarzoneConstants.EXIT -> {
-                        return GamePhase.MAIN_GAME_LOOP;
+                        return p_CurrPhase.validateAndMoveToNextState(GamePhase.MAIN_GAME_LOOP);
                     }
                     default -> {
-                        System.out.println("Command not found--> " + l_PrimaryAction);
+                        d_LogEntryBuffer.logData("Command not found--> " + l_PrimaryAction);
                         displayHelpCommandsForGamePhase();
                     }
                 }
             } catch (Exception e) {
-                System.out.println(e);
+                d_LogEntryBuffer.logData(e.getMessage());
                 displayHelpCommandsForGamePhase();
             }
         }
@@ -135,7 +143,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
             d_CurrGameSession.clearPreviousSession();
             throw new WarzoneValidationException("Game session is not valid to play.");
         }
-        System.out.println("...Enter 'help' at any time to view available commands in this phase...");
+        d_LogEntryBuffer.logData("...Enter 'help' at any time to view available commands in this phase...");
     }
 
     /**
@@ -156,7 +164,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
             case WarzoneConstants.ADD -> {
                 // Only add player if map is loaded
                 if(GameSessionValidator.isSessionEmpty(d_CurrGameSession)){
-                    System.out.println("Please load a map first");
+                    d_LogEntryBuffer.logData("Please load a map first");
                     return;
                 }
                 d_CurrGameSession.createPlayer(l_SubActions[1]);
@@ -165,7 +173,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
                 d_CurrGameSession.deletePlayer(l_SubActions[1]);
             }
             default -> {
-                System.out.println("Sub command not found--> " + l_SubAction);
+                d_LogEntryBuffer.logData("Sub command not found--> " + l_SubAction);
                 displayHelpCommandsForGamePhase();
             }
         }
@@ -179,7 +187,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     private void assignCountriesToPlayers() throws WarzoneValidationException {
         // Only assign countries if players are added
         if(!GameSessionValidator.arePlayersAdded(d_CurrGameSession)){
-            System.out.println("Please add players first");
+            d_LogEntryBuffer.logData("Please add players first");
             return;
         }
         List<String> l_UnownedCountries = new ArrayList<>();
@@ -199,8 +207,8 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
                 l_UnownedCountries.remove(l_RandomIndex);
             }
         }
-        System.out.println("Countries assigned to players successfully");
-        System.out.println("Remaining unowned countries: " + (l_UnownedCountries.size()));
+        d_LogEntryBuffer.logData("Countries assigned to players successfully");
+        d_LogEntryBuffer.logData("Remaining unowned countries: " + (l_UnownedCountries.size()));
 
     }
 
@@ -208,12 +216,12 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
      * Displays the help commands for the current main.java.game phase.
      */
     private void displayHelpCommandsForGamePhase() {
-        System.out.println(".......................................Startup Phase Commands..........................................");
-        System.out.println("To list existing maps: listmaps");
-        System.out.println("To load a map: loadmap filename");
-        System.out.println("To edit main.java.game players: gameplayer -add playername -remove playername");
-        System.out.println("To assign countries to players: assigncountries");
-        System.out.println("To exit startup phase & start the main.java.game: exit");
-        System.out.println(".......................................................................................................");
+        d_LogEntryBuffer.logData(".......................................Startup Phase Commands..........................................");
+        d_LogEntryBuffer.logData("To list existing maps: listmaps");
+        d_LogEntryBuffer.logData("To load a map: loadmap filename");
+        d_LogEntryBuffer.logData("To edit game players: gameplayer -add playername -remove playername");
+        d_LogEntryBuffer.logData("To assign countries to players: assigncountries");
+        d_LogEntryBuffer.logData("To exit startup phase & start the game: exit");
+        d_LogEntryBuffer.logData(".......................................................................................................");
     }
 }

@@ -29,11 +29,10 @@ public class GameLoopServiceImpl implements GamePhaseService {
     private GameSession d_GameSession;
 
     /**
-     * LogEntryBuffer object to log the information
-     * and notifying all the observers
+     * LogEntryBuffer object to log the information and
+     * notify all the observers
      */
     private LogEntryBuffer d_LogEntryBuffer;
-
 
     /**
      * Constructor to initialize MainGameLoopService
@@ -65,7 +64,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
                         return p_CurrPhase.validateAndMoveToNextState(GamePhase.EXIT);
                     }
                     default -> {
-                        //game loop wants to move to a state, validate if this movement is allowed
+                        // validate change of game state, if the movement is allowed
                         return p_CurrPhase.validateAndMoveToNextState(proceedToGamePhase(l_NextPhase));
                     }
                 }

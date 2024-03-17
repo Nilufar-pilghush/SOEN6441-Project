@@ -1,12 +1,19 @@
 package main.java.warzone.services.impl;
+import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.entities.*;
 import main.java.warzone.services.GamePhaseService;
+import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 /**
- *Implements the {@link GamePhaseService} Orchestrating reinforcement distribution based on owned territories and continent control, ensuring fair play and strategic depth. It updates main.java.game state, transitions phases, and reflects the dynamic nature of military allocation in gameplay, emphasizing the importance of strategic territory control and player progression.
+ *Implements the {@link GamePhaseService} Orchestrating reinforcement distribution based on owned
+ * territories and continent control, ensuring fair play and strategic depth. It updates main.java.game state,
+ * transitions phases, and reflects the dynamic nature of military allocation in gameplay, emphasizing
+ * the importance of strategic territory control and player progression.
+ *
  * Used to handle the reinforcement phase of the main.java.game.
  *
  * @author Niloufar Pilgush
@@ -14,7 +21,7 @@ import java.util.Map;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 
@@ -31,11 +38,18 @@ public class ReinforcementServiceImpl implements GamePhaseService {
     private int d_MinimumReinforcementArmies;
 
     /**
+     * LogEntryBuffer object to log the information and
+     * notify all the observers
+     */
+    private LogEntryBuffer d_LogEntryBuffer;
+
+    /**
      * Constructor to initialize ReinforcementService
      */
     public ReinforcementServiceImpl(){
         d_GameSession = GameSession.getInstance();
         d_MinimumReinforcementArmies = 3;
+        d_LogEntryBuffer = LogEntryBuffer.getInstance();
     }
 
     /**
@@ -47,12 +61,14 @@ public class ReinforcementServiceImpl implements GamePhaseService {
      */
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
-        System.out.println("Reinforcement service handler");
+        d_LogEntryBuffer.logData("Reinforcement service handler");
         this.checkWinningCondition();
         this.reinforcePlayers();
+        this.awardCards();
+        this.clearDiplomacies();
         this.continentOwnershipAndReinforcements();
 
-        return GamePhase.MAIN_GAME_LOOP;
+        return p_CurrPhase.validateAndMoveToNextState(GamePhase.MAIN_GAME_LOOP);
     }
 
     /**
@@ -65,7 +81,7 @@ public class ReinforcementServiceImpl implements GamePhaseService {
             Map.Entry<String, Player> l_PlayerEntry = l_PlayerIterator.next();
             Player l_Player = l_PlayerEntry.getValue();
             if (l_Player.getOwnedCountries().size() == d_GameSession.getCountriesInSession().size()) {
-                System.out.println("Player " + l_Player.getName() + " has won the game!");
+                d_LogEntryBuffer.logData("Player " + l_Player.getName() + " has won the game!");
                 System.exit(0);
             }
         }
@@ -122,6 +138,39 @@ public class ReinforcementServiceImpl implements GamePhaseService {
                     l_ContinentOwnerPlayer.addArmies(l_Continent.getControlValue());
                 }
             }
+        }
+    }
+
+    /**
+     * Method to award cards to players
+     */
+    private void awardCards() {
+        // Loop over players & award cards
+        Iterator<Map.Entry<String, Player>> l_PlayerIterator = d_GameSession.getPlayers().entrySet().iterator();
+        while (l_PlayerIterator.hasNext()) {
+            Map.Entry<String, Player> l_PlayerEntry = l_PlayerIterator.next();
+            Player l_Player = l_PlayerEntry.getValue();
+            if (l_Player.isEarnedCardThisTurn()) {
+                // Draw card
+                Random l_Random = new Random();
+                int l_RandomCardIndex = l_Random.nextInt(WarzoneConstants.CARDS_LIST.length);
+                l_Player.addCard(WarzoneConstants.CARDS_LIST[l_RandomCardIndex]);
+                d_LogEntryBuffer.logData("Player " + l_Player.getName() + " has earned a card of type " + WarzoneConstants.CARDS_LIST[l_RandomCardIndex]);
+                l_Player.setEarnedCardThisTurn(false);
+            }
+        }
+    }
+
+    /**
+     * Method to clear diplomacies
+     */
+    private void clearDiplomacies() {
+        // Loop over players & clear diplomacies
+        Iterator<Map.Entry<String, Player>> l_PlayerIterator = d_GameSession.getPlayers().entrySet().iterator();
+        while (l_PlayerIterator.hasNext()) {
+            Map.Entry<String, Player> l_PlayerEntry = l_PlayerIterator.next();
+            Player l_Player = l_PlayerEntry.getValue();
+            l_Player.resetDiplomacyPlayers();
         }
     }
 }

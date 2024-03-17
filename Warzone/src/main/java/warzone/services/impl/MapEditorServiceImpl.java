@@ -12,6 +12,7 @@ import main.java.warzone.services.GamePhaseService;
 import main.java.warzone.utils.CmdUtils;
 import main.java.warzone.utils.FileUtils;
 import main.java.warzone.utils.GameSessionValidator;
+import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 import java.io.*;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.Scanner;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 
@@ -38,10 +39,17 @@ public class MapEditorServiceImpl implements GamePhaseService {
     private GameSession d_GameSession;
 
     /**
+     * LogEntryBuffer object to log the information and
+     * notify all the observers
+     */
+    private LogEntryBuffer d_LogEntryBuffer;
+
+    /**
      * Constructor to initialize SceneEditorService
      */
     public MapEditorServiceImpl() {
         d_GameSession = GameSession.getInstance();
+        d_LogEntryBuffer = LogEntryBuffer.getInstance();
     }
 
     /**
@@ -55,9 +63,9 @@ public class MapEditorServiceImpl implements GamePhaseService {
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
         Scanner l_InputScanner = new Scanner(System.in);
         while (true) {
-            System.out.println();
-            System.out.println("************ Welcome to War zone Map Editor ************");
-            System.out.println("...Enter 'help' at any time to view available commands in this phase...");
+            d_LogEntryBuffer.logData(WarzoneConstants.EMPTY);
+            d_LogEntryBuffer.logData("************ Welcome to War zone Map Editor ************");
+            d_LogEntryBuffer.logData("...Enter 'help' at any time to view available commands in this phase...");
             try {
                 String l_UserInput = l_InputScanner.nextLine();
                 List<String> l_UserInputParts = CmdUtils.tokenizeUserInput(l_UserInput);
@@ -91,7 +99,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
                         displayHelpCommandsForGamePhase();
                     }
                     case WarzoneConstants.EXIT -> {
-                        return GamePhase.START_UP;
+                        return p_CurrPhase.validateAndMoveToNextState(GamePhase.START_UP);
                     }
                     default -> {
                         System.out.println("Command not found--> " + l_PrimaryAction);
@@ -116,9 +124,9 @@ public class MapEditorServiceImpl implements GamePhaseService {
         }
 
         if (GameSessionValidator.validateMap(d_GameSession)) {
-            System.out.println("Current game map is valid.");
+            d_LogEntryBuffer.logData("Current game map is valid.");
         } else {
-            System.out.println("Current game map is not valid.");
+            d_LogEntryBuffer.logData("Current game map is not valid.");
         }
     }
 
@@ -172,7 +180,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
         try {
             l_GameSceneMap = FileUtils.getStreamFromGameFile(l_GameFileName);
         } catch (FileNotFoundException e) {
-            System.out.println("Failed to edit map file---> " + l_GameFileName);
+            d_LogEntryBuffer.logData("Failed to edit map file---> " + l_GameFileName);
             throw new WarzoneRuntimeException("Unable to edit map file!");
         }
         GameMapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
@@ -277,17 +285,17 @@ public class MapEditorServiceImpl implements GamePhaseService {
      * Displays help commands specific to the map editor phase.
      */
     private void displayHelpCommandsForGamePhase() {
-        System.out.println(".......................................Map Editor Commands..........................................");
-        System.out.println("To edit a continent: editcontinent -add continentId continentValue -remove continentId");
-        System.out.println("To edit a country: editcountry -add countryID continentID -remove countryID");
-        System.out.println("To edit a neighbor: editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
-        System.out.println("To view existing maps: listmaps");
-        System.out.println("To edit an existing map: editmap filename");
-        System.out.println("To save current map: savemap filename");
-        System.out.println("To validate current map: validatemap");
-        System.out.println("To view current map: showmap");
-        System.out.println("To exit current phase: exit");
-        System.out.println("....................................................................................................");
+        d_LogEntryBuffer.logData(".......................................Map Editor Commands..........................................");
+        d_LogEntryBuffer.logData("To edit a continent: editcontinent -add continentId continentValue -remove continentId");
+        d_LogEntryBuffer.logData("To edit a country: editcountry -add countryID continentID -remove countryID");
+        d_LogEntryBuffer.logData("To edit a neighbor: editneighbor -add countryID neighborcountryID -remove countryID neighborcountryID");
+        d_LogEntryBuffer.logData("To view existing maps: listmaps");
+        d_LogEntryBuffer.logData("To edit an existing map: editmap filename");
+        d_LogEntryBuffer.logData("To save current map: savemap filename");
+        d_LogEntryBuffer.logData("To validate current map: validatemap");
+        d_LogEntryBuffer.logData("To view current map: showmap");
+        d_LogEntryBuffer.logData("To exit current phase: exit");
+        d_LogEntryBuffer.logData("....................................................................................................");
     }
 
     /**
@@ -307,7 +315,7 @@ public class MapEditorServiceImpl implements GamePhaseService {
      * Method to display map.
      */
     private void showMap() {
-        System.out.println("**************** Current Game session *********************");
+        d_LogEntryBuffer.logData("**************** Current Game session *********************");
         showContinents();
         showCountryNeighbors();
     }
@@ -316,32 +324,32 @@ public class MapEditorServiceImpl implements GamePhaseService {
      * Method to display continents.
      */
     private void showContinents() {
-        System.out.println("The continents of this game session are:");
+        d_LogEntryBuffer.logData("The continents of this game session are:");
         String l_ContinentNamePlaceHolder = "|        %-18s |%n";
-        System.out.println("+...........................+");
-        System.out.println("|      Continent Name       |");
-        System.out.println("+...........................+");
+        d_LogEntryBuffer.logData("+...........................+");
+        d_LogEntryBuffer.logData("|      Continent Name       |");
+        d_LogEntryBuffer.logData("+...........................+");
         for (String l_ContinentName : d_GameSession.getContinentsInSession().keySet()) {
-            System.out.printf(l_ContinentNamePlaceHolder, l_ContinentName);
+            d_LogEntryBuffer.logData(String.format(l_ContinentNamePlaceHolder, l_ContinentName));
         }
-        System.out.println("+...........................+");
-        System.out.println();
+        d_LogEntryBuffer.logData("+...........................+");
+        d_LogEntryBuffer.logData("");
     }
 
     /**
      * Show country with their neighbors.
      */
     private void showCountryNeighbors() {
-        System.out.println("Countries with their neighbors are:");
+        d_LogEntryBuffer.logData("Countries with their neighbors are:");
         String l_CountryNeighborPlaceholder = "|    %20s    |  %50s                  %n";
-        System.out.println("+........................................................................................................................................+");
-        System.out.println("|        Country Name        |                         Neighbor Countries                                                                |");
-        System.out.println("+........................................................................................................................................+");
+        d_LogEntryBuffer.logData("+........................................................................................................................................+");
+        d_LogEntryBuffer.logData("|        Country Name        |                         Neighbor Countries                                                                |");
+        d_LogEntryBuffer.logData("+........................................................................................................................................+");
         for (String l_CountryName : d_GameSession.getCountriesInSession().keySet()) {
             Country l_Country = d_GameSession.getCountriesInSession().get(l_CountryName);
-            System.out.printf(l_CountryNeighborPlaceholder, l_CountryName, l_Country.getAdjacentCountries().values());
+            d_LogEntryBuffer.logData(String.format(l_CountryNeighborPlaceholder, l_CountryName, l_Country.getAdjacentCountries().values()));
         }
-        System.out.println("+........................................................................................................................................+");
+        d_LogEntryBuffer.logData("+........................................................................................................................................+");
     }
 
     /**
@@ -373,7 +381,6 @@ public class MapEditorServiceImpl implements GamePhaseService {
         }
         return false;
     }
-
 }
 
 

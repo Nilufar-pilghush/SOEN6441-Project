@@ -4,6 +4,7 @@ import main.java.warzone.entities.GameSession;
 import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.Player;
 import main.java.warzone.services.GamePhaseService;
+import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Map;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 public class OrderExecutorServiceImpl implements GamePhaseService {
@@ -29,11 +30,17 @@ public class OrderExecutorServiceImpl implements GamePhaseService {
     private GameSession d_GameSession;
 
     /**
+     * LogEntryBuffer object to log the information and
+     * notify all the observers
+     */
+    private LogEntryBuffer d_LogEntryBuffer;
+
+    /**
      * Constructor to initialize the OrderExecutionManager.
      */
     public OrderExecutorServiceImpl() {
-
         d_GameSession = GameSession.getInstance();
+        d_LogEntryBuffer = LogEntryBuffer.getInstance();
     }
 
     /**
@@ -44,7 +51,7 @@ public class OrderExecutorServiceImpl implements GamePhaseService {
      */
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
-        System.out.println("Execute orders service handler");
+        d_LogEntryBuffer.logData("Execute orders service handler");
 
         // Loop over players & execute orders
         Iterator<Map.Entry<String, Player>> l_PlayerIterator = d_GameSession.getPlayers().entrySet().iterator();
@@ -57,7 +64,6 @@ public class OrderExecutorServiceImpl implements GamePhaseService {
                 l_PlayerOrder = l_Player.nextOrder();
             }
         }
-        return GamePhase.MAIN_GAME_LOOP;
+        return p_CurrPhase.validateAndMoveToNextState(GamePhase.MAIN_GAME_LOOP);
     }
-
 }
