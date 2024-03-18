@@ -1,13 +1,15 @@
 package test.java.warzone;
-        import main.java.warzone.Main;
-        import org.junit.jupiter.api.Assertions;
-        import org.junit.jupiter.api.Test;
-        import java.io.ByteArrayInputStream;
-        import java.io.InputStream;
+
+import main.java.warzone.Main;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 /**
  * Unit tests for the {@link Main} class to ensure it handles the game's start-up and exit procedures correctly.
  * This test suite aims to verify that the main application can start without errors and properly process exit commands.
- *
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -27,5 +29,6 @@ public class MainTest {
         String input1 = "3";
         InputStream in = new ByteArrayInputStream(input1.getBytes());
         System.setIn(in);
-        Assertions.assertDoesNotThrow(()-> Main.main(l_Args)); }
+        Assertions.assertDoesNotThrow(() -> Main.main(l_Args));
+    }
 }

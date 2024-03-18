@@ -4,6 +4,7 @@ import main.java.warzone.utils.logging.impl.ConsoleLogger;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 /**
  * Tests the functionality of the {@link LogEntryBuffer} class.
  * This test suite focuses on verifying the observer pattern implementation in the LogEntryBuffer,
@@ -30,7 +31,7 @@ public class LogEntryBufferTest {
      * which is indicated by the method returning true.
      */
     @Test
-    public void testObserverRegistration(){
+    public void testObserverRegistration() {
         Assertions.assertTrue(d_logEntryBuffer.registerObserver(new ConsoleLogger()));
     }
 }

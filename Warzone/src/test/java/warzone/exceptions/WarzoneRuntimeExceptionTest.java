@@ -1,8 +1,8 @@
 package test.java.warzone.exceptions;
 
-        import main.java.warzone.exceptions.WarzoneRuntimeException;
-        import org.junit.jupiter.api.Assertions;
-        import org.junit.jupiter.api.Test;
+import main.java.warzone.exceptions.WarzoneRuntimeException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link WarzoneRuntimeException} to ensure its proper instantiation and behavior.
@@ -25,6 +25,7 @@ public class WarzoneRuntimeExceptionTest {
         WarzoneRuntimeException exception = new WarzoneRuntimeException();
         Assertions.assertTrue(exception instanceof WarzoneRuntimeException, "The exception should be a WarzoneRuntimeException instance.");
     }
+
     /**
      * Verifies that a WarzoneRuntimeException can be instantiated with an error message.
      * Asserts that the exception's message matches the expected message provided at creation.

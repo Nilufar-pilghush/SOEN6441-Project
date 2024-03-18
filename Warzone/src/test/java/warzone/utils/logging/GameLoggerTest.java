@@ -3,8 +3,9 @@ package test.java.warzone.utils.logging;
 import main.java.warzone.utils.logging.impl.GameLogger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 /**
- *Test
+ * Test
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -24,7 +25,7 @@ public class GameLoggerTest {
      * Verifies that the update method successfully logs a message, indicated by returning true.
      */
     @Test
-    public void testMessageLogging(){
+    public void testMessageLogging() {
         Assertions.assertTrue(d_gameLogger.update("Hello"));
     }
 

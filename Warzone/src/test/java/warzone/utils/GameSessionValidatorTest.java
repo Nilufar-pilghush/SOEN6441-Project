@@ -1,11 +1,11 @@
 package test.java.warzone.utils;
 
-        import main.java.warzone.entities.GameSession;
-        import main.java.warzone.exceptions.WarzoneValidationException;
-        import main.java.warzone.utils.GameSessionValidator;
-        import org.junit.jupiter.api.Assertions;
-        import org.junit.jupiter.api.BeforeEach;
-        import org.junit.jupiter.api.Test;
+import main.java.warzone.entities.GameSession;
+import main.java.warzone.exceptions.WarzoneValidationException;
+import main.java.warzone.utils.GameSessionValidator;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Provides JUnit test cases for the {@link GameSessionValidator} class to validate game session configurations.
@@ -39,14 +39,14 @@ public class GameSessionValidatorTest {
      */
     @Test
     public void testValidMapConnection() throws WarzoneValidationException {
-        d_gameSession.createContinent("Asia",String.valueOf(5));
-        d_gameSession.createCountry("Iran", "Asia",1L);
-        d_gameSession.createCountry("Turkey", "Asia",2L);
+        d_gameSession.createContinent("Asia", String.valueOf(5));
+        d_gameSession.createCountry("Iran", "Asia", 1L);
+        d_gameSession.createCountry("Turkey", "Asia", 2L);
         d_gameSession.makeNeighbors("Iran", "Turkey");
 
-        d_gameSession.createContinent("Europe",String.valueOf(8));
-        d_gameSession.createCountry("Germany", "Europe",4L);
-        d_gameSession.createCountry("France", "Europe",5L);
+        d_gameSession.createContinent("Europe", String.valueOf(8));
+        d_gameSession.createCountry("Germany", "Europe", 4L);
+        d_gameSession.createCountry("France", "Europe", 5L);
         d_gameSession.makeNeighbors("Germany", "France");
         Assertions.assertFalse(GameSessionValidator.validateMap(d_gameSession));
     }
@@ -66,7 +66,7 @@ public class GameSessionValidatorTest {
      */
     @Test
     public void testEmptyContinentInvalid() throws WarzoneValidationException {
-        d_gameSession.createContinent("Asia",String.valueOf(5));
+        d_gameSession.createContinent("Asia", String.valueOf(5));
         Assertions.assertFalse(GameSessionValidator.validateMap(d_gameSession));
     }
 
@@ -77,9 +77,9 @@ public class GameSessionValidatorTest {
      */
     @Test
     public void testUnreachableCountriesInContinentInvalid() throws WarzoneValidationException {
-        d_gameSession.createContinent("Asia",String.valueOf(5));
-        d_gameSession.createCountry("Iran", "Asia",1L);
-        d_gameSession.createCountry("Turkey", "Asia",2L);
+        d_gameSession.createContinent("Asia", String.valueOf(5));
+        d_gameSession.createCountry("Iran", "Asia", 1L);
+        d_gameSession.createCountry("Turkey", "Asia", 2L);
         Assertions.assertFalse(GameSessionValidator.validateMap(d_gameSession));
     }
 
@@ -90,14 +90,14 @@ public class GameSessionValidatorTest {
      */
     @Test
     public void testDisconnectedContinentsInvalid() throws WarzoneValidationException {
-        d_gameSession.createContinent("Asia",String.valueOf(5));
-        d_gameSession.createCountry("Iran", "Asia",1L);
-        d_gameSession.createCountry("Turkey", "Asia",2L);
+        d_gameSession.createContinent("Asia", String.valueOf(5));
+        d_gameSession.createCountry("Iran", "Asia", 1L);
+        d_gameSession.createCountry("Turkey", "Asia", 2L);
         d_gameSession.makeNeighbors("Iran", "Turkey");
 
-        d_gameSession.createContinent("Europe",String.valueOf(8));
-        d_gameSession.createCountry("Germany", "Europe",4L);
-        d_gameSession.createCountry("France", "Europe",5L);
+        d_gameSession.createContinent("Europe", String.valueOf(8));
+        d_gameSession.createCountry("Germany", "Europe", 4L);
+        d_gameSession.createCountry("France", "Europe", 5L);
         d_gameSession.makeNeighbors("Germany", "France");
         Assertions.assertFalse(GameSessionValidator.validateMap(d_gameSession));
     }
@@ -106,7 +106,7 @@ public class GameSessionValidatorTest {
      * Test case to verify if players are created
      */
     @Test
-    public void testNoPlayersAdded(){
+    public void testNoPlayersAdded() {
         Assertions.assertFalse(GameSessionValidator.arePlayersAdded(d_gameSession));
     }
 

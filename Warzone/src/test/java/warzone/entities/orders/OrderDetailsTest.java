@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
  * Unit tests for {@link OrderDetails} class to ensure its properties are correctly managed.
  * Validates the functionality of getters and setters for player name, target country, and number of armies.
  *
- *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji

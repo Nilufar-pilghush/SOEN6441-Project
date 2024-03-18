@@ -30,6 +30,7 @@ public class GameEngineTest {
     public void setUp() {
         d_gameEngine = new GameEngine();
     }
+
     /**
      * Validates that the GameEngine can handle the EXIT phase without throwing any exceptions.
      * This test ensures that the game engine correctly processes the command to exit the game, demonstrating

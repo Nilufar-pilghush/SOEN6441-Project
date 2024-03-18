@@ -10,9 +10,10 @@ import java.io.InputStream;
 /**
  * Provides JUnit test cases for the {@link FileUtils} class to validate its file operation capabilities.
  * It includes tests for checking the validity of file streams, the existence of files, and the success of listing map files. * <p>
- *  @author Niloufar Pilgush
- *  @author Nasrin Maarefi
- *  @author Jerome Kithinji
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
  * @version 2.0.0
@@ -28,6 +29,7 @@ public class FileUtilsTest {
                 () -> FileUtils.getStreamFromGameFile("nonexistentfile.txt"),
                 "Expect FileNotFoundException for non-existent files.");
     }
+
     /**
      * Tests the successful completion of the listMaps operation.
      * This verifies that the operation can successfully list the maps as expected.

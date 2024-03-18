@@ -1,8 +1,8 @@
 package test.java.warzone.exceptions;
 
-        import main.java.warzone.exceptions.WarzoneValidationException;
-        import org.junit.jupiter.api.Assertions;
-        import org.junit.jupiter.api.Test;
+import main.java.warzone.exceptions.WarzoneValidationException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link WarzoneValidationException} to ensure correct behavior for both instantiation without a message
@@ -26,6 +26,7 @@ public class WarzoneValidationExceptionTest {
         WarzoneValidationException exception = new WarzoneValidationException();
         Assertions.assertTrue(exception instanceof WarzoneValidationException, "Should be an instance of WarzoneValidationException.");
     }
+
     /**
      * Verifies that WarzoneValidationException can be instantiated with a specific error message.
      * This test checks that the provided message is correctly associated with the exception object.
