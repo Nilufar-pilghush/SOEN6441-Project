@@ -90,8 +90,6 @@ public class OrderIssuanceServiceImpl implements GamePhaseService {
                 d_LogEntryBuffer.logData("Use any of below commands:");
                 d_LogEntryBuffer.logData("deploy countryID numArmies");
                 d_LogEntryBuffer.logData("advance sourceCountryID targetCountryID numArmies");
-                d_LogEntryBuffer.logData("deploy countryID numArmies");
-                d_LogEntryBuffer.logData("advance sourceCountryID targetCountryID numArmies");
                 d_LogEntryBuffer.logData("bomb targetCountryID");
                 d_LogEntryBuffer.logData("blockade countryID");
                 d_LogEntryBuffer.logData("airlift sourceCountryID targetCountryID numArmies");
