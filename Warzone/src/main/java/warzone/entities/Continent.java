@@ -38,8 +38,9 @@ public class Continent {
        * The owner of the continent.
        */
       private  String d_Owner;
+
       /**
-       * @exclude
+       * Constructs a new Continent and initializes the countries map.
        */
       public Continent(){
               d_Countries = new HashMap<>();
