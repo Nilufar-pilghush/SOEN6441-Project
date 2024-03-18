@@ -110,7 +110,4 @@ public class Continent {
             this.d_Owner = d_Owner;
       }
 
-
-
-
 }

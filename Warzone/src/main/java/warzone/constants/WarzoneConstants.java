@@ -199,4 +199,30 @@ public class WarzoneConstants {
      * List of available cards
      */
     public static String[] CARDS_LIST = {BOMB, BLOCKADE, AIRLIFT, NEGOTIATE};
+//    /**
+//     * Constant for blockade
+//     */
+//    public static final String BLOCKADE = "blockade";
+//
+//    /**
+//     * Constant for airlift
+//     */
+//    public static final String AIRLIFT = "airlift";
+
+
+    /**
+     * Directory to store log files
+     */
+    public static final String LOGS_DIR = "logs";
+
+    /**
+     * Game log file name
+     */
+    public static final String GAME_LOG_FILE_NAME = "warzoneLogs.log";
+//
+//    /**
+//     * List of available cards
+//     */
+//    public static String[] CARDS_LIST = {BOMB, BLOCKADE, AIRLIFT, NEGOTIATE};
+
 }

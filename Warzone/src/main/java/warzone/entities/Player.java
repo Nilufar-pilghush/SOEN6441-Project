@@ -62,13 +62,13 @@ public class Player {
      * Cards owned by player
      */
     private Set<String> d_OwnedCards;
-  
+
     /**
      * Constructs a new Player with the given name and initializes the set of owned country IDs.
      *
      * @param p_Name The name of the player.
      */
-    Player(String p_Name) {
+    public Player(String p_Name) {
         this.d_Name = p_Name;
         d_OwnedCountries = new HashSet<>();
         d_OrderList = new ArrayDeque<>();
@@ -76,6 +76,7 @@ public class Player {
         d_EarnedCardThisTurn = false;
         d_DiplomacyPlayers = new HashSet<>();
     }
+
 
     /**
      * Method to get the name of player
