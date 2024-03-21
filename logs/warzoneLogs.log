@@ -10,3 +10,30 @@ Choose One Option:
 					  2 Start Game
 					  3 Exit Game
 ********************************************************
+
+************ Welcome to Game Startup Phase ************
+...Enter 'help' at any time to view available commands in this phase...
+.......................................Startup Phase Commands..........................................
+To list existing maps: listmaps
+To load a map: loadmap filename
+To edit game players: gameplayer -add playername -remove playername
+To assign countries to players: assigncountries
+To exit startup phase & start the game: exit
+.......................................................................................................
+Command not found--> listmap
+.......................................Startup Phase Commands..........................................
+To list existing maps: listmaps
+To load a map: loadmap filename
+To edit game players: gameplayer -add playername -remove playername
+To assign countries to players: assigncountries
+To exit startup phase & start the game: exit
+.......................................................................................................
+Available maps--> asiaAfrica.txt, test01.txt, test02.txt
+Unable to find map!
+.......................................Startup Phase Commands..........................................
+To list existing maps: listmaps
+To load a map: loadmap filename
+To edit game players: gameplayer -add playername -remove playername
+To assign countries to players: assigncountries
+To exit startup phase & start the game: exit
+.......................................................................................................
