@@ -2,7 +2,7 @@ package main.java.warzone.entities;
 
 import main.java.warzone.exceptions.WarzoneValidationException;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
-
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,9 +12,14 @@ import java.util.*;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
-public class GameSession {
+public class GameSession implements Serializable{
+
+    /**
+     * Serial ID
+     */
+    private static final long serialVersionUID = 45443434343L;
     /**
      * Current Game session of game
      */
@@ -60,10 +65,44 @@ public class GameSession {
     private LogEntryBuffer d_LogEntryBuffer;
 
     /**
+     * Boolean to check if tournament mode is on or not
+     */
+    private boolean d_TournamentMode;
+
+    /**
+     * Tournament configuration
+     */
+    private TournamentConfig d_TournamentConfig;
+
+    /**
+     * Current tournament map
+     */
+    private int d_TournamentCurrentMap;
+
+    /**
+     * Current tournament game
+     */
+    private int d_TournamentCurrentGame;
+
+    /**
+     * Current tournament game winner
+     */
+    private Player d_TournamentCurrentGameWinner;
+
+    /**
+     * Current tournament turn
+     */
+    private int d_TournamentCurrentTurn;
+
+    /**
      * Constructor to implement singleton design pattern so that there is
      * only one object of GameSession during entire play of game.
      */
     private GameSession() {
+        this(null);
+    }
+
+    private GameSession(TournamentConfig p_TournamentConfig) {
         d_ContinentsInSession = new HashMap<>();
         d_ContinentsInOrder = new ArrayList<>();
         d_CountriesInSession = new HashMap<>();
@@ -71,6 +110,17 @@ public class GameSession {
         d_CountryIdsToCountryNames = new HashMap<>();
         d_CurrGamePhase = null;
         d_LogEntryBuffer = LogEntryBuffer.getInstance();
+        if(p_TournamentConfig != null){
+            d_TournamentMode = true;
+            d_TournamentConfig = p_TournamentConfig;
+            d_TournamentCurrentGame = -1;
+            d_TournamentCurrentMap = 0;
+            d_TournamentCurrentTurn = 0;
+        }
+        else{
+            d_TournamentMode = false;
+        }
+        d_TournamentCurrentGameWinner = null;
     }
 
     /**
@@ -147,6 +197,114 @@ public class GameSession {
     public void setCurrGamePhase(GamePhase p_CurrGamePhase) {
 
         this.d_CurrGamePhase = p_CurrGamePhase;
+    }
+
+    /**
+     * Method to check if tournament mode is on or not
+     *
+     * @return True if tournament mode is on, false otherwise
+     */
+    public boolean isTournamentMode() {
+        return d_TournamentMode;
+    }
+
+    /**
+     * Method to set tournament mode
+     *
+     * @param p_TournamentMode True if tournament mode is on, false otherwise
+     */
+    public void setTournamentMode(boolean p_TournamentMode) {
+        this.d_TournamentMode = p_TournamentMode;
+    }
+
+    /**
+     * Method to get tournament configuration
+     *
+     * @return Tournament configuration
+     */
+    public TournamentConfig getTournamentConfig() {
+        return d_TournamentConfig;
+    }
+
+    /**
+     * Method to set tournament configuration
+     *
+     * @param p_TournamentConfig Tournament configuration
+     */
+    public void setTournamentConfig(TournamentConfig p_TournamentConfig) {
+        this.d_TournamentConfig = p_TournamentConfig;
+    }
+
+    /**
+     * Method to get current tournament map
+     *
+     * @return Current tournament map
+     */
+    public int getTournamentCurrentMap() {
+        return d_TournamentCurrentMap;
+    }
+
+    /**
+     * Method to set current tournament map
+     *
+     * @param p_tournamentCurrentMap Current tournament map
+     */
+    public void setTournamentCurrentMap(int p_tournamentCurrentMap) {
+        this.d_TournamentCurrentMap = p_tournamentCurrentMap;
+    }
+
+    /**
+     * Method to get current tournament game
+     *
+     * @return Current tournament game
+     */
+    public int getTournamentCurrentGame() {
+        return d_TournamentCurrentGame;
+    }
+
+    /**
+     * Method to set current tournament game
+     *
+     * @param p_tournamentCurrentGame Current tournament game
+     */
+    public void setTournamentCurrentGame(int p_tournamentCurrentGame) {
+        this.d_TournamentCurrentGame = p_tournamentCurrentGame;
+    }
+
+    /**
+     * Method to get current tournament game winner
+     *
+     * @return Current tournament game winner
+     */
+    public Player getTournamentCurrentGameWinner() {
+        return d_TournamentCurrentGameWinner;
+    }
+
+    /**
+     * Method to set current tournament game winner
+     *
+     * @param p_tournamentCurrentGameWinner Current tournament game winner
+     */
+    public void setTournamentCurrentGameWinner(Player p_tournamentCurrentGameWinner) {
+        this.d_TournamentCurrentGameWinner = p_tournamentCurrentGameWinner;
+    }
+
+    /**
+     * Method to get current tournament turn
+     *
+     * @return Current tournament turn
+     */
+    public int getTournamentCurrentTurn() {
+        return d_TournamentCurrentTurn;
+    }
+
+    /**
+     * Method to set current tournament turn
+     *
+     * @param p_tournamentCurrentTurn Current tournament turn
+     */
+    public void setTournamentCurrentTurn(int p_tournamentCurrentTurn) {
+        this.d_TournamentCurrentTurn = p_tournamentCurrentTurn;
     }
 
     /**
@@ -314,6 +472,17 @@ public class GameSession {
     }
 
     /**
+     * Creates a new human player.
+     *
+     * @param p_PlayerName Name of the new player.
+     * @throws WarzoneValidationException If the player already exists.
+     */
+    public void createPlayer(String p_PlayerName) throws WarzoneValidationException {
+        createPlayer(p_PlayerName, new HumanPlayerStrategy());
+    }
+
+
+    /**
      * Deletes a player from the game.
      *
      * @param p_PlayerName Name of the player.
@@ -356,7 +525,7 @@ public class GameSession {
         d_CurrGameSession.getContinentsInSession().clear();
         d_CurrGameSession.getCountriesInSession().clear();
         d_CurrGameSession.getPlayers().clear();
-        d_CurrGameSession.getContinentsInSession().clear();
+        d_CurrGameSession.getContinentsInOrder().clear();
         d_CurrGameSession.getCountryIds().clear();
     }
 
@@ -407,4 +576,47 @@ public class GameSession {
     public boolean isCountryExists(String p_CountryName) {
         return d_CurrGameSession.getCountriesInSession().containsKey(p_CountryName);
     }
+
+    /**
+     * Method to form game session from loaded game session
+     *
+     * @param p_LoadedGameMap Loaded game session
+     * @return Upcoming game phase
+     * @throws WarzoneValidationException if game session creation validation fails
+     */
+    public GamePhase makeGameFromLoaded(GameSession p_LoadedGameMap) throws WarzoneValidationException {
+        Map<String, Continent> l_LoadedContinents = p_LoadedGameMap.getContinentsInSession();
+        for (Continent l_Continent : l_LoadedContinents.values()) {
+            this.createContinent(l_Continent.getName(), String.valueOf(l_Continent.getControlValue()));
+            Continent l_CeatedContinent = this.getContinentsInSession().get(l_Continent.getName());
+            l_CeatedContinent.setOwner(l_Continent.getOwner());
+        }
+
+        for (Country l_Country : p_LoadedGameMap.getCountriesInSession().values()) {
+            this.createCountry(l_Country.getName(), l_Country.getIsInContinent());
+            Country l_CreatedCountry = this.getCountriesInSession().get(l_Country.getName());
+            l_CreatedCountry.setOwner(l_Country.getOwner());
+            l_CreatedCountry.setNumberOfArmies(l_Country.getNumberOfArmies());
+        }
+        for (Country l_Country : p_LoadedGameMap.getCountriesInSession().values()) {
+            for (String l_Neighbor : l_Country.getAdjacentCountries().values()) {
+                this.makeNeighbors(l_Country.getName(), l_Neighbor);
+            }
+        }
+        for(Player l_Player: p_LoadedGameMap.getPlayers().values()){
+            this.createPlayer(l_Player.getName(), l_Player.getPlayerStrategy());
+            Player l_CreatedPlayer = this.getPlayers().get(l_Player.getName());
+            l_CreatedPlayer.setOwnedCountries(new HashSet<>(l_Player.getOwnedCountries()));
+            l_CreatedPlayer.setOrdersList(l_Player.getOrderList());
+            l_CreatedPlayer.setNumberOfArmies(l_Player.getNumberOfArmies());
+            l_CreatedPlayer.setOwedCards(new HashSet<>(l_Player.getOwnedCards()));
+            l_CreatedPlayer.setEarnedCardThisTurn(l_Player.isEarnedCardThisTurn());
+            l_CreatedPlayer.setDiplomacyPlayers(new HashSet<>(l_Player.getDiplomacyPlayers()));
+            l_CreatedPlayer.setPlayerStrategy(l_Player.getPlayerStrategy());
+        }
+
+        this.setCurrGamePhase(p_LoadedGameMap.getCurrGamePhase());
+        return p_LoadedGameMap.getCurrGamePhase();
+    }
+
 }

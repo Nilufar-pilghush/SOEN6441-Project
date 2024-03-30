@@ -219,6 +219,11 @@ public class WarzoneConstants {
      * Game log file name
      */
     public static final String GAME_LOG_FILE_NAME = "warzoneLogs.log";
+
+    /**
+     * Constant for tournament
+     */
+    public static final String TOURNAMENT = "tournament";
 //
 //    /**
 //     * List of available cards

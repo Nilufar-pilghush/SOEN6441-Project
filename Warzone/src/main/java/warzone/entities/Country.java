@@ -1,4 +1,5 @@
 package main.java.warzone.entities;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,10 +15,10 @@ import java.util.Map;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
 
-public class Country {
+public class Country implements Serializable{
 
     /**
      * The unique ID of the country.
