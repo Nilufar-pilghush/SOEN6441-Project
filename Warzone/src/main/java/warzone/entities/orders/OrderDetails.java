@@ -1,4 +1,5 @@
 package main.java.warzone.entities.orders;
+import java.io.Serializable;
 
 /**
  * Stores the details of a given order
@@ -7,10 +8,10 @@ package main.java.warzone.entities.orders;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
 
-public class OrderDetails {
+public class OrderDetails implements Serializable{
 
     /**
      * Represents the name of the player issuing the order.

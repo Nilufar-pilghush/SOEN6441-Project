@@ -1,6 +1,7 @@
 package main.java.warzone.entities.orders;
 import main.java.warzone.entities.GameSession;
 import  main.java.warzone.utils.logging.impl.LogEntryBuffer;
+import java.io.Serializable;
 
 /**
  * Represents an order issued by a player in the Warzone main.java.game.
@@ -14,10 +15,10 @@ import  main.java.warzone.utils.logging.impl.LogEntryBuffer;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
 
-public abstract class Order {
+public abstract class Order implements Serializable{
 
     /**
      * Member to hold details of the order

@@ -1,32 +1,41 @@
 package main.java.warzone.entities;
-import main.java.warzone.entities.orders.Order;
 
-import java.util.*;
-
-import main.java.warzone.entities.orders.commands.AdvanceOrderCommand;
-import main.java.warzone.entities.orders.commands.BombOrderCommand;
-import main.java.warzone.entities.orders.commands.DeployOrderCommand;
-import main.java.warzone.entities.orders.commands.BlockadeOrderCommand;
-import main.java.warzone.entities.orders.commands.DiplomacyOrderCommand;
-import main.java.warzone.entities.orders.commands.AirliftOrderCommand;
+import  main.java.warzone.entities.orders.commands.AdvanceOrderCommand;
+import  main.java.warzone.entities.orders.commands.BombOrderCommand;
+import  main.java.warzone.entities.orders.commands.DeployOrderCommand;
+import  main.java.warzone.entities.orders.commands.BlockadeOrderCommand;
+import  main.java.warzone.entities.orders.commands.DiplomacyOrderCommand;
+import  main.java.warzone.entities.players.HumanPlayerStrategy;
+import  main.java.warzone.entities.players.PlayerStrategy;
+import  main.java.warzone.utils.logging.impl.LogEntryBuffer;
+import  main.java.warzone.entities.orders.commands.AirliftOrderCommand;
+import  main.java.warzone.constants.WarzoneConstants;
+import  main.java.warzone.entities.orders.Order;
+import java.io.Serializable;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 /**
- * Represents a player in the Warzone main.java.game.
- *
- * This class encapsulates the properties and behavior of a player in the Warzone main.java.game,
- * including the player's name, owned countries, number of armies, and orders.
- * Players can issue deploy orders to reinforce their territories or attack orders to conquer new territories.
- *
+ * Concrete class to access and modify the properties of Player.
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
+public class Player implements Serializable {
 
+    /**
+     * LogEntryBuffer object to log the information
+     * and notifying all the observers
+     */
+    private LogEntryBuffer d_LogEntryBuffer;
 
-public class Player {
 
     /**
      * The name of the player.
@@ -34,14 +43,9 @@ public class Player {
     private String d_Name;
 
     /**
-     * The set of countries owned by the player.
+     * Countries owned by the player
      */
     private Set<String> d_OwnedCountries;
-
-    /**
-     * The number of armies controlled by the player.
-     */
-    private int d_NumberOfArmies;
 
     /**
      * List of orders issued by player
@@ -49,14 +53,9 @@ public class Player {
     private Queue<Order> d_OrderList;
 
     /**
-     * Boolean to check if player has earned card this turn
+     * Number of armies player have
      */
-    private boolean d_EarnedCardThisTurn;
-
-    /**
-     * Set of players with whom player has diplomacy with.
-     */
-    private Set<String> d_DiplomacyPlayers;
+    private int d_NumberOfArmies;
 
     /**
      * Cards owned by player
@@ -64,18 +63,47 @@ public class Player {
     private Set<String> d_OwnedCards;
 
     /**
+     * Boolean to check if player has earned card this turn
+     */
+    private boolean d_EarnedCardThisTurn;
+
+    /**
+     * Set of players with whom player has diplomacy
+     */
+    private Set<String> d_DiplomacyPlayers;
+
+    /**
+     * Strategy of player
+     */
+    private PlayerStrategy d_PlayerStrategy;
+
+    /**
      * Constructs a new Player with the given name and initializes the set of owned country IDs.
      *
-     * @param p_Name The name of the player.
+     * @param p_name The name of the player.
+     * @param p_PlayerStrategy Player strategy
      */
-    public Player(String p_Name) {
-        this.d_Name = p_Name;
+    Player(String p_name, PlayerStrategy p_PlayerStrategy) {
+        this.d_Name = p_name;
         d_OwnedCountries = new HashSet<>();
         d_OrderList = new ArrayDeque<>();
         d_OwnedCards = new HashSet<>();
         d_EarnedCardThisTurn = false;
         d_DiplomacyPlayers = new HashSet<>();
+        d_PlayerStrategy = p_PlayerStrategy;
+        d_LogEntryBuffer = LogEntryBuffer.getInstance();
     }
+
+
+    /**
+     * Constructs a new Human Player with the given name and initializes the set of owned country IDs.
+     *
+     * @param p_Name The name of the player.
+     */
+    Player(String p_Name) {
+        this(p_Name, new HumanPlayerStrategy());
+    }
+
 
 
     /**
@@ -329,9 +357,9 @@ public class Player {
     }
 
     /**
-     * Method to add a diplomacy player
+     * Method to add diplomacy player
      *
-     * @param p_DiplomacyPlayer Name of player to be added as a diplomatic
+     * @param p_DiplomacyPlayer Name of diplomacy player
      */
     public void addDiplomacyPlayer(String p_DiplomacyPlayer) {
         this.d_DiplomacyPlayers.add(p_DiplomacyPlayer);
@@ -361,5 +389,286 @@ public class Player {
      */
     public void resetDiplomacyPlayers() {
         this.d_DiplomacyPlayers = new HashSet<>();
+    }
+
+    /**
+     * Method to set all owned countries
+     *
+     * @param p_OwnedCountries Countries owned by player
+     */
+    public void setOwnedCountries(Set<String> p_OwnedCountries) {
+        this.d_OwnedCountries = p_OwnedCountries;
+    }
+
+    /**
+     * Method to set all orders list
+     *
+     * @param p_OrderList List of orders
+     */
+    public void setOrdersList(Queue<Order> p_OrderList) {
+        this.d_OrderList = p_OrderList;
+    }
+
+    /**
+     * Method to set all owned cards by player
+     *
+     * @param p_OwnedCards Set of cards owned
+     */
+    public void setOwedCards(HashSet<String> p_OwnedCards) {
+        this.d_OwnedCards = p_OwnedCards;
+    }
+
+    /**
+     * Method to set all diplomacy players
+     *
+     * @param p_DiplomacyPlayers Set of diplomacy players
+     */
+    public void setDiplomacyPlayers(HashSet<String> p_DiplomacyPlayers) {
+        this.d_DiplomacyPlayers = p_DiplomacyPlayers;
+    }
+
+    /**
+     * Method to get player strategy
+     *
+     * @return Player strategy
+     */
+    public PlayerStrategy getPlayerStrategy() {
+        return d_PlayerStrategy;
+    }
+
+    /**
+     * Method to set player strategy
+     *
+     * @param p_PlayerStrategy Player strategy
+     */
+    public void setPlayerStrategy(PlayerStrategy p_PlayerStrategy) {
+        this.d_PlayerStrategy = p_PlayerStrategy;
+    }
+
+    /**
+     * Method to get player strategy string
+     *
+     * @return Player strategy string
+     */
+    public String getPlayerStrategyString() {
+        return this.d_PlayerStrategy.getStrategyNameString();
+    }
+
+    /**
+     * Method to issue order.
+     *
+     * @param p_GameSession GameSession object.
+     */
+    public void issueOrder(GameSession p_GameSession) {
+        d_PlayerStrategy.issuePlayerOrder(this, p_GameSession);
+    }
+
+    /**
+     * Method to handle deploy orders.
+     *
+     * @param p_UserInputParts List of user input parts.
+     * @param p_GameSession     GameSession object.
+     */
+    public void deployOrderHandler(List<String> p_UserInputParts, GameSession p_GameSession) {
+        String l_CountryName = p_UserInputParts.get(1);
+        int l_NumArmies = Integer.parseInt(p_UserInputParts.get(2));
+
+        // Check if player owns the country
+        if (!this.ownsCountry(l_CountryName)) {
+            // If does not own country then check if country is neighbour to one of player's countries
+            if (Collections.disjoint(this.getOwnedCountries(), p_GameSession.getCountriesInSession().get(l_CountryName).getAdjacentCountries().values())) {
+                d_LogEntryBuffer.logData("You do not own any countries adjacent to " + l_CountryName);
+                return;
+            } else if (p_GameSession.getCountriesInSession().get(l_CountryName).getOwner() != null) { // If owns adjacent country then check if target country is not owned by anyone
+                d_LogEntryBuffer.logData("Country is owned by another player, please use the attack command to capture this country");
+                return;
+            } else { // If all above validations passed then allow deploy command
+                d_LogEntryBuffer.logData("Can deploy armies to unowned country " + l_CountryName);
+            }
+
+        }
+        // Do not allow if player has diplomacy with target country owner
+        String l_TargetCountryOwner = p_GameSession.getCountriesInSession().get(p_UserInputParts.get(1)).getOwner();
+        if (l_TargetCountryOwner != null && this.hasDiplomacyWith(l_TargetCountryOwner)) {
+            d_LogEntryBuffer.logData("Cannot deploy. You are negotiating with the owner" + l_TargetCountryOwner);
+            return;
+        }
+        if (l_NumArmies > this.getNumberOfArmies()) {
+            d_LogEntryBuffer.logData("You do not have enough armies to deploy");
+            return;
+        }
+        this.addArmies(-l_NumArmies);
+        this.addDeployOrder(
+                l_CountryName,
+                l_NumArmies
+        );
+    }
+
+    /**
+     * Method to handle attack orders.
+     *
+     * @param p_UserInputParts List of user input parts.
+     * @param p_GameSession      GameSession object.
+     */
+    public void advanceOrderHandler(List<String> p_UserInputParts, GameSession p_GameSession) {
+        String l_SourceCountryName = p_UserInputParts.get(1);
+        String l_TargetCountryName = p_UserInputParts.get(2);
+        int l_NumArmies = Integer.parseInt(p_UserInputParts.get(3));
+        // Check if player owns the country
+        if (!this.ownsCountry(l_SourceCountryName)) {
+            d_LogEntryBuffer.logData("You do not own the source country " + l_SourceCountryName);
+        }
+        if (!this.ownsCountry(l_TargetCountryName)) {
+            // If does not own country then check if country is neighbour to one of player's countries
+            if (Collections.disjoint(this.getOwnedCountries(), p_GameSession.getCountriesInSession().get(l_TargetCountryName).getAdjacentCountries().values())) {
+                d_LogEntryBuffer.logData("You do not own any countries adjacent to " + l_TargetCountryName);
+                return;
+            } else { // If all above validations passed then allow deploy command
+                d_LogEntryBuffer.logData("Can deploy armies to country " + l_TargetCountryName);
+            }
+        }
+        // Do not allow if source country has less than 1 armies remaining
+        if (l_NumArmies >= p_GameSession.getCountriesInSession().get(l_SourceCountryName).getNumberOfArmies()) {
+            d_LogEntryBuffer.logData("Cannot attack. You need to have minimum 1 army remaining in each country");
+            return;
+        }
+        // Do not allow if player has diplomacy with target country owner
+        String l_TargetCountryOwner = p_GameSession.getCountriesInSession().get(p_UserInputParts.get(2)).getOwner();
+        if (l_TargetCountryOwner != null && this.hasDiplomacyWith(l_TargetCountryOwner)) {
+            d_LogEntryBuffer.logData("Cannot attack. You are negotiating with the owner" + l_TargetCountryOwner);
+            return;
+        }
+        this.addAttackOrder(
+                l_SourceCountryName,
+                l_TargetCountryName,
+                l_NumArmies
+        );
+
+    }
+
+    /**
+     * Method to handle bomb orders.
+     *
+     * @param p_UserInputParts List of user input parts.
+     * @param p_GameSession      GameSession object.
+     */
+    public void bombOrderHandler(List<String> p_UserInputParts, GameSession p_GameSession) {
+        // Validations
+        if (!p_GameSession.isCountryExists(p_UserInputParts.get(1))) {
+            d_LogEntryBuffer.logData("Country does not exist");
+            return;
+        }
+        // Do not allow if player has diplomacy with target country owner
+        String l_TargetCountryOwner = p_GameSession.getCountriesInSession().get(p_UserInputParts.get(1)).getOwner();
+        if (l_TargetCountryOwner != null && this.hasDiplomacyWith(l_TargetCountryOwner)) {
+            d_LogEntryBuffer.logData("Cannot bomb. You are negotiating with the owner" + l_TargetCountryOwner);
+            return;
+        }
+
+        // If player owns card then allow the order
+        if (this.useCard(WarzoneConstants.BOMB)) {
+            this.addBombOrder(
+                    p_UserInputParts.get(1)
+            );
+        } else {
+            d_LogEntryBuffer.logData("You do not own the bomb card");
+            return;
+        }
+    }
+
+    /**
+     * Method to handle blockade orders.
+     *
+     * @param p_UserInputParts List of user input parts.
+     * @param p_GameSession      GameSession object.
+     */
+    public void blockadeOrderHandler(List<String> p_UserInputParts, GameSession p_GameSession) {
+        // Validations
+        if (!p_GameSession.isCountryExists(p_UserInputParts.get(1))) {
+            d_LogEntryBuffer.logData("Country does not exist");
+            return;
+        }
+
+        if (this.useCard(WarzoneConstants.BLOCKADE)) {
+            this.addBlockadeOrder(
+                    p_UserInputParts.get(1)
+            );
+        } else {
+            d_LogEntryBuffer.logData("You do not own the blockade card");
+            return;
+        }
+    }
+
+    /**
+     * Method to handle airlift orders.
+     *
+     * @param p_UserInputParts List of user input parts.
+     * @param p_GameSession      p_GameSession object.
+     */
+    public void airliftOrderHandler(List<String> p_UserInputParts, GameSession p_GameSession) {
+        String l_SourceCountryName = p_UserInputParts.get(1);
+        int l_NumArmies = Integer.parseInt(p_UserInputParts.get(3));
+        // Check if player owns the country
+        if (!this.ownsCountry(l_SourceCountryName)) {
+            d_LogEntryBuffer.logData("You do not own the source country " + l_SourceCountryName);
+        }
+        // Do not allow if source country has less than 1 armies remaining
+        if (l_NumArmies >= p_GameSession.getCountriesInSession().get(l_SourceCountryName).getNumberOfArmies()) {
+            d_LogEntryBuffer.logData("Cannot airlift. You need to have minimum 1 army remaining in each country");
+            return;
+        }
+        // Do not allow if player has diplomacy with target country owner
+        String l_TargetCountryOwner = p_GameSession.getCountriesInSession().get(p_UserInputParts.get(2)).getOwner();
+        if (l_TargetCountryOwner != null && this.hasDiplomacyWith(l_TargetCountryOwner)) {
+            d_LogEntryBuffer.logData("Cannot airlift. You are negotiating with the owner" + l_TargetCountryOwner);
+            return;
+        }
+
+        if (this.useCard(WarzoneConstants.AIRLIFT)) {
+            this.addAirliftOrder(
+                    p_UserInputParts.get(1),
+                    p_UserInputParts.get(2),
+                    Integer.parseInt(p_UserInputParts.get(3))
+            );
+        } else {
+            d_LogEntryBuffer.logData("You do not own the airlift card");
+            return;
+        }
+    }
+
+    /**
+     * Method to handle negotiate orders.
+     *
+     * @param p_UserInputParts List of user input parts.
+     * @param p_GameSession      GameSession object.
+     */
+    public void negotiateOrderHandler(List<String> p_UserInputParts, GameSession p_GameSession) {
+        // Validations
+        // Do not allow to diplomatically negotiate with self
+        if (p_UserInputParts.get(1).equals(this.getName())) {
+            d_LogEntryBuffer.logData("Cannot negotiate with self");
+            return;
+        }
+
+        // Do not allow to negotiate if attack order is already issued
+        for (Order l_Order : this.getOrderList()) {
+            if (l_Order.getOrderType().equals(WarzoneConstants.ADVANCE)) {
+                String l_TargetCountry = l_Order.getOrderDetails().getTargetCountry();
+                String l_TargetCountryOwner = p_GameSession.getCountriesInSession().get(l_TargetCountry).getOwner();
+                if (l_TargetCountryOwner != null && l_TargetCountryOwner.equals(p_UserInputParts.get(1))) {
+                    d_LogEntryBuffer.logData("Cannot negotiate with " + p_UserInputParts.get(1) + " as you have already issued attack order on " + l_TargetCountry);
+                    return;
+                }
+            }
+        }
+
+        if (this.useCard(WarzoneConstants.NEGOTIATE)) {
+            this.addDiplomacyOrder(
+                    p_UserInputParts.get(1)
+            );
+        } else {
+            d_LogEntryBuffer.logData("You do not own the negotiate card");
+            return;
+        }
     }
 }
