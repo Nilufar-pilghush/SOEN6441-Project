@@ -2,9 +2,7 @@ package main.java.warzone.services;
 
 import main.java.warzone.exceptions.WarzoneRuntimeException;
 import main.java.warzone.exceptions.WarzoneValidationException;
-
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Interface for managing main.java.game map data.
@@ -21,19 +19,21 @@ import java.io.OutputStream;
  * @version 1.0.0
  */
 
-public interface GameMapDataHandler {
+public interface GameMapDataHandler{
 
     /**
-     * Loads a main.java.game map from an InputStream.
-     * @param p_InputStream The source stream of the map file.
-     * @throws WarzoneValidationException If the map or it's data cannot be loaded.
+     * Generates a game session from the provided input stream.
+     *
+     * @param p_InputStream The input stream representing the game session data.
+     * @throws WarzoneRuntimeException    If the file representing the game session data is not found.
+     * @throws WarzoneValidationException If there's a validation error while processing the game session data.
      */
-    void createGameMap(InputStream p_InputStream) throws WarzoneRuntimeException, WarzoneValidationException;
+    void makeGameSession(InputStream p_InputStream) throws WarzoneRuntimeException, WarzoneValidationException;
 
     /**
-     * Saves the current main.java.game map to an OutputStream.
-     * @param p_OutputStream The destination stream to save the map.
+     * Saves the current game session to a specified file.
+     *
+     * @param p_GameSessionFileName The name of the file to which the game session data should be saved.
      */
-    void saveGameMap(String p_OutputStream);
-
+    void saveGameSession(String p_GameSessionFileName);
 }
