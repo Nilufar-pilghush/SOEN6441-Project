@@ -1,6 +1,5 @@
 package main.java.warzone.services.impl;
 
-import main.java.warzone.services.io.GameMapDataHandlerImpl;
 import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.exceptions.WarzoneRuntimeException;
 import main.java.warzone.exceptions.WarzoneValidationException;
