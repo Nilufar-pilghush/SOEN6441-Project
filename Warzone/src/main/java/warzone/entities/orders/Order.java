@@ -184,4 +184,10 @@ public abstract class Order implements Serializable{
         return l_RemainingAttackers;
     }
 
+    /**
+     * Method to display the order execution information
+     *
+     * @param p_OrderDetails Details of given order
+     */
+    public abstract void displayCommand(OrderDetails p_OrderDetails);
 }

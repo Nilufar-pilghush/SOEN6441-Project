@@ -6,6 +6,8 @@ import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * Deals with the diplomacy order execution in {@link Order}.
  *
@@ -16,7 +18,7 @@ import main.java.warzone.utils.logging.impl.LogEntryBuffer;
  * @author Fatemeh Chaji
  * @version 2.0.0
  */
-public class DiplomacyOrderCommand extends Order {
+public class DiplomacyOrderCommand extends Order implements Serializable {
 
     /**
      * Name of target the player.
@@ -52,9 +54,14 @@ public class DiplomacyOrderCommand extends Order {
     @Override
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
-        d_LogEntryBuffer.logData("Executing diplomacy order for " + l_OrderDetails.getPlayerName() + " on " + this.d_TargetPlayerName);
+        displayCommand(l_OrderDetails);
         p_GameSession.getPlayers().get(l_OrderDetails.getPlayerName()).addDiplomacyPlayer(this.d_TargetPlayerName);
         p_GameSession.getPlayers().get(this.d_TargetPlayerName).addDiplomacyPlayer(l_OrderDetails.getPlayerName());
         this.runPostExecute(p_GameSession);
+    }
+
+    @Override
+    public void displayCommand(OrderDetails p_OrderDetails) {
+        d_LogEntryBuffer.logData("Executing diplomacy order for " + p_OrderDetails.getPlayerName() + " on " + this.d_TargetPlayerName);
     }
 }

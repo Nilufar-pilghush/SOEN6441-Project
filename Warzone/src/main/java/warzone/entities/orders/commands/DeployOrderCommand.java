@@ -8,6 +8,8 @@ import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * Deals with the deploy order execution in {@link Order}.
  *
@@ -16,9 +18,9 @@ import main.java.warzone.utils.logging.impl.LogEntryBuffer;
  * @author Jerome Kithinji
  * @author Ali Sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
-public class DeployOrderCommand extends Order {
+public class DeployOrderCommand extends Order implements Serializable {
 
     /**
      * LogEntryBuffer object for logging the user play data.
@@ -46,11 +48,18 @@ public class DeployOrderCommand extends Order {
     @Override
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
-        d_LogEntryBuffer.logData("Executing deployment order for " + l_OrderDetails.getPlayerName() + " in " + l_OrderDetails.getTargetCountry() + " with a deployment of " + l_OrderDetails.getNumberOfArmies() + " armies.");
+        displayCommand(l_OrderDetails);
         Country l_TargetCountry = p_GameSession.getCountriesInSession().get(l_OrderDetails.getTargetCountry());
         int l_RemainingAttackers = this.getRemainingAttackers(l_OrderDetails.getNumberOfArmies(), l_TargetCountry.getNumberOfArmies());
         int l_RemainingDefenders = this.getRemainingDefenders(l_OrderDetails.getNumberOfArmies(), l_TargetCountry.getNumberOfArmies());
         if (l_TargetCountry.getOwner() == null || !l_TargetCountry.getOwner().equals(l_OrderDetails.getPlayerName())) {
+            if(l_TargetCountry.getOwner() != null){
+                d_LogEntryBuffer.logData("Invalid deploy order. Country already owned by " + l_TargetCountry.getOwner());
+                // Return the used deploy armies
+                Player l_Player = p_GameSession.getPlayers().get(l_OrderDetails.getPlayerName());
+                l_Player.addArmies(l_OrderDetails.getNumberOfArmies());
+                return;
+            }
             if (l_RemainingDefenders == 0 && l_RemainingAttackers > 0) {
                 d_LogEntryBuffer.logData("Capture successful");
                 this.setCaptureFlag(true);
@@ -72,5 +81,10 @@ public class DeployOrderCommand extends Order {
             l_TargetCountry.addArmies(l_OrderDetails.getNumberOfArmies());
         }
         this.runPostExecute(p_GameSession);
+    }
+
+    @Override
+    public void displayCommand(OrderDetails p_OrderDetails) {
+        d_LogEntryBuffer.logData("Executing deployment order for " + p_OrderDetails.getPlayerName() + " in " + p_OrderDetails.getTargetCountry() + " with a deployment of " + p_OrderDetails.getNumberOfArmies() + " armies.");
     }
 }

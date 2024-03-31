@@ -7,6 +7,8 @@ import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * Deals with the bomb order execution in {@link Order}.
  *
@@ -15,10 +17,10 @@ import main.java.warzone.utils.logging.impl.LogEntryBuffer;
  * @author Jerome Kithinji
  * @author Ali Sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
 
-public class BombOrderCommand extends Order {
+public class BombOrderCommand extends Order implements Serializable {
 
     /**
      * LogEntryBuffer object for logging the user play data.
@@ -48,12 +50,17 @@ public class BombOrderCommand extends Order {
     @Override
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
-        d_LogEntryBuffer.logData("Executingg bomb order for " + l_OrderDetails.getPlayerName() + " on " + l_OrderDetails.getTargetCountry());
+        displayCommand(l_OrderDetails);
 
         Country l_BombTargetCountry = p_GameSession.getCountriesInSession().get(l_OrderDetails.getTargetCountry());
         int l_CurrentArmies = l_BombTargetCountry.getNumberOfArmies();
         // Reduce the target country's army count by half
         l_BombTargetCountry.setNumberOfArmies(Math.floorDiv(l_CurrentArmies, 2));
         this.runPostExecute(p_GameSession);
+    }
+
+    @Override
+    public void displayCommand(OrderDetails p_OrderDetails) {
+        d_LogEntryBuffer.logData("Executing bomb order for " + p_OrderDetails.getPlayerName() + " on " + p_OrderDetails.getTargetCountry());
     }
 }
