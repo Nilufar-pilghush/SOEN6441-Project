@@ -131,6 +131,11 @@ public class WarzoneConstants {
     public static final String LOAD_MAP = "loadmap";
 
     /**
+     * Constant for save game extension
+     */
+    public static final String SAVE_GAME_EXTENSION = ".bin";
+
+    /**
      * Constant to list maps
      */
     public static final String LIST_MAPS = "listmaps";
