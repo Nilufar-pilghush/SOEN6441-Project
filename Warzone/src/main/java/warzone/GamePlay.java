@@ -21,7 +21,7 @@ import main.java.warzone.utils.logging.impl.LogEntryBuffer;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
 public class GamePlay {
 
@@ -54,7 +54,7 @@ public class GamePlay {
             d_LogEntryBuffer.logData("");
             d_LogEntryBuffer.logData("********************************************************");
             d_LogEntryBuffer.logData("\t\t\tSOEN-6441, Winter 2024, Concordia University");
-            d_LogEntryBuffer.logData("\t\t\tWarzone-Risk Game Project, Build 02");
+            d_LogEntryBuffer.logData("\t\t\tWarzone-Risk Game Project, Build 03");
             d_LogEntryBuffer.logData("\t\t\t\t\t\t\t");
             d_LogEntryBuffer.logData("********************************************************");
             boolean l_IsValid = false;
@@ -64,7 +64,8 @@ public class GamePlay {
                     d_LogEntryBuffer.logData("Choose One Option: ");
                     d_LogEntryBuffer.logData("\t\t\t\t\t  1 Edit Map");
                     d_LogEntryBuffer.logData("\t\t\t\t\t  2 Start Game");
-                    d_LogEntryBuffer.logData("\t\t\t\t\t  3 Exit Game");
+                    d_LogEntryBuffer.logData("\t\t\t\t\t  3 Load Game");
+                    d_LogEntryBuffer.logData("\t\t\t\t\t  4 Exit Game");
                     d_LogEntryBuffer.logData("********************************************************");
                     int l_SelectedOption = Integer.parseInt(br.readLine());
                     switch (l_SelectedOption) {
@@ -78,9 +79,13 @@ public class GamePlay {
                             l_GamePhase = GamePhase.START_UP;
                         }
                         case 3 -> {
-                            l_GamePhase = GamePhase.EXIT;
+                            l_GamePhase = GamePhase.LOAD_GAME;
                             return true;
 
+                        }
+                        case 4 -> {
+                            l_GamePhase = GamePhase.EXIT;
+                            return true;
                         }
                         default -> {
                             d_LogEntryBuffer.logData("Invalid option--> " + l_SelectedOption);
