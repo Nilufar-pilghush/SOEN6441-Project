@@ -1,41 +1,39 @@
-editcontinent -add Asia 5
-editcontinent -add Africa 4
-
-editcountry -add iran Asia
-editcountry -add china Asia
-editcountry -add india Asia
-editcountry -add iraq Asia
-editcountry -add japan Asia
+editcontinent -add asia 5
+editcontinent -add europe 4
 
 
+editcountry -add iran asia
+editcountry -add china asia
+editcountry -add turkey asia
 
 
-editcountry -add chad Africa
-editcountry -add cameron Africa
-editcountry -add neiger Africa
-editcountry -add chana Africa
+editcountry -add russia europe
+editcountry -add ukraine europe
+editcountry -add romania europe
+
+
+editneighbor -add russia china
+editneighbor -add turkey romania
+editneighbor -add ukraine russia
+editneighbor -add ukraine romania
+editneighbor -add china iran
+editneighbor -add turkey iran
 
 
 
-editneighbor -add chad cameron
-editneighbor -add iran iraq
-editneighbor -add japan china
-editneighbor -add india iraq
-editneighbor -add india china
 
+showmap
+savemap asiaEurope
+loadmap asiaEurope
 
-editneighbor -add chana neiger
-editneighbor -add chad neiger
-
-editneighbor -add chad iran
-
+editmap myMap
 
 validatemap
 
 
-gameplayer -add Jerome
-gameplayer -add Nasrin
+gameplayer -add ali
+gameplayer -add john
+
+
 assigncountries
-
-
 
