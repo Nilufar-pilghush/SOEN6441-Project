@@ -219,9 +219,11 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         d_LogEntryBuffer.logData(".......................................Startup Phase Commands..........................................");
         d_LogEntryBuffer.logData("To list existing maps: listmaps");
         d_LogEntryBuffer.logData("To load a map: loadmap filename");
-        d_LogEntryBuffer.logData("To edit game players: gameplayer -add playername -remove playername");
+        d_LogEntryBuffer.logData("To edit game players: gameplayer -add playername -remove playername [-strategy strategyname(Choose strategyname: aggressive, benevolent, random, cheater, human)]");
         d_LogEntryBuffer.logData("To assign countries to players: assigncountries");
-        d_LogEntryBuffer.logData("To exit startup phase & start the game: exit");
+        d_LogEntryBuffer.logData("To save current game state: savegame filename");
+        d_LogEntryBuffer.logData("To exit startup phase & start the game in single player mode: exit");
+        d_LogEntryBuffer.logData("To start the game in tournament mode: tournament -M listofmaps -P listofplayerstrats -G numberofgames -D maxnumberofturns");
         d_LogEntryBuffer.logData(".......................................................................................................");
     }
 }
