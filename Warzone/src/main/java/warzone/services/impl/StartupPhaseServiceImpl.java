@@ -1,10 +1,7 @@
 package main.java.warzone.services.impl;
 import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.entities.TournamentConfig;
-import main.java.warzone.entities.players.AggressivePlayerStrategy;
-import main.java.warzone.entities.players.BenevolentPlayerStrategy;
-import main.java.warzone.entities.players.CheaterPlayerStrategy;
-import main.java.warzone.entities.players.PlayerStrategy;
+import main.java.warzone.entities.players.*;
 import main.java.warzone.exceptions.WarzoneBaseException;
 import main.java.warzone.exceptions.WarzoneRuntimeException;
         import main.java.warzone.exceptions.WarzoneValidationException;
@@ -12,9 +9,13 @@ import main.java.warzone.exceptions.WarzoneRuntimeException;
 import main.java.warzone.entities.GamePhase;
         import main.java.warzone.entities.GameSession;
         import main.java.warzone.services.GamePhaseService;
-        import main.java.warzone.utils.CmdUtils;
+import main.java.warzone.services.io.ConquestAdaptee;
+import main.java.warzone.services.io.ConquestAdapter;
+import main.java.warzone.services.io.DominationMapDataHandlerImpl;
+import main.java.warzone.utils.CmdUtils;
         import main.java.warzone.utils.FileUtils;
-        import main.java.warzone.utils.GameSessionValidator;
+import main.java.warzone.utils.GameProgressTracker;
+import main.java.warzone.utils.GameSessionValidator;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 import java.io.*;
@@ -32,7 +33,7 @@ import java.util.Scanner;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
 public class StartupPhaseServiceImpl implements GamePhaseService {
 
@@ -119,7 +120,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         }
     }
 
-    private void saveGameHandler(List<String> p_UserInputParts) throws WarzoneValidationException {
+    private boolean saveGameHandler(List<String> p_UserInputParts) throws WarzoneValidationException {
         if(p_UserInputParts.size() != 2){
             throw new WarzoneValidationException("Invalid savegame command");
         }
@@ -129,10 +130,8 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
             l_FileName += WarzoneConstants.SAVE_GAME_EXTENSION;
         }
 
-        File l_directory = new File(WarzoneConstants.SAVED_GAMES);
-        if (!l_directory.exists()) {
-            l_directory.mkdirs();
-        }
+        FileUtils.makeDirectoryIfAbsent(WarzoneConstants.SAVED_GAMES);
+
 
         File l_File = new File(l_FileName, WarzoneConstants.SAVED_GAMES);
         l_File.exists();
@@ -140,17 +139,8 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
             throw new WarzoneValidationException("File with name: " + l_FileName + " already exists");
         }
 
-        try {
-            FileOutputStream l_FileOutputStream = new FileOutputStream(WarzoneConstants.SAVED_GAMES + WarzoneConstants.FORWARD_SLASH + l_FileName);
-            ObjectOutputStream l_ObjectOutputStream = new ObjectOutputStream(l_FileOutputStream);
-            l_ObjectOutputStream.writeObject(d_CurrGameSession);
-            l_ObjectOutputStream.flush();
-            l_FileOutputStream.close();
-            d_CurrGameSession.clearPreviousSession();
-            d_LogEntryBuffer.logData("The game has been successfully saved to file /GameSessions/" + l_FileName);
-        } catch (Exception p_Exception) {
-            d_LogEntryBuffer.logData(p_Exception.toString());
-        }
+        GameProgressTracker l_GameProgressTracker = new GameProgressTracker();
+        return l_GameProgressTracker.saveGameProgress(l_FileName);
     }
 
     /**
@@ -211,8 +201,8 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
             }
         }
 
-        GameMapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
-        l_GameMapDataManager.createGameMap(l_GameMap);
+        GameMapDataHandler l_GameMapDataManager = conquestMap ? new ConquestAdapter(new ConquestAdaptee()) : new DominationMapDataHandlerImpl();
+        l_GameMapDataManager.makeGameSession(l_GameMap);
 
         if(!GameSessionValidator.validateMap(d_CurrGameSession)){
             d_CurrGameSession.clearPreviousSession();
@@ -273,7 +263,7 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         switch (l_SubAction) {
             case WarzoneConstants.ADD -> {
                 // Only add player if map is loaded
-                if (isWorldEmpty(d_CurrGameSession)) {
+                if (GameSessionValidator.isSessionEmpty(d_CurrGameSession)) {
                     d_LogEntryBuffer.logData("Please load a map first");
                     return;
                 }
@@ -373,19 +363,5 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         d_LogEntryBuffer.logData("To exit startup phase & start the game in single player mode: exit");
         d_LogEntryBuffer.logData("To start the game in tournament mode: tournament -M listofmaps -P listofplayerstrats -G numberofgames -D maxnumberofturns");
         d_LogEntryBuffer.logData(".......................................................................................................");
-    }
-
-    /**
-     * Validates if the given game session is empty (no continents).
-     *
-     * @param p_GameSession game world to be validated
-     * @return true if the given world is empty, false otherwise
-     */
-    public boolean isWorldEmpty(GameSession p_GameSession) {
-        if (Objects.isNull(p_GameSession) || p_GameSession.getCountriesInSession().isEmpty()) {
-            d_LogEntryBuffer.logData("Game Session is empty.");
-            return true;
-        }
-        return false;
     }
 }

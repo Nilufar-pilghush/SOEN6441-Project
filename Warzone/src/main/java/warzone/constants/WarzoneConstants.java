@@ -8,7 +8,7 @@ package main.java.warzone.constants;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
 
 
@@ -165,7 +165,6 @@ public class WarzoneConstants {
      */
     public static final String CHEATER = "cheater";
 
-
     /**
      * Constant to split on equals
      */
@@ -250,16 +249,6 @@ public class WarzoneConstants {
      * List of available cards
      */
     public static String[] CARDS_LIST = {BOMB, BLOCKADE, AIRLIFT, NEGOTIATE};
-//    /**
-//     * Constant for blockade
-//     */
-//    public static final String BLOCKADE = "blockade";
-//
-//    /**
-//     * Constant for airlift
-//     */
-//    public static final String AIRLIFT = "airlift";
-
 
     /**
      * Directory to store log files
@@ -282,11 +271,6 @@ public class WarzoneConstants {
     public static final String SAVE_GAME = "savegame";
 
     /**
-     * Constant for save game extension
-     */
-    public static final String SAVE_GAME_EXTENSION = ".bin";
-
-    /**
      * Constant for saved games directory
      */
     public static final String SAVED_GAMES = "SavedGames";
@@ -297,33 +281,7 @@ public class WarzoneConstants {
     public static final String HUMAN = "human";
 
     /**
-     * Constant for aggressive player strategy
-     */
-    public static final String AGGRESSIVE = "aggressive";
-
-    /**
-     * Constant for benevolent player strategy
-     */
-    public static final String BENEVOLENT = "benevolent";
-
-    /**
-     * Constant for random player strategy
-     */
-    public static final String RANDOM = "random";
-
-    /**
-     * Constant for cheater player strategy
-     */
-    public static final String CHEATER = "cheater";
-
-    /**
      * Constant to handle strategy sub action
      */
     public static final String STRATEGY = "strategy";
-//
-//    /**
-//     * List of available cards
-//     */
-//    public static String[] CARDS_LIST = {BOMB, BLOCKADE, AIRLIFT, NEGOTIATE};
-
 }

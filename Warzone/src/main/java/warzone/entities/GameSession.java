@@ -1,5 +1,6 @@
 package main.java.warzone.entities;
 
+import main.java.warzone.entities.players.HumanPlayerStrategy;
 import main.java.warzone.entities.players.PlayerStrategy;
 import main.java.warzone.exceptions.WarzoneValidationException;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
