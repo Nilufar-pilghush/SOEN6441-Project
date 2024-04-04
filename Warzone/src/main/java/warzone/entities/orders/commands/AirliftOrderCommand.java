@@ -8,6 +8,8 @@ import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
+import java.io.Serializable;
+
 /**
  * Implementation of the {@link Order} interface for executing the airlift order.
  *
@@ -18,7 +20,7 @@ import main.java.warzone.utils.logging.impl.LogEntryBuffer;
  * @author Fatemeh Chaji
  * @version 2.0.0
  */
-public class AirliftOrderCommand extends Order {
+public class AirliftOrderCommand extends Order implements Serializable {
 
     /**
      * LogEntryBuffer instance for recording log data.
@@ -36,7 +38,7 @@ public class AirliftOrderCommand extends Order {
     public AirliftOrderCommand(String p_PlayerName, String p_SourceCountry, String p_TargetCountry, int p_NumberOfArmies) {
         super(p_PlayerName, p_SourceCountry, p_TargetCountry, p_NumberOfArmies);
         this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
-        this.setOrderType("airlift");
+        this.setOrderType(WarzoneConstants.AIRLIFT);
     }
 
     /**
@@ -47,7 +49,8 @@ public class AirliftOrderCommand extends Order {
     @Override
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
-        d_LogEntryBuffer.logData("Executing airlift order for " + l_OrderDetails.getPlayerName() + " from " + l_OrderDetails.getSourceCountry() + " to " + l_OrderDetails.getTargetCountry() + " with " + l_OrderDetails.getNumberOfArmies() + " armies");
+        displayCommand(l_OrderDetails);
+
         Country l_SourceCountry = p_GameSession.getCountriesInSession().get(l_OrderDetails.getSourceCountry());
         Country l_TargetCountry = p_GameSession.getCountriesInSession().get(l_OrderDetails.getTargetCountry());
         // If not owned by the player, then subtract armies & update owner
@@ -76,6 +79,11 @@ public class AirliftOrderCommand extends Order {
         // Reduce source country armies
         l_SourceCountry.addArmies(l_OrderDetails.getNumberOfArmies());
         this.runPostExecute(p_GameSession);
+    }
+
+    @Override
+    public void displayCommand(OrderDetails p_OrderDetails) {
+        d_LogEntryBuffer.logData("Executing airlift order for " + p_OrderDetails.getPlayerName() + " on " + p_OrderDetails.getTargetCountry() + " from " + p_OrderDetails.getSourceCountry() + " with " + p_OrderDetails.getNumberOfArmies() + " armies");
     }
 
 }
