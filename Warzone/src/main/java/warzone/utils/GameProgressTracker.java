@@ -8,16 +8,44 @@ import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
 import java.util.*;
 
+/**
+ * This class is used to manage the game save and load
+ * functionalities
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 3.0.0
+ */
 public class GameProgressTracker {
 
+    /**
+     * Singleton instance of the game session.
+     */
     private GameSession d_CurrGameSession;
+
+    /**
+     * LogEntryBuffer object to log the information
+     * and notify the observers
+     */
     private LogEntryBuffer d_LogEntryBuffer;
 
+    /**
+     * Constructor to instantiate the game progress tracker
+     */
     public GameProgressTracker() {
         d_CurrGameSession = GameSession.getInstance();
         d_LogEntryBuffer = LogEntryBuffer.getInstance();
     }
 
+    /**
+     * Method to save the progress of the game
+     *
+     * @param p_FileName Name of the file
+     * @return True if game is successfully saved, false otherwise
+     */
     public boolean saveGameProgress(String p_FileName) {
         try {
             FileOutputStream l_FileOutputStream = new FileOutputStream(WarzoneConstants.SAVED_GAMES + WarzoneConstants.FORWARD_SLASH + p_FileName);
@@ -34,6 +62,9 @@ public class GameProgressTracker {
         }
     }
 
+    /**
+     * Method for listing the saved game files
+     */
     public void listSavedGameFiles() {
         d_LogEntryBuffer.logData("..............................................");
         d_LogEntryBuffer.logData("\t\t Warzone - Load Menu");
@@ -55,6 +86,12 @@ public class GameProgressTracker {
         d_LogEntryBuffer.logData("example command: loadgame filename");
     }
 
+    /**
+     * Method to load the progress of the game
+     *
+     * @param p_FileName File to load
+     * @return Upcoming game segment
+     */
     public GameSegment loadGameProgress(String p_FileName) {
         try {
             FileInputStream l_FileInputStream = new FileInputStream(WarzoneConstants.SAVED_GAMES + WarzoneConstants.FORWARD_SLASH + p_FileName);
