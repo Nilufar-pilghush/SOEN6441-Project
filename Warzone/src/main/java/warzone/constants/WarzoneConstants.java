@@ -224,6 +224,51 @@ public class WarzoneConstants {
      * Constant for tournament
      */
     public static final String TOURNAMENT = "tournament";
+
+    /**
+     * Constant for save game
+     */
+    public static final String SAVE_GAME = "savegame";
+
+    /**
+     * Constant for save game extension
+     */
+    public static final String SAVE_GAME_EXTENSION = ".bin";
+
+    /**
+     * Constant for saved games directory
+     */
+    public static final String SAVED_GAMES = "SavedGames";
+
+    /**
+     * Constant for Human player strategy
+     */
+    public static final String HUMAN = "human";
+
+    /**
+     * Constant for aggressive player strategy
+     */
+    public static final String AGGRESSIVE = "aggressive";
+
+    /**
+     * Constant for benevolent player strategy
+     */
+    public static final String BENEVOLENT = "benevolent";
+
+    /**
+     * Constant for random player strategy
+     */
+    public static final String RANDOM = "random";
+
+    /**
+     * Constant for cheater player strategy
+     */
+    public static final String CHEATER = "cheater";
+
+    /**
+     * Constant to handle strategy sub action
+     */
+    public static final String STRATEGY = "strategy";
 //
 //    /**
 //     * List of available cards

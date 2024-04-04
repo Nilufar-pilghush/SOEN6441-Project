@@ -1,6 +1,12 @@
 package main.java.warzone.services.impl;
 import main.java.warzone.constants.WarzoneConstants;
-        import main.java.warzone.exceptions.WarzoneRuntimeException;
+import main.java.warzone.entities.TournamentConfig;
+import main.java.warzone.entities.players.AggressivePlayerStrategy;
+import main.java.warzone.entities.players.BenevolentPlayerStrategy;
+import main.java.warzone.entities.players.CheaterPlayerStrategy;
+import main.java.warzone.entities.players.PlayerStrategy;
+import main.java.warzone.exceptions.WarzoneBaseException;
+import main.java.warzone.exceptions.WarzoneRuntimeException;
         import main.java.warzone.exceptions.WarzoneValidationException;
         import main.java.warzone.services.GameMapDataHandler;
         import main.java.warzone.services.io.GameMapDataHandlerImpl;
@@ -12,11 +18,11 @@ import main.java.warzone.constants.WarzoneConstants;
         import main.java.warzone.utils.GameSessionValidator;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
-import java.io.FileNotFoundException;
-        import java.io.InputStream;
-        import java.util.ArrayList;
+import java.io.*;
+import java.util.ArrayList;
         import java.util.List;
-        import java.util.Scanner;
+import java.util.Objects;
+import java.util.Scanner;
 
 
 /**
@@ -43,26 +49,34 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     private LogEntryBuffer d_LogEntryBuffer;
 
     /**
+     * Reader to take user input
+     */
+    private BufferedReader d_InputScanner;
+
+    /**
      * Constructor to initialize GameStartupPhaseService
      */
     public StartupPhaseServiceImpl() {
         d_CurrGameSession = GameSession.getInstance();
         d_LogEntryBuffer = LogEntryBuffer.getInstance();
+        d_InputScanner = new BufferedReader(new InputStreamReader(System.in));
     }
 
 
     /**
-     * Handles the main.java.game phase based on user input.
+     * Handles the game phase based on user input.
      *
-     * @param p_CurrPhase Current main.java.game phase.
-     * @return Next main.java.game phase after handling.
+     * @param p_CurrPhase Current game phase.
+     * @return Next game phase after handling.
      */
     @Override
-    public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
+    public GamePhase handleGamePhase(GamePhase p_CurrPhase) throws WarzoneBaseException {
+        d_CurrGameSession.setCurrGamePhase(p_CurrPhase);
         Scanner l_InputScanner = new Scanner(System.in);
         d_LogEntryBuffer.logData("");
         d_LogEntryBuffer.logData("************ Welcome to Game Startup Phase ************");
         d_LogEntryBuffer.logData("...Enter 'help' at any time to view available commands in this phase...");
+        displayHelpCommandsForGamePhase();
         while (true) {
             try {
                 String l_UserInput = l_InputScanner.nextLine();
@@ -81,11 +95,18 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
                     case WarzoneConstants.ASSIGN_COUNTRIES -> {
                         assignCountriesToPlayers();
                     }
+                    case WarzoneConstants.SAVE_GAME -> {
+                        saveGameHandler(l_UserInputParts);
+                    }
                     case WarzoneConstants.HELP -> {
                         displayHelpCommandsForGamePhase();
                     }
                     case WarzoneConstants.EXIT -> {
                         return p_CurrPhase.validateAndMoveToNextState(GamePhase.MAIN_GAME_LOOP);
+                    }
+                    case WarzoneConstants.TOURNAMENT -> {
+                        tournamentHandler(l_UserInputParts);
+                        return p_CurrPhase.validateAndMoveToNextState(GamePhase.TOURNAMENT);
                     }
                     default -> {
                         d_LogEntryBuffer.logData("Command not found--> " + l_PrimaryAction);
@@ -99,12 +120,46 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         }
     }
 
+    private void saveGameHandler(List<String> p_UserInputParts) throws WarzoneValidationException {
+        if(p_UserInputParts.size() != 2){
+            throw new WarzoneValidationException("Invalid savegame command");
+        }
+
+        String l_FileName = p_UserInputParts.get(1);
+        if(!l_FileName.endsWith(WarzoneConstants.SAVE_GAME_EXTENSION)){
+            l_FileName += WarzoneConstants.SAVE_GAME_EXTENSION;
+        }
+
+        File l_directory = new File(WarzoneConstants.SAVED_GAMES);
+        if (!l_directory.exists()) {
+            l_directory.mkdirs();
+        }
+
+        File l_File = new File(l_FileName, WarzoneConstants.SAVED_GAMES);
+        l_File.exists();
+        if (l_File.exists()) {
+            throw new WarzoneValidationException("File with name: " + l_FileName + " already exists");
+        }
+
+        try {
+            FileOutputStream l_FileOutputStream = new FileOutputStream(WarzoneConstants.SAVED_GAMES + WarzoneConstants.FORWARD_SLASH + l_FileName);
+            ObjectOutputStream l_ObjectOutputStream = new ObjectOutputStream(l_FileOutputStream);
+            l_ObjectOutputStream.writeObject(d_CurrGameSession);
+            l_ObjectOutputStream.flush();
+            l_FileOutputStream.close();
+            d_CurrGameSession.clearPreviousSession();
+            d_LogEntryBuffer.logData("The game has been successfully saved to file /GameSessions/" + l_FileName);
+        } catch (Exception p_Exception) {
+            d_LogEntryBuffer.logData(p_Exception.toString());
+        }
+    }
+
     /**
-     * This method is used to view the existing maps for efficient main.java.game play
+     * This method is used to view the existing maps for efficient game play
      *
      * @param p_UserInputParts the user input command
      * @throws WarzoneValidationException if the given command is invalid
-     * @throws WarzoneRuntimeException if the main.java.game sessions directory with maps is not present
+     * @throws WarzoneRuntimeException if the game sessions directory with maps is not present
      */
     private void listMapsHandler(List<String> p_UserInputParts) throws WarzoneValidationException, WarzoneRuntimeException {
         if (p_UserInputParts.size() > 1) {
@@ -136,6 +191,27 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
             throw new WarzoneRuntimeException("Unable to find map!");
         }
 
+        boolean correctChoice = false;
+        boolean conquestMap = false;
+        while (!correctChoice) {
+            try {
+                d_LogEntryBuffer.logData("Which format do you want to read the game session?");
+                d_LogEntryBuffer.logData("1. Domination");
+                d_LogEntryBuffer.logData("2. Conquest");
+                d_LogEntryBuffer.logData("Enter your choice: ");
+                int choice = Integer.parseInt(d_InputScanner.readLine());
+                if (choice != 1 && choice != 2) {
+                    d_LogEntryBuffer.logData("Invalid choice entered");
+                    continue;
+                } else if (choice == 2) {
+                    conquestMap = true;
+                }
+                correctChoice = true;
+            } catch (IOException e) {
+                d_LogEntryBuffer.logData("Invalid choice entered");
+            }
+        }
+
         GameMapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
         l_GameMapDataManager.createGameMap(l_GameMap);
 
@@ -159,15 +235,53 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         String[] l_SubActions = p_UserInputParts.get(1).split(WarzoneConstants.SPACE_REGEX);
         String l_SubAction = l_SubActions[0];
 
+        PlayerStrategy l_PlayerStrategy = null;
+
+        if(p_UserInputParts.size()>2){
+            String[] l_StrategySubActions = p_UserInputParts.get(2).split(WarzoneConstants.SPACE_REGEX);
+            String l_StrategySubAction = l_StrategySubActions[0].strip();
+            if (l_StrategySubAction.equalsIgnoreCase(WarzoneConstants.STRATEGY)) {
+                switch (l_StrategySubActions[1].strip()) {
+                    case WarzoneConstants.AGGRESSIVE -> {
+                        l_PlayerStrategy = new AggressivePlayerStrategy();
+                        break;
+                    }
+                    case WarzoneConstants.BENEVOLENT -> {
+                        l_PlayerStrategy = new BenevolentPlayerStrategy();
+                        break;
+                    }
+                    case WarzoneConstants.CHEATER -> {
+                        l_PlayerStrategy = new CheaterPlayerStrategy();
+                        break;
+                    }
+                    case WarzoneConstants.RANDOM -> {
+                        l_PlayerStrategy = new RandomPlayerStrategy();
+                        break;
+                    }
+                    case WarzoneConstants.HUMAN -> {
+                        l_PlayerStrategy = new HumanPlayerStrategy();
+                        break;
+                    }
+                    default -> {
+                        d_LogEntryBuffer.logData("Strategy not found--> " + l_StrategySubActions[1]);
+                        displayHelpCommandsForGamePhase();
+                    }
+                }
+            }
+        }
+
         // add or remove players based on input command
         switch (l_SubAction) {
             case WarzoneConstants.ADD -> {
                 // Only add player if map is loaded
-                if(GameSessionValidator.isSessionEmpty(d_CurrGameSession)){
+                if (isWorldEmpty(d_CurrGameSession)) {
                     d_LogEntryBuffer.logData("Please load a map first");
                     return;
                 }
-                d_CurrGameSession.createPlayer(l_SubActions[1]);
+                if (l_PlayerStrategy == null) {
+                    l_PlayerStrategy = new HumanPlayerStrategy();
+                }
+                d_CurrGameSession.createPlayer(l_SubActions[1], l_PlayerStrategy);
             }
             case WarzoneConstants.REMOVE -> {
                 d_CurrGameSession.deletePlayer(l_SubActions[1]);
@@ -213,7 +327,42 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
     }
 
     /**
-     * Displays the help commands for the current main.java.game phase.
+     * Handles the setup of tournament configuration based on user input. It sets
+     * the game seesion into tournament mode and initializesvtournament-related
+     * settings in the game session object.
+     *
+     * @param p_UserInputParts The list of string parts from the user's command input
+     *
+     */
+    private void tournamentHandler(List<String> p_UserInputParts) {
+        if (p_UserInputParts.size() < 4) {
+            d_LogEntryBuffer.logData("Invalid tournament command!");
+            return;
+        }
+        // Create tournament configuration
+        TournamentConfig tournamentConfig = new TournamentConfig();
+        for (int i = 1; i < p_UserInputParts.size(); i++) {
+            String[] arg = p_UserInputParts.get(i).split(WarzoneConstants.SPACE_REGEX);
+            if (arg[0].equals("M")) {
+                tournamentConfig.setMapFiles(arg[1].strip().split(WarzoneConstants.COMMA));
+            } else if (arg[0].equals("P")) {
+                tournamentConfig.setPlayerStrategies(arg[1].strip().split(WarzoneConstants.COMMA));
+            } else if (arg[0].equals("G")) {
+                tournamentConfig.setNumberOfGames(Integer.parseInt(arg[1]));
+            } else if (arg[0].equals("D")) {
+                tournamentConfig.setNumberOfMaxTurns(Integer.parseInt(arg[1]));
+            }
+        }
+
+        d_CurrGameSession.setTournamentMode(true);
+        d_CurrGameSession.setTournamentConfig(tournamentConfig);
+        d_CurrGameSession.setTournamentCurrentGame(-1);
+        d_CurrGameSession.setTournamentCurrentMap(0);
+        d_LogEntryBuffer.logData("Tournament mode enabled");
+    }
+
+    /**
+     * Displays the help commands for the current game phase.
      */
     private void displayHelpCommandsForGamePhase() {
         d_LogEntryBuffer.logData(".......................................Startup Phase Commands..........................................");
@@ -225,5 +374,19 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         d_LogEntryBuffer.logData("To exit startup phase & start the game in single player mode: exit");
         d_LogEntryBuffer.logData("To start the game in tournament mode: tournament -M listofmaps -P listofplayerstrats -G numberofgames -D maxnumberofturns");
         d_LogEntryBuffer.logData(".......................................................................................................");
+    }
+
+    /**
+     * Validates if the given game session is empty (no continents).
+     *
+     * @param p_GameSession game world to be validated
+     * @return true if the given world is empty, false otherwise
+     */
+    public boolean isWorldEmpty(GameSession p_GameSession) {
+        if (Objects.isNull(p_GameSession) || p_GameSession.getCountriesInSession().isEmpty()) {
+            d_LogEntryBuffer.logData("Game Session is empty.");
+            return true;
+        }
+        return false;
     }
 }
