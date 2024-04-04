@@ -13,7 +13,29 @@ import java.util.ArrayList;
 public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 
     @Override
-    public void issuePlayerOrder(Player p_Player, GameSession p_GameSession) {}
+    public void issuePlayerOrder(Player p_Player, GameSession p_GameSession) {
+        Country l_RandomCountry = getRandomOwnedCountry(p_Player, p_GameSession);
+        int l_NumberOfArmiesToDeploy = p_Player.getNumberOfArmies();
+
+        p_Player.addDeployOrder(
+                l_RandomCountry.getName(),
+                l_NumberOfArmiesToDeploy
+        );
+
+        List<String> l_AdjacentCountries = l_RandomCountry.getAdjacentCountries().values().stream().toList();
+        for (String l_AdjacentCountryName : l_AdjacentCountries) {
+            Country l_AdjacentCountry = p_GameSession.getCountriesOfSession().get(l_AdjacentCountryName);
+            String l_AdjacentCountryOwner = l_AdjacentCountry.getOwner();
+            if (l_AdjacentCountryOwner != null && !l_AdjacentCountry.getOwner().equals(p_Player.getName())) {
+                p_Player.addAttackOrder(
+                        l_RandomCountry.getName(),
+                        l_AdjacentCountryName,
+                        l_RandomCountry.getNumberOfArmies() - 1
+                );
+                break;
+            }
+        }
+    }
 
 
     @Override
