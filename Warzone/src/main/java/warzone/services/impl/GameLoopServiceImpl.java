@@ -18,7 +18,7 @@ import java.util.*;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @since 3.0.0
  */
 
 public class GameLoopServiceImpl implements GamePhaseService {
@@ -49,6 +49,9 @@ public class GameLoopServiceImpl implements GamePhaseService {
         GamePhase l_NextPhase = p_CurrPhase.getNextPhaseInMainGameLoop(d_GameSession.getCurrGamePhase(), d_GameSession);
         while (true) {
             displayHelpCommandsForGamePhase(l_NextPhase);
+            if(d_GameSession.isTournamentMode()){
+                return p_CurrPhase.validateAndMoveToNextState(proceedToGamePhase(l_NextPhase));
+            }
             String l_UserInput = l_InputScanner.nextLine();
             List<String> l_UserInputParts = CmdUtils.tokenizeUserInput(l_UserInput);
             try {
@@ -104,6 +107,7 @@ public class GameLoopServiceImpl implements GamePhaseService {
             d_LogEntryBuffer.logData(WarzoneConstants.EMPTY);
             d_LogEntryBuffer.logData("--" + l_PlayerName);
             d_LogEntryBuffer.logData("----Armies: " + d_GameSession.getPlayers().get(l_PlayerName).getNumberOfArmies());
+            d_LogEntryBuffer.logData("----Strategy: " + d_GameSession.getPlayers().get(l_PlayerName).getPlayerStrategyString());
             d_LogEntryBuffer.logData("----Owned countries:");
             for (String l_CountryName : d_GameSession.getPlayers().get(l_PlayerName).getOwnedCountries()) {
                 d_LogEntryBuffer.logData("------" + l_CountryName);

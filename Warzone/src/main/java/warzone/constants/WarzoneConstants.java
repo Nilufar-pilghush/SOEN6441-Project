@@ -131,6 +131,11 @@ public class WarzoneConstants {
     public static final String LOAD_MAP = "loadmap";
 
     /**
+     * Constant for save game extension
+     */
+    public static final String SAVE_GAME_EXTENSION = ".bin";
+
+    /**
      * Constant to list maps
      */
     public static final String LIST_MAPS = "listmaps";
@@ -139,6 +144,52 @@ public class WarzoneConstants {
      * Constant to refer game player
      */
     public static final String GAME_PLAYER = "gameplayer";
+
+    /**
+     * Team constant
+     */
+    public static final String U3 = "U3";
+
+    /**
+     * Constant for random player strategy
+     */
+    public static final String RANDOM = "random";
+
+    /**
+     * Constant for benevolent player strategy
+     */
+    public static final String BENEVOLENT = "benevolent";
+
+    /**
+     * Constant for cheater player strategy
+     */
+    public static final String CHEATER = "cheater";
+
+
+    /**
+     * Constant to split on equals
+     */
+    public static final String EQUALS = "=";
+
+    /**
+     * Constant for aggressive player strategy
+     */
+    public static final String AGGRESSIVE = "aggressive";
+
+    /**
+     * Map for conquest
+     */
+    public static final String MAP = "[map]";
+
+    /**
+     * Constant for author
+     */
+    public static final String AUTHOR = "author";
+
+    /**
+     * Constant for territories
+     */
+    public static final String TERRITORIES = "[territories]";
 
     /**
      * Constant to assign countries

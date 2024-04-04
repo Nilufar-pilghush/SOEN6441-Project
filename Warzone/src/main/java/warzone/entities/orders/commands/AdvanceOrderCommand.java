@@ -8,6 +8,8 @@ import main.java.warzone.entities.orders.Order;
 import main.java.warzone.entities.orders.OrderDetails;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
+import java.io.Serializable;
+
 
 /**
  * Implementation of the {@link Order} interface for executing the advance order.
@@ -19,7 +21,7 @@ import main.java.warzone.utils.logging.impl.LogEntryBuffer;
  * @author Fatemeh Chaji
  * @version 2.0.0
  */
-public class AdvanceOrderCommand extends Order {
+public class AdvanceOrderCommand extends Order implements Serializable{
 
 
     /**
@@ -39,7 +41,7 @@ public class AdvanceOrderCommand extends Order {
     public AdvanceOrderCommand(String p_PlayerName, String p_SourceCountry, String p_TargetCountry, int p_NumberOfArmies) {
         super(p_PlayerName, p_SourceCountry, p_TargetCountry, p_NumberOfArmies);
         this.d_LogEntryBuffer = LogEntryBuffer.getInstance();
-        this.setOrderType("advance");
+        this.setOrderType(WarzoneConstants.ADVANCE);
     }
 
 
@@ -51,9 +53,17 @@ public class AdvanceOrderCommand extends Order {
     @Override
     public void execute(GameSession p_GameSession) {
         OrderDetails l_OrderDetails = this.getOrderDetails();
-        d_LogEntryBuffer.logData("Executing attack order for " + this.getOrderDetails().getPlayerName() + " on " + this.getOrderDetails().getTargetCountry() + " from " + this.getOrderDetails().getSourceCountry() + " with " + this.getOrderDetails().getNumberOfArmies() + " armies");
+        displayCommand(l_OrderDetails);
+
         Country l_SourceCountry = p_GameSession.getCountriesInSession().get(this.getOrderDetails().getSourceCountry());
         Country l_TargetCountry = p_GameSession.getCountriesInSession().get(l_OrderDetails.getTargetCountry());
+
+        // Check if source country is owned by player
+        if (l_SourceCountry.getOwner() == null || !l_SourceCountry.getOwner().equals(l_OrderDetails.getPlayerName())) {
+            d_LogEntryBuffer.logData("Invalid advance order. Source country not owned by " + l_OrderDetails.getPlayerName());
+            return;
+        }
+
         // If not owned by player then subtract armies & update owner
         int l_RemainingAttackers = this.getRemainingAttackers(l_OrderDetails.getNumberOfArmies(), l_TargetCountry.getNumberOfArmies());
         int l_RemainingDefenders = this.getRemainingDefenders(l_OrderDetails.getNumberOfArmies(), l_TargetCountry.getNumberOfArmies());
@@ -82,5 +92,10 @@ public class AdvanceOrderCommand extends Order {
         // Reduce source country armies
         l_SourceCountry.addArmies(-l_OrderDetails.getNumberOfArmies());
         this.runPostExecute(p_GameSession);
+    }
+
+    @Override
+    public void displayCommand(OrderDetails p_OrderDetails) {
+        d_LogEntryBuffer.logData("Executing attack order for " + this.getOrderDetails().getPlayerName() + " on " + this.getOrderDetails().getTargetCountry() + " from " + this.getOrderDetails().getSourceCountry() + " with " + this.getOrderDetails().getNumberOfArmies() + " armies");
     }
 }

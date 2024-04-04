@@ -1,0 +1,20 @@
+[continents]
+asia 5
+europe 4
+
+[countries]
+2 china 1
+4 russia 2
+3 turkey 1
+1 iran 1
+5 ukraine 2
+6 romania 2
+
+[borders]
+2 1 4
+4 2 5
+3 1 6
+1 2 3
+5 4 6
+6 3 5
+
