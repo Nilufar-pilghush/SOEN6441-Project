@@ -12,18 +12,44 @@ import java.io.Serializable;
 import java.util.List;
 
 
+/**
+ * A realization of {@link PlayerStrategy}
+ * specifying the implementation of human strategy.
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 3.0.0
+ */
 public class HumanPlayerStrategy implements PlayerStrategy, Serializable {
 
+    /**
+     * Reader for taking input from the user
+     */
     private BufferedReader d_InputScanner;
 
+    /**
+     * LogEntryBuffer object to log the information
+     * and notify the observers
+     */
     private LogEntryBuffer d_LogEntryBuffer;
 
-
+    /**
+     * Constructor for instantiating human player strategy
+     */
     public HumanPlayerStrategy() {
         d_InputScanner = new BufferedReader(new InputStreamReader(System.in));
         d_LogEntryBuffer = LogEntryBuffer.getInstance();
     }
 
+    /**
+     * Method to issue player order.
+     *
+     * @param p_Player Player to issue order.
+     * @param p_GameSession GameSession instance
+     */
     @Override
     public void issuePlayerOrder(Player p_Player, GameSession p_GameSession) {
         boolean l_isPlayerDoneIssuingOrders = false;
@@ -65,6 +91,11 @@ public class HumanPlayerStrategy implements PlayerStrategy, Serializable {
         }
     }
 
+    /**
+     * Method to return strategy name.
+     *
+     * @return String strategy name.
+     */
     @Override
     public String getStrategyNameString() {
         return WarzoneConstants.HUMAN;

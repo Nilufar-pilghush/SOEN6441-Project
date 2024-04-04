@@ -10,8 +10,26 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
+
+/**
+ * A realization of {@link PlayerStrategy}
+ * specifying the implementation of random player strategy.
+ *
+ * @author Niloufar Pilgush
+ * @author Nasrin Maarefi
+ * @author Jerome Kithinji
+ * @author Ali sayed Salehi
+ * @author Fatemeh Chaji
+ * @version 3.0.0
+ */
 public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 
+    /**
+     * Method to issue random player orders.
+     *
+     * @param p_Player    Player to issue order.
+     * @param p_GameSession GameSession instance
+     */
     @Override
     public void issuePlayerOrder(Player p_Player, GameSession p_GameSession) {
         Country l_RandomCountry = getRandomOwnedCountry(p_Player, p_GameSession);
@@ -37,12 +55,23 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
         }
     }
 
-
+    /**
+     * Method to return strategy name.
+     *
+     * @return String strategy name.
+     */
     @Override
     public String getStrategyNameString() {
         return WarzoneConstants.RANDOM;
     }
 
+    /**
+     * Method to get random owned country.
+     *
+     * @param p_Player Current player
+     * @param p_GameSession Current game session
+     * @return random owned country.
+     */
     private Country getRandomOwnedCountry(Player p_Player, GameSession p_GameSession) {
         List<Country> ownedCountries = new ArrayList<>();
         for (String l_CountryName : p_Player.getOwnedCountries()) {
