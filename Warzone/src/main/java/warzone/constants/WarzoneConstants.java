@@ -8,7 +8,7 @@ package main.java.warzone.constants;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @version 2.0.0
+ * @version 3.0.0
  */
 
 
@@ -165,7 +165,6 @@ public class WarzoneConstants {
      */
     public static final String CHEATER = "cheater";
 
-
     /**
      * Constant to split on equals
      */
@@ -250,16 +249,6 @@ public class WarzoneConstants {
      * List of available cards
      */
     public static String[] CARDS_LIST = {BOMB, BLOCKADE, AIRLIFT, NEGOTIATE};
-//    /**
-//     * Constant for blockade
-//     */
-//    public static final String BLOCKADE = "blockade";
-//
-//    /**
-//     * Constant for airlift
-//     */
-//    public static final String AIRLIFT = "airlift";
-
 
     /**
      * Directory to store log files
@@ -275,10 +264,24 @@ public class WarzoneConstants {
      * Constant for tournament
      */
     public static final String TOURNAMENT = "tournament";
-//
-//    /**
-//     * List of available cards
-//     */
-//    public static String[] CARDS_LIST = {BOMB, BLOCKADE, AIRLIFT, NEGOTIATE};
 
+    /**
+     * Constant for save game
+     */
+    public static final String SAVE_GAME = "savegame";
+
+    /**
+     * Constant for saved games directory
+     */
+    public static final String SAVED_GAMES = "SavedGames";
+
+    /**
+     * Constant for Human player strategy
+     */
+    public static final String HUMAN = "human";
+
+    /**
+     * Constant to handle strategy sub action
+     */
+    public static final String STRATEGY = "strategy";
 }

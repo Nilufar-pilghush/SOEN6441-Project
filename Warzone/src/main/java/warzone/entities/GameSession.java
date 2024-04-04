@@ -1,5 +1,7 @@
 package main.java.warzone.entities;
 
+import main.java.warzone.entities.players.HumanPlayerStrategy;
+import main.java.warzone.entities.players.PlayerStrategy;
 import main.java.warzone.exceptions.WarzoneValidationException;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 import java.io.Serializable;
@@ -459,14 +461,15 @@ public class GameSession implements Serializable{
      * Creates a new player.
      *
      * @param p_PlayerName Name of the new player.
+     * @param p_PlayerStrategy Strategy of the player
      * @throws WarzoneValidationException If the player already exists.
      */
-    public void createPlayer(String p_PlayerName) throws WarzoneValidationException {
+    public void createPlayer(String p_PlayerName, PlayerStrategy p_PlayerStrategy) throws WarzoneValidationException {
         if (d_CurrGameSession.getPlayers().containsKey(p_PlayerName)) {
             d_LogEntryBuffer.logData("Player with name: " + p_PlayerName + " already exists");
             throw new WarzoneValidationException("Player with given name " + p_PlayerName + "already exists");
         }
-        Player l_CreatedPlayer = new Player(p_PlayerName);
+        Player l_CreatedPlayer = new Player(p_PlayerName, p_PlayerStrategy);
         d_Players.put(p_PlayerName, l_CreatedPlayer);
         d_LogEntryBuffer.logData("Player creation accomplished: " + p_PlayerName);
     }

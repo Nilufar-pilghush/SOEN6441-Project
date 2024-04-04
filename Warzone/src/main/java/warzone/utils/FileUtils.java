@@ -15,7 +15,7 @@ import java.io.InputStream;
  * @author Jerome Kithinji
  * @author Ali sayed Salehi
  * @author Fatemeh Chaji
- * @since 1.0.0
+ * @since 3.0.0
  */
 public class FileUtils {
 
@@ -73,6 +73,30 @@ public class FileUtils {
         } else {
             d_LogEntryBuffer.logData("Unable to find game worlds directory.");
             throw new FileNotFoundException();
+        }
+    }
+
+    /**
+     * Checks whether a given game file is exists.
+     *
+     * @param p_FileName The name of the file to check.
+     * @param p_DirectoryName The directory to check for the file
+     * @return true if the file is found, else false.
+     */
+    public static boolean doesFileExist(String p_FileName, String p_DirectoryName) {
+        File l_File = new File(p_DirectoryName, p_FileName);
+        return l_File.exists();
+    }
+
+    /**
+     * Method to create a directory if it doesn't exist
+     *
+     * @param p_DirName Directory to be created
+     */
+    public static void makeDirectoryIfAbsent(String p_DirName) {
+        File l_directory = new File(p_DirName);
+        if (!l_directory.exists()) {
+            l_directory.mkdirs();
         }
     }
 }
