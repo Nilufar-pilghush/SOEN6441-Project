@@ -8,6 +8,9 @@ import main.java.warzone.entities.GamePhase;
 import main.java.warzone.entities.GameSession;
 import main.java.warzone.services.GameMapDataHandler;
 import main.java.warzone.services.GamePhaseService;
+import main.java.warzone.services.io.ConquestAdaptee;
+import main.java.warzone.services.io.ConquestAdapter;
+import main.java.warzone.services.io.DominationMapDataHandlerImpl;
 import main.java.warzone.utils.CmdUtils;
 import main.java.warzone.utils.FileUtils;
 import main.java.warzone.utils.GameSessionValidator;
@@ -44,11 +47,17 @@ public class MapEditorServiceImpl implements GamePhaseService {
     private LogEntryBuffer d_LogEntryBuffer;
 
     /**
+     * Reader to take user input
+     */
+    private BufferedReader d_InputScanner;
+
+    /**
      * Constructor to initialize SceneEditorService
      */
     public MapEditorServiceImpl() {
         d_GameSession = GameSession.getInstance();
         d_LogEntryBuffer = LogEntryBuffer.getInstance();
+        d_InputScanner = new BufferedReader(new InputStreamReader(System.in));
     }
 
     /**
@@ -139,28 +148,41 @@ public class MapEditorServiceImpl implements GamePhaseService {
         if (p_UserInputParts.size() <= 1) {
             throw new WarzoneValidationException("Invalid savemap command!");
         }
-        String l_FileName = p_UserInputParts.get(1) + WarzoneConstants.GAME_MAP_EXTENSION;
-        boolean l_doesFileExist = doesFileExist(l_FileName);
+        String l_FileName = p_UserInputParts.get(1);
+        if (!l_FileName.endsWith(WarzoneConstants.GAME_MAP_EXTENSION)) {
+            l_FileName += WarzoneConstants.GAME_MAP_EXTENSION;
+        }
+        boolean l_doesFileExist = FileUtils.doesFileExist(l_FileName, WarzoneConstants.GAME_WORLDS);
         if (l_doesFileExist) {
             throw new WarzoneValidationException("File with name: " + l_FileName + " already exists");
         }
         if (!GameSessionValidator.validateMap(d_GameSession)) {
             throw new WarzoneValidationException("Game session is not valid to save.");
         }
-        GameMapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
-        l_GameMapDataManager.saveGameMap(l_FileName);
-    }
 
-    /**
-     * Determines whether a given game file is already present.
-     *
-     * @param p_FileName The name of the file to verify.
-     * @return true if the file is found, else false.
-     */
-    private boolean doesFileExist(String p_FileName) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream l_GameScene = classLoader.getResourceAsStream(WarzoneConstants.GAME_SESSIONS + WarzoneConstants.FORWARD_SLASH + p_FileName);
-        return l_GameScene != null;
+        boolean correctChoice = false;
+        boolean conquestMap = false;
+        while (!correctChoice) {
+            try {
+                d_LogEntryBuffer.logData("Which format do you want to save the game world?");
+                d_LogEntryBuffer.logData("1. Domination");
+                d_LogEntryBuffer.logData("2. Conquest");
+                d_LogEntryBuffer.logData("Enter your choice: ");
+                int choice = Integer.parseInt(d_InputScanner.readLine());
+                if (choice != 1 && choice != 2) {
+                    d_LogEntryBuffer.logData("Invalid choice entered");
+                    continue;
+                } else if (choice == 2) {
+                    conquestMap = true;
+                }
+                correctChoice = true;
+            } catch (IOException e) {
+                d_LogEntryBuffer.logData("Invalid choice entered");
+            }
+        }
+
+        GameMapDataHandler l_GameMapDataManager = conquestMap ? new ConquestAdapter(new ConquestAdaptee()) : new DominationMapDataHandlerImpl();
+        l_GameMapDataManager.saveGameSession(l_FileName);
     }
 
     /**
@@ -182,8 +204,30 @@ public class MapEditorServiceImpl implements GamePhaseService {
             d_LogEntryBuffer.logData("Failed to edit map file---> " + l_GameFileName);
             throw new WarzoneRuntimeException("Unable to edit map file!");
         }
-        GameMapDataHandler l_GameMapDataManager = new GameMapDataHandlerImpl();
-        l_GameMapDataManager.createGameMap(l_GameSceneMap);
+
+        boolean correctChoice = false;
+        boolean conquestMap = false;
+        while (!correctChoice) {
+            try {
+                d_LogEntryBuffer.logData("Which format do you want to save the game world?");
+                d_LogEntryBuffer.logData("1. Domination");
+                d_LogEntryBuffer.logData("2. Conquest");
+                d_LogEntryBuffer.logData("Enter your choice: ");
+                int choice = Integer.parseInt(d_InputScanner.readLine());
+                if (choice != 1 && choice != 2) {
+                    d_LogEntryBuffer.logData("Invalid choice entered");
+                    continue;
+                } else if (choice == 2) {
+                    conquestMap = true;
+                }
+                correctChoice = true;
+            } catch (IOException e) {
+                d_LogEntryBuffer.logData("Invalid choice entered");
+            }
+        }
+
+        GameMapDataHandler l_GameMapDataManager = conquestMap ? new ConquestAdapter(new ConquestAdaptee()) : new DominationMapDataHandlerImpl();
+        l_GameMapDataManager.makeGameSession(l_GameSceneMap);
     }
 
     /**

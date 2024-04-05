@@ -1,7 +1,6 @@
 package main.java.warzone.entities;
 
 import main.java.warzone.services.GamePhaseService;
-import main.java.warzone.services.LoadGameServiceImpl;
 import main.java.warzone.services.impl.*;
 import java.util.Arrays;
 import java.util.Collections;
@@ -158,38 +157,38 @@ public enum GamePhase{
                 }
         };
 
-/**
- * Method to get next game phase from current game phase.
- *
- * @param p_CurrGamePhase Current game phase.
- * @param p_GameSession Current game session
- * @return Next game phase from current game phase
- */
-public GamePhase getNextPhaseInMainGameLoop(GamePhase p_CurrGamePhase, GameSession p_GameSession) {
-        if (p_CurrGamePhase == null) {
-                return GamePhase.REINFORCEMENT;
-        }
-        switch (p_CurrGamePhase) {
-                case REINFORCEMENT -> {
-                        if (p_GameSession.isTournamentMode()) {
-                                return GamePhase.TOURNAMENT;
+        /**
+         * Method to get next game phase from current game phase.
+         *
+         * @param p_CurrGamePhase Current game phase.
+         * @param p_GameSession Current game session
+         * @return Next game phase from current game phase
+         */
+        public GamePhase getNextPhaseInMainGameLoop(GamePhase p_CurrGamePhase, GameSession p_GameSession) {
+                if (p_CurrGamePhase == null) {
+                        return GamePhase.REINFORCEMENT;
+                }
+                switch (p_CurrGamePhase) {
+                        case REINFORCEMENT -> {
+                                if (p_GameSession.isTournamentMode()) {
+                                        return GamePhase.TOURNAMENT;
+                                }
+                                return GamePhase.ISSUE_ORDERS;
                         }
-                        return GamePhase.ISSUE_ORDERS;
-                }
-                case ISSUE_ORDERS -> {
-                        return GamePhase.EXECUTE_ORDERS;
-                }
-                case EXECUTE_ORDERS -> {
-                        return GamePhase.REINFORCEMENT;
-                }
-                case TOURNAMENT -> {
-                        return GamePhase.ISSUE_ORDERS;
-                }
-                default -> {
-                        return GamePhase.REINFORCEMENT;
+                        case ISSUE_ORDERS -> {
+                                return GamePhase.EXECUTE_ORDERS;
+                        }
+                        case EXECUTE_ORDERS -> {
+                                return GamePhase.REINFORCEMENT;
+                        }
+                        case TOURNAMENT -> {
+                                return GamePhase.ISSUE_ORDERS;
+                        }
+                        default -> {
+                                return GamePhase.REINFORCEMENT;
+                        }
                 }
         }
-}
 
         /**
          * Method to validate if allowed transition to game phase
@@ -218,7 +217,6 @@ public GamePhase getNextPhaseInMainGameLoop(GamePhase p_CurrGamePhase, GameSessi
          *
          * @return List of possible states
          */
-
         public abstract List<GamePhase> getPossibleGameStates();
 
 }

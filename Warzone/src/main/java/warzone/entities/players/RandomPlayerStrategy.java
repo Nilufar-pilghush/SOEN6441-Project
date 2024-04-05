@@ -3,7 +3,7 @@ package main.java.warzone.entities.players;
 import main.java.warzone.entities.GameSession;
 import main.java.warzone.entities.Country;
 import main.java.warzone.entities.Player;
-import main.java.constants.WarzoneConstants;
+import main.java.warzone.constants.WarzoneConstants;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -42,7 +42,7 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 
         List<String> l_AdjacentCountries = l_RandomCountry.getAdjacentCountries().values().stream().toList();
         for (String l_AdjacentCountryName : l_AdjacentCountries) {
-            Country l_AdjacentCountry = p_GameSession.getCountriesOfSession().get(l_AdjacentCountryName);
+            Country l_AdjacentCountry = p_GameSession.getCountriesInSession().get(l_AdjacentCountryName);
             String l_AdjacentCountryOwner = l_AdjacentCountry.getOwner();
             if (l_AdjacentCountryOwner != null && !l_AdjacentCountry.getOwner().equals(p_Player.getName())) {
                 p_Player.addAttackOrder(
@@ -75,7 +75,7 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
     private Country getRandomOwnedCountry(Player p_Player, GameSession p_GameSession) {
         List<Country> ownedCountries = new ArrayList<>();
         for (String l_CountryName : p_Player.getOwnedCountries()) {
-            ownedCountries.add(p_GameSession.getCountriesOfSession().get(l_CountryName));
+            ownedCountries.add(p_GameSession.getCountriesInSession().get(l_CountryName));
         }
         return ownedCountries.get((int) (Math.random() * ownedCountries.size()));
     }

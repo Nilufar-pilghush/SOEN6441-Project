@@ -284,4 +284,14 @@ public class WarzoneConstants {
      * Constant to handle strategy sub action
      */
     public static final String STRATEGY = "strategy";
+
+    /**
+     * Constant to refer game worlds directory
+     */
+    public static final String GAME_WORLDS = "GameWorlds";
+
+    /**
+     * Constant for load game command
+     */
+    public static final String LOAD_GAME = "loadgame";
 }
