@@ -1,12 +1,13 @@
 
 package main.java.warzone.utils;
 
+import main.java.warzone.entities.GamePhase;
 import main.java.warzone.entities.GameSession;
 import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.exceptions.WarzoneValidationException;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
-import java.util.*;
+import java.io.*;
 
 /**
  * This class is used to manage the game save and load
@@ -92,7 +93,7 @@ public class GameProgressTracker {
      * @param p_FileName File to load
      * @return Upcoming game segment
      */
-    public GameSegment loadGameProgress(String p_FileName) {
+    public GamePhase loadGameProgress(String p_FileName) {
         try {
             FileInputStream l_FileInputStream = new FileInputStream(WarzoneConstants.SAVED_GAMES + WarzoneConstants.FORWARD_SLASH + p_FileName);
             ObjectInputStream l_Os = new ObjectInputStream(l_FileInputStream);
@@ -102,10 +103,10 @@ public class GameProgressTracker {
             return GameSession.getInstance().makeGameFromLoaded(l_LoadedGameMap);
         } catch (IOException | ClassNotFoundException e) {
             d_LogEntryBuffer.logData("The file could not be loaded.");
-            return GameSegment.START_UP;
+            return GamePhase.START_UP;
         } catch (WarzoneValidationException e) {
             d_LogEntryBuffer.logData("Failed to create game from saved");
-            return GameSegment.START_UP;
+            return GamePhase.START_UP;
         }
     }
 

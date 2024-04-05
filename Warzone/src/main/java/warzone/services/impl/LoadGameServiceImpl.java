@@ -2,6 +2,7 @@ package main.java.warzone.services.impl;
 
 import main.java.warzone.entities.GamePhase;
 import main.java.warzone.services.GamePhaseService;
+import main.java.warzone.utils.GameProgressTracker;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.exceptions.WarzoneBaseException;
@@ -43,7 +44,7 @@ public class LoadGameServiceImpl implements GamePhaseService {
     }
 
     @Override
-    public GamePhase handleSegment(GamePhase p_CurrSegment) throws WarzoneBaseException {
+    public GamePhase handleGamePhase(GamePhase p_CurrPhase) throws WarzoneBaseException {
         GameProgressTracker l_GameProgressTracker = new GameProgressTracker();
         l_GameProgressTracker.listSavedGameFiles();
         try {

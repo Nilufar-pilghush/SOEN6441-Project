@@ -1,10 +1,10 @@
 package main.java.warzone.entities.players;
 
+import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.entities.GameSession;
 import main.java.warzone.entities.Player;
 import main.java.warzone.utils.CmdUtils;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
-import main.java.constants.WarzoneConstants;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -69,7 +69,7 @@ public class HumanPlayerStrategy implements PlayerStrategy, Serializable {
                 d_LogEntryBuffer.logData(".....................................................");
 
                 String l_UserInput = d_InputScanner.readLine();
-                List<String> l_UserInputParts = CmdUtils.getUserInputParts(l_UserInput);
+                List<String> l_UserInputParts = CmdUtils.tokenizeUserInput(l_UserInput);
                 String l_PrimaryAction = l_UserInputParts.get(0).toLowerCase();
 
                 switch (l_PrimaryAction) {

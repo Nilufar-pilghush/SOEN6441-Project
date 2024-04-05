@@ -1,6 +1,7 @@
 package main.java.warzone.services.impl;
 import main.java.warzone.constants.WarzoneConstants;
 import main.java.warzone.entities.*;
+import main.java.warzone.exceptions.WarzoneValidationException;
 import main.java.warzone.services.GamePhaseService;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
 
@@ -62,7 +63,11 @@ public class ReinforcementServiceImpl implements GamePhaseService {
     @Override
     public GamePhase handleGamePhase(GamePhase p_CurrPhase) {
         d_LogEntryBuffer.logData("Reinforcement service handler");
-        this.checkWinningCondition();
+        this.removeEmptyPlayers();
+        boolean l_TournamentGameWon = this.checkWinningCondition();
+        if (l_TournamentGameWon) {
+            return p_CurrPhase.validateAndMoveToNextState(GamePhase.MAIN_GAME_LOOP);
+        }
         this.reinforcePlayers();
         this.awardCards();
         this.clearDiplomacies();
@@ -74,7 +79,7 @@ public class ReinforcementServiceImpl implements GamePhaseService {
     /**
      * Method to check winning condition
      */
-    private void checkWinningCondition(){
+    private boolean checkWinningCondition(){
         // Loop over players & check if any player has won
         Iterator<Map.Entry<String, Player>> l_PlayerIterator = d_GameSession.getPlayers().entrySet().iterator();
         while (l_PlayerIterator.hasNext()) {
@@ -82,9 +87,14 @@ public class ReinforcementServiceImpl implements GamePhaseService {
             Player l_Player = l_PlayerEntry.getValue();
             if (l_Player.getOwnedCountries().size() == d_GameSession.getCountriesInSession().size()) {
                 d_LogEntryBuffer.logData("Player " + l_Player.getName() + " has won the game!");
+                if (d_GameSession.isTournamentMode()) {
+                    d_GameSession.setTournamentCurrentGameWinner(l_Player);
+                    return true;
+                }
                 System.exit(0);
             }
         }
+        return false;
     }
 
     /**
@@ -113,9 +123,12 @@ public class ReinforcementServiceImpl implements GamePhaseService {
             String l_ContinentOwner = l_Continent.getOwner();
             if (l_ContinentOwner != null) {
                 Player l_ContinentOwnerPlayer = d_GameSession.getPlayers().get(l_ContinentOwner);
-                l_ContinentOwnerPlayer.addArmies(l_Continent.getControlValue());
-            }
-            else{
+                if (l_ContinentOwnerPlayer != null) {
+                    l_ContinentOwnerPlayer.addArmies(l_Continent.getControlValue());
+                } else {
+                    l_Continent.setOwner(null);
+                }
+            } else {
                 // Loop over all countries and check if only single players owns all countries
                 boolean l_IsContinentOwned = true;
                 String l_ContinentOwnerPlayerName = null;
@@ -126,8 +139,7 @@ public class ReinforcementServiceImpl implements GamePhaseService {
                     String l_CountryOwner = l_Country.getOwner();
                     if (l_ContinentOwnerPlayerName == null && l_CountryOwner != null) {
                         l_ContinentOwnerPlayerName = l_CountryOwner;
-                    }
-                    else if (l_CountryOwner == null || !l_CountryOwner.equals(l_ContinentOwnerPlayerName)) {
+                    } else if (l_CountryOwner == null || !l_CountryOwner.equals(l_ContinentOwnerPlayerName)) {
                         l_IsContinentOwned = false;
                         break;
                     }
@@ -171,6 +183,27 @@ public class ReinforcementServiceImpl implements GamePhaseService {
             Map.Entry<String, Player> l_PlayerEntry = l_PlayerIterator.next();
             Player l_Player = l_PlayerEntry.getValue();
             l_Player.resetDiplomacyPlayers();
+        }
+    }
+
+    /**
+     * The method removes players from the game session who do not own any countries.
+     */
+    private void removeEmptyPlayers() {
+        Iterator<Map.Entry<String, Player>> l_PlayerIterator = d_GameSession.getPlayers().entrySet().iterator();
+        while (l_PlayerIterator.hasNext()) {
+            Map.Entry<String, Player> l_PlayerEntry = l_PlayerIterator.next();
+            Player l_Player = l_PlayerEntry.getValue();
+            if (l_Player.getOwnedCountries().size() == 0) {
+                d_LogEntryBuffer.logData("Player " + l_Player.getName() + " has been removed from the game. Reason: No countries owned.");
+                try{
+                    l_PlayerIterator.remove();
+                    d_GameSession.deletePlayer(l_Player.getName());
+                }
+                catch(WarzoneValidationException e){
+                    d_LogEntryBuffer.logData(e.getMessage());
+                }
+            }
         }
     }
 }
