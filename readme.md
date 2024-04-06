@@ -11,6 +11,34 @@ During the project deliveries, we'll also demonstrate that our code includes man
 
 These activities require some investigations and discussions that are important aspects of real-life software development and this project.
 
+### Single game mode
+Game starts by user selection of a user-saved map file, then loads the map as a connected graph. User chooses the number and behavior of players (see Player Behavior Strategies below). The game proceeds until one of the players has conquered the whole map. If no human player is selected, the game proceeds fully automatically without any user interaction.
+### Tournament Mode
+When the game starts, provide an option for a Tournament Mode (see “Tournament” below). The tournament proceeds without any user interaction and show the results of the tournament at the end.
+
+## Commands
+```txt
+Game save/load commands:
+savegame filename
+loadgame filename
+
+Startup phase commands:
+loadmap filename
+gameplayer -add playername -remove playername
+assigncountries
+
+Human player order creation commands:
+deploy countryID numarmies
+advance countrynamefrom countynameto numarmies
+bomb countryID
+blockade countryID
+airlift sourcecountryID targetcountryID numarmies
+negotiate playerID
+
+Tournament game play commands:
+tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns
+```
+
 ## Problem Statement
 
 Our project for this semester consists of building a simple "Risk" computer game. The developed program will have to be compatible with the rules and map files and the command-line play of the "Warzone" version of Risk, which can be found at [Warzone](https://www.warzone.com/).
@@ -175,3 +203,8 @@ Below is an example method that uses the observer pattern:
      return true;
  }
 ```
+
+### Strategy Pattern
+Refactored the current user-driven player code so that the implementation of the Player’s issueOrder() method’s behavior is using the Strategy pattern. Then, during the main development phase, implemented different computer player behaviors using the Strategy
+pattern, where the strategies provide varying behavior that support the Player class to expose varying behavior when executing the issueOrders() method (see Player Behavior Strategies below). The Strategy class is designed so that if exception are thrown while reading the file, they are handled internally by the Adapter and never thrown to the Game Controller.
+All Players have a hand of cards. Players start with no cards. Every turn, if a Player conquered at least one Country in their turn, they receive one random card (i.e. maximum one card per Player per turn). Cards are used in the issueOrders() Player method to create orders.
