@@ -15,14 +15,11 @@ import java.io.InputStream;
  * @author Fatemeh Chaji
  * @version 3.0.0
  */
-
 public class ConquestAdapter extends DominationMapDataHandlerImpl {
-
     /**
      * Adaptee instance to provide implementation
      */
     private ConquestAdaptee d_ConquestAdaptee;
-
     /**
      * Constructor to instantiate adaptee
      *
