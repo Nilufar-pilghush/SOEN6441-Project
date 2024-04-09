@@ -10,7 +10,12 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
+        <java.src.dir>src/main/java/warzone</java.src.dir>
+        <java.test.src.dir>src/test/java/warzone</java.test.src.dir>
+
     </properties>
+
 
     <dependencies>
         <!-- JUnit 5 -->
@@ -60,6 +65,10 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <sourceDirectory>${java.src.dir}</sourceDirectory>
+        <testSourceDirectory>${java.test.src.dir}</testSourceDirectory>
+
     </build>
 
 </project>
