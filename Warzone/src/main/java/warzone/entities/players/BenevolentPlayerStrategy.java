@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Specifies the implementation of a benevolent player
- * strategy and is a realization of {@Link PlayerStrategy}
+ * strategy and is a realization of {@link PlayerStrategy}
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi

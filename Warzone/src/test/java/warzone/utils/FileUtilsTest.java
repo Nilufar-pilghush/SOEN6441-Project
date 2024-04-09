@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 /**
  * Provides JUnit test cases for the {@link FileUtils} class to validate its file operation capabilities.
- * It includes tests for checking the validity of file streams, the existence of files, and the success of listing map files. * <p>
+ * It includes tests for checking the validity of file streams, the existence of files, and the success of listing map files. *
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
