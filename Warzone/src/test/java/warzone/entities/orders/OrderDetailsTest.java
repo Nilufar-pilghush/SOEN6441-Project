@@ -66,12 +66,12 @@ public class OrderDetailsTest {
      * Tests setting and getting the number of armies in OrderDetails.
      * Checks that the number of armies is properly assigned and accessed.
      */
-//    @Test
-//    public void testNumberOfArmiesManagement() {
-//        OrderDetails orderDetails = new OrderDetails();
-//        orderDetails.setNumberOfArmies(10);
-//        Assertions.assertEquals(10, orderDetails.getNumberOfArmies(), "Number of armies should be correctly set and retrieved.");
-//    }
+    @Test
+    public void testNumberOfArmiesManagement() {
+        OrderDetails orderDetails = new OrderDetails();
+        orderDetails.setNumberOfArmies(10);
+        Assertions.assertEquals(10, orderDetails.getNumberOfArmies(), "Number of armies should be correctly set and retrieved.");
+    }
 
     /**
      * Method to get number of armies

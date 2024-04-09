@@ -10,7 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
-
+ * Tests the functionalities of the {@code BenevolentPlayerStrategy} class within the Warzone game framework.
+ * This test class aims to verify the correct behavior of the benevolent player strategy, ensuring that
+ * players adhering to this strategy can issue orders and interact within the game environment as expected.
+ *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
  * @author Jerome Kithinji
@@ -21,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BenevolentPlayerStrategyTest {
 
     /**
-     * Current game world
+     * Current game session
      */
     private GameSession d_GameSession;
 
@@ -51,7 +54,7 @@ public class BenevolentPlayerStrategyTest {
      * Method to test issue player order
      */
     @Test
-    void whenTestIssuePlayerOrder_ExpectOrder() {
+    void testIssuePlayerOrderDoesNotThrowException() {
         BenevolentPlayerStrategy l_BenevolentStrategy = new BenevolentPlayerStrategy();
         assertDoesNotThrow(() -> l_BenevolentStrategy.issuePlayerOrder(d_GameSession.getPlayers().get("Player3"), d_GameSession));
     }
@@ -60,7 +63,7 @@ public class BenevolentPlayerStrategyTest {
      * Method to test get strategy name
      */
     @Test
-    void whenTestGetStrategyName_ExpectString() {
+    void testGetStrategyNameReturnsCorrectString() {
         BenevolentPlayerStrategy l_BenevolentStrategy = new BenevolentPlayerStrategy();
         assertEquals(WarzoneConstants.BENEVOLENT, l_BenevolentStrategy.getStrategyNameString());
     }

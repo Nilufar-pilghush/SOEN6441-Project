@@ -16,8 +16,9 @@ import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Concrete class implementing the behaviors necessary to manage
- * game session creation/saving from/to user specified files.
+ * Conducts tests on the {@code HumanPlayerStrategy} class to ensure that human player strategies within the Warzone game
+ * function as intended. This class verifies the interactions of a human player within the game, focusing on the ability
+ * of the human player strategy to process user input and execute game orders correctly.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -28,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class HumanPlayerStrategyTest {
     /**
-     * Current gamer world
+     * Current gamer session
      */
     private GameSession d_GameSession;
 
@@ -50,7 +51,7 @@ public class HumanPlayerStrategyTest {
     /**
      * Method to setup test
      *
-     * @throws WarzoneValidationException if world creation fails
+     * @throws WarzoneValidationException if session creation fails
      */
     @BeforeEach
     public void setUp() throws WarzoneValidationException {
@@ -78,7 +79,7 @@ public class HumanPlayerStrategyTest {
      * Test to test issue player order
      */
     @Test
-    void whenTestIssuePlayerOrder_ExpectOrder() {
+    void testIssuePlayerOrderVerifiesStrategy() {
         HumanPlayerStrategy l_HumanStrategy = new HumanPlayerStrategy();
         Player l_Player = d_GameSession.getPlayers().get("Player3");
         assertEquals(WarzoneConstants.HUMAN, l_Player.getPlayerStrategy().getStrategyNameString());
