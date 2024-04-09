@@ -59,8 +59,6 @@ public class AdvanceOrderCommandTest {
      * Verifies that an advance order can be executed without throwing exceptions, ensuring it
      * adheres to game rules. The test simulates adding players, countries, and their relationships,
      * then executes an order, checking for successful execution.
-     *
-     * @throws WarzoneValidationException if the order execution violates game rules.
      */
     @Test
     public void testAdvanceOrderExecution() {

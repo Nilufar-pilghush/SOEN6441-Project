@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  * Specifies the implementation of a player using the cheater
- * strategy and is a realization of {@Link PlayerStrategy}
+
+ * strategy and is a realization of {@link PlayerStrategy}
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi

@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Specifies the implementation of an aggressive player
- * strategy and is a realization of {@Link PlayerStrategy}
+ * strategy and is a realization of {@link PlayerStrategy}
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
