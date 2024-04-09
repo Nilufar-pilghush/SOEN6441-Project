@@ -133,9 +133,8 @@ public class StartupPhaseServiceImpl implements GamePhaseService {
         FileUtils.makeDirectoryIfAbsent(WarzoneConstants.SAVED_GAMES);
 
 
-        File l_File = new File(l_FileName, WarzoneConstants.SAVED_GAMES);
-        l_File.exists();
-        if (l_File.exists()) {
+        boolean l_doesFileExist = FileUtils.doesFileExist(l_FileName, WarzoneConstants.SAVED_GAMES);
+        if (l_doesFileExist) {
             throw new WarzoneValidationException("File with name: " + l_FileName + " already exists");
         }
 

@@ -11,3 +11,39 @@ Choose One Option:
 					  3 Load Game
 					  4 Exit Game
 ********************************************************
+..............................................
+		 Warzone - Load Menu
+..............................................
+			 Load Game
+	.............................
+
+			jerome.bin
+
+	.......................
+	 use file name to load
+...............................
+example command: loadgame filename
+The file could not be loaded.
+
+************ Welcome to Game Startup Phase ************
+...Enter 'help' at any time to view available commands in this phase...
+.......................................Startup Phase Commands..........................................
+To list existing maps: listmaps
+To load a map: loadmap filename
+To edit game players: gameplayer -add playername -remove playername [-strategy strategyname(Choose strategyname: aggressive, benevolent, random, cheater, human)]
+To assign countries to players: assigncountries
+To save current game state: savegame filename
+To exit startup phase & start the game in single player mode: exit
+To start the game in tournament mode: tournament -M listofmaps -P listofplayerstrats -G numberofgames -D maxnumberofturns
+.......................................................................................................
+java.io.NotSerializableException: main.java.warzone.utils.logging.impl.LogEntryBuffer
+File with name: ali.bin already exists
+.......................................Startup Phase Commands..........................................
+To list existing maps: listmaps
+To load a map: loadmap filename
+To edit game players: gameplayer -add playername -remove playername [-strategy strategyname(Choose strategyname: aggressive, benevolent, random, cheater, human)]
+To assign countries to players: assigncountries
+To save current game state: savegame filename
+To exit startup phase & start the game in single player mode: exit
+To start the game in tournament mode: tournament -M listofmaps -P listofplayerstrats -G numberofgames -D maxnumberofturns
+.......................................................................................................
