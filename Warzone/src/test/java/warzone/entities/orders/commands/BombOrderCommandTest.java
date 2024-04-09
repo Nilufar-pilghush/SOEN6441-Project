@@ -27,25 +27,25 @@ public class BombOrderCommandTest {
     public void setUp() throws WarzoneValidationException {
         d_gameSession = GameSession.getInstance();
         d_gameSession.clearPreviousSession();
-//        initializeGameWorld();
+        initializeGameSession();
     }
 
     /**
-     * Prepares a basic game world with necessary entities for executing a bomb order.
+     * Prepares a basic game Session with necessary entities for executing a bomb order.
      * This includes creating continents, countries, players, and assigning countries.
      *
-     * @throws WarzoneValidationException if initializing the game world fails.
+     * @throws WarzoneValidationException if initializing the game session fails.
      */
-//    private void initializeGameWorld() throws WarzoneValidationException {
-//        d_gameSession.createContinent("Asia", "10");
-//        d_gameSession.createCountry("Iran", "Asia");
-//        d_gameSession.createCountry("Turkey", "Asia");
-//        d_gameSession.createPlayer("Player1");
-//        d_gameSession.createPlayer("Player2");
-//        d_gameSession.getCountriesInSession().get("Iran").setOwner("Player1");
-//        d_gameSession.getCountriesInSession().get("Turkey").setOwner("Player2");
-//        d_order = new BombOrderCommand("Player1", "Turkey");
-//    }
+    private void initializeGameSession() throws WarzoneValidationException {
+        d_gameSession.createContinent("Asia", "10");
+        d_gameSession.createCountry("Iran", "Asia");
+        d_gameSession.createCountry("Turkey", "Asia");
+        d_gameSession.createPlayer("Player1");
+        d_gameSession.createPlayer("Player2");
+        d_gameSession.getCountriesInSession().get("Iran").setOwner("Player1");
+        d_gameSession.getCountriesInSession().get("Turkey").setOwner("Player2");
+        d_order = new BombOrderCommand("Player1", "Turkey");
+    }
 
     /**
      * Verifies that executing a bomb order does not result in exceptions under valid conditions,

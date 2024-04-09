@@ -11,8 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Concrete class implementing the behaviors necessary to manage
- * game session creation/saving from/to user specified files.
+ * Tests the implementation of the {@code RandomPlayerStrategy} in the Warzone game, ensuring that the strategy behaves as expected
+ * in a game session. The {@code RandomPlayerStrategy} is designed to simulate a player making decisions randomly, which can be
+ * challenging to predict but essential for testing the game's resilience and fairness.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -23,14 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class RandomPlayerStrategyTest {
     /**
-     * Current game world
+     * Current game session
      */
     private GameSession d_GameSession;
 
     /**
      * Method to set up tests
      *
-     * @throws WarzoneValidationException if world creation fails
+     * @throws WarzoneValidationException if session creation fails
      */
     @BeforeEach
     public void setUp() throws WarzoneValidationException {
@@ -53,7 +54,7 @@ public class RandomPlayerStrategyTest {
      * Method to test issue player order
      */
     @Test
-    void whenTestIssuePlayerOrder_ExpectOrder() {
+    void testIssuePlayerOrderDoesNotThrowException() {
         RandomPlayerStrategy l_RandomStrategy = new RandomPlayerStrategy();
         assertDoesNotThrow(() -> l_RandomStrategy.issuePlayerOrder(d_GameSession.getPlayers().get("Player3"), d_GameSession));
     }
@@ -62,7 +63,7 @@ public class RandomPlayerStrategyTest {
      * Method to test get strategy name
      */
     @Test
-    void whenTestGetStrategyName_ExpectString() {
+    void testGetStrategyNameReturnsCorrectString() {
         RandomPlayerStrategy l_RandomStrategy = new RandomPlayerStrategy();
         assertEquals(WarzoneConstants.RANDOM, l_RandomStrategy.getStrategyNameString());
     }

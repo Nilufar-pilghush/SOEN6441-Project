@@ -13,8 +13,11 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 /**
- *
+ * The {@code AggressivePlayerStrategyTest} class performs unit testing on {@link AggressivePlayerStrategy} within the Warzone game.
+ * This testing class focuses on verifying the behavior of an aggressive player strategy under various conditions.
+ * Specifically, it tests the strategy's ability to issue orders, identify the strategy type, and rank owned countries from the strongest to the weakest based on the number of armies.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -25,14 +28,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
  */
 public class AggressivePlayerStrategyTest {
     /**
-     * Current game world instance
+     * Current game session instance
      */
     private GameSession d_GameSession;
 
     /**
-     * Setup game world before every test case
+     * Setup game session before every test case
      *
-     * @throws WarzoneValidationException If game world creation is not possible
+     * @throws WarzoneValidationException If game session creation is not possible
      */
     @BeforeEach
     public void setUp() throws WarzoneValidationException {
@@ -55,7 +58,7 @@ public class AggressivePlayerStrategyTest {
      * Test case for issuePlayerOrder method.
      */
     @Test
-    void whenTestIssuePlayerOrder_ExpectOrder() {
+    void testIssuePlayerOrder() {
         AggressivePlayerStrategy l_AggressiveStrategy = new AggressivePlayerStrategy();
         assertDoesNotThrow(() -> l_AggressiveStrategy.issuePlayerOrder(d_GameSession.getPlayers().get("Player1"), d_GameSession));
     }
@@ -64,7 +67,7 @@ public class AggressivePlayerStrategyTest {
      * Test case for getStrategyNameString method.
      */
     @Test
-    void whenTestGetStrategyName_ExpectString() {
+    void testGetStrategyName() {
         AggressivePlayerStrategy l_AggressiveStrategy = new AggressivePlayerStrategy();
         Assertions.assertEquals(WarzoneConstants.AGGRESSIVE, l_AggressiveStrategy.getStrategyNameString());
     }
@@ -73,7 +76,7 @@ public class AggressivePlayerStrategyTest {
      * Test case for getOwnedCountriesSortedByStrongestToWeakest method.
      */
     @Test
-    void whenTestGetOwnedCountriesSortedByStrongestToWeakest_ExpectSorted() {
+    void testGetOwnedCountriesFromStrongestToWeakest() {
 
         AggressivePlayerStrategy l_AggressiveStrategy = new AggressivePlayerStrategy();
 

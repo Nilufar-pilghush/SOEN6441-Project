@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
-
+ * Tests the functionality of the {@code TournamentServiceImpl} within the Warzone game, focusing on its ability to correctly
+ * handle tournament segments and manage tournament configurations. This class ensures that the service layer responsible
+ * for managing tournaments operates as expected, particularly in starting new rounds under varying configurations.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -22,7 +24,7 @@ public class TournamentServiceImplTest {
      * Test case to start new round
      */
     @Test
-    void whenHandleSegment_StartNewRound() {
+    void testNewRoundInHandlePhases() {
         TournamentServiceImpl l_TournamentService = new TournamentServiceImpl();
         GamePhase l_GameSegment = GamePhase.TOURNAMENT;
         TournamentConfig l_TournamentConfig = new TournamentConfig();

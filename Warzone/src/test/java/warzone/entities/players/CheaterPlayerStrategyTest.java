@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
-
+ *Tests the functionalities associated with the {@code CheaterPlayerStrategy} class in the Warzone game framework,
+ * ensuring that the cheater strategy is implemented correctly according to the game's rules and requirements.
  *
  * @author Niloufar Pilgush
  * @author Nasrin Maarefi
@@ -23,14 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CheaterPlayerStrategyTest {
 
     /**
-     * Game world
+     * Game session
      */
     private GameSession d_GameSession;
 
     /**
      * Method to set up tests
      *
-     * @throws WarzoneValidationException if game world creation fails
+     * @throws WarzoneValidationException if game session creation fails
      */
     @BeforeEach
     public void setUp() throws WarzoneValidationException {
@@ -52,7 +53,7 @@ public class CheaterPlayerStrategyTest {
      * Method to test issue player order
      */
     @Test
-    void whenTestIssuePlayerOrder_ExpectOrder() {
+    void testIssuePlayerOrderExecutesAsExpected() {
         CheaterPlayerStrategy l_CheaterStrategy = new CheaterPlayerStrategy();
         assertDoesNotThrow(() -> l_CheaterStrategy.issuePlayerOrder(d_GameSession.getPlayers().get("player1"), d_GameSession));
         assertEquals("player1", d_GameSession.getCountriesInSession().get("Iran").getOwner());
@@ -64,7 +65,7 @@ public class CheaterPlayerStrategyTest {
      * Method to test get strategy name
      */
     @Test
-    void whenTestGetStrategyName_ExpectString() {
+    void testGetStrategyNameReturnsExpectedString() {
         CheaterPlayerStrategy l_CheaterStrategy = new CheaterPlayerStrategy();
         assertEquals(WarzoneConstants.CHEATER, l_CheaterStrategy.getStrategyNameString());
     }
