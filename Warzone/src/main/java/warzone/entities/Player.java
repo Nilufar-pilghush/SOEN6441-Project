@@ -100,7 +100,8 @@ public class Player implements Serializable {
      *
      * @param p_Name The name of the player.
      */
-    Player(String p_Name) {
+
+    public Player(String p_Name) {
         this(p_Name, new HumanPlayerStrategy());
     }
 
