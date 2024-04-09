@@ -294,4 +294,7 @@ public class WarzoneConstants {
      * Constant for load game command
      */
     public static final String LOAD_GAME = "loadgame";
+    /**
+     * List of available cards
+     */
 }

@@ -17,6 +17,11 @@ import org.junit.jupiter.api.Test;
  */
 public class OrderDetailsTest {
     /**
+     * Class to be tested
+     */
+    private OrderDetails d_OrderDetails;
+
+    /**
      * Tests setting and getting the player name property of OrderDetails.
      * Verifies that the player name is correctly assigned and retrieved.
      */
@@ -25,6 +30,25 @@ public class OrderDetailsTest {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setPlayerName("Player1");
         Assertions.assertEquals("Player1", orderDetails.getPlayerName(), "Player name should be correctly set and retrieved.");
+    }
+    /**
+     * Method to test set player name
+     */
+    @Test
+    public void whenSetPlayerName_ExpectPlayerName(){
+        d_OrderDetails = new OrderDetails();
+        d_OrderDetails.setPlayerName("Snehil");
+        Assertions.assertEquals("Snehil", d_OrderDetails.getPlayerName());
+    }
+
+    /**
+     * Method to get tatget country
+     */
+    @Test
+    public void whenGetTargetCountry_ExpectCountry(){
+        d_OrderDetails = new OrderDetails();
+        d_OrderDetails.setTargetCountry("Sri Lanka");
+        Assertions.assertEquals("Sri Lanka", d_OrderDetails.getTargetCountry());
     }
 
     /**
@@ -42,10 +66,30 @@ public class OrderDetailsTest {
      * Tests setting and getting the number of armies in OrderDetails.
      * Checks that the number of armies is properly assigned and accessed.
      */
+//    @Test
+//    public void testNumberOfArmiesManagement() {
+//        OrderDetails orderDetails = new OrderDetails();
+//        orderDetails.setNumberOfArmies(10);
+//        Assertions.assertEquals(10, orderDetails.getNumberOfArmies(), "Number of armies should be correctly set and retrieved.");
+//    }
+
+    /**
+     * Method to get number of armies
+     */
     @Test
-    public void testNumberOfArmiesManagement() {
-        OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setNumberOfArmies(10);
-        Assertions.assertEquals(10, orderDetails.getNumberOfArmies(), "Number of armies should be correctly set and retrieved.");
+    public void whenGetNumberOfArmies_ExpectArmies(){
+        d_OrderDetails = new OrderDetails();
+        d_OrderDetails.setNumberOfArmies(10);
+        Assertions.assertEquals(10, d_OrderDetails.getNumberOfArmies());
+    }
+
+    /**
+     * Method to set number of armies
+     */
+    @Test
+    public void whenSetNumberOfArmies_ExpectArmiesSet(){
+        d_OrderDetails = new OrderDetails();
+        d_OrderDetails.setNumberOfArmies(10);
+        Assertions.assertEquals(10, d_OrderDetails.getNumberOfArmies());
     }
 }
