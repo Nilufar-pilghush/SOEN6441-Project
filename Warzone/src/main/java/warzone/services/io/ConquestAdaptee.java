@@ -25,12 +25,10 @@ import java.util.Map;
  * @version 3.0.0
  */
 public class ConquestAdaptee {
-
     /**
      * Current game session instance
      */
     private final GameSession d_CurrGameSession;
-
 
     /**
      * Reader to load game from file
