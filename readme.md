@@ -81,20 +81,21 @@ Cards can be played as the players are giving orders. Each card has a different 
 
 Any player that does not control at least one territory is removed from the game. The game ends at any time one of the players owns all the territories on the map.
 
-## Design
+## Design Diagrams
 
 The following shows the class diagrams and package diagrams for the first build:
 
-![](designDocs/Build01/Warzone_Entity_Diagram.png)
+![](designDocs/Build03/packageDiagramBuild03.png)
 
-![](designDocs/Build01/entitiesPackageDiagram.png)
+![](designDocs/Build03/entitiesPackageDiagramBuild03.png)
 
-![](designDocs/Build01/packagesDiagram.png)
+![](designDocs/Build03/entitiesPlayersPackageDigramBuild03.png)
 
-![](designDocs/Build01/servicesPackageDiagram.png)
+![](designDocs/Build03/enititiesOrdersPackageDiagramBuild03.png)
 
-![](designDocs/Build01/utilspackageDiagram.png)
+![](designDocs/Build03/servicesIoPackageDiagramBuild03.png)
 
+![](designDocs/Build03/utilsPackageDiagramBuild03.png)
 ## Implementation
 
 The most interesting problem revolves around handling the graph data structure for map handling in the game.
@@ -208,3 +209,15 @@ Below is an example method that uses the observer pattern:
 Refactored the current user-driven player code so that the implementation of the Player’s issueOrder() method’s behavior is using the Strategy pattern. Then, during the main development phase, implemented different computer player behaviors using the Strategy
 pattern, where the strategies provide varying behavior that support the Player class to expose varying behavior when executing the issueOrders() method (see Player Behavior Strategies below). The Strategy class is designed so that if exception are thrown while reading the file, they are handled internally by the Adapter and never thrown to the Game Controller.
 All Players have a hand of cards. Players start with no cards. Every turn, if a Player conquered at least one Country in their turn, they receive one random card (i.e. maximum one card per Player per turn). Cards are used in the issueOrders() Player method to create orders.
+
+### Adapter Pattern
+By utilizing the Adapter pattern, the system gains flexibility and extensibility, as it can now accommodate
+different map formats without the need for extensive modifications to existing code. It facilitates
+the integration of the Conquest game map format with existing systems designed for other
+map formats. This pattern involves an Adapter class, ConquestAdapter, which acts as an intermediary,
+allowing the DominationMapDataHandlerImpl class to interact with the ConquestAdaptee.
+In this scenario, the ConquestAdaptee class serves as the Adaptee, providing implementations for
+reading and writing data in the Conquest format. It handles tasks such as saving game sessions and
+loading map data. The ConquestAdapter class, on the other hand, implements the same interface
+as the existing DominationMapDataHandlerImpl class, enabling seamless interaction between the
+two components.
