@@ -72,16 +72,14 @@ public class GamePlay {
                         case 1 -> {
                             l_IsValid = true;
                             l_GamePhase = GamePhase.MAP_EDITOR;
-
                         }
                         case 2 -> {
                             l_IsValid = true;
                             l_GamePhase = GamePhase.START_UP;
                         }
                         case 3 -> {
+                            l_IsValid = true;
                             l_GamePhase = GamePhase.LOAD_GAME;
-                            return true;
-
                         }
                         case 4 -> {
                             l_GamePhase = GamePhase.EXIT;
