@@ -631,7 +631,6 @@ public class GameSession implements Serializable{
     @Serial
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        d_CurrGameSession = this;
     }
 
     @Serial

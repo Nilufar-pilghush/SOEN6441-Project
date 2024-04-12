@@ -39,7 +39,7 @@ public class GameProgressTrackerTest {
     }
 
     /**
-     * Test case Verify the successful loading of game progress from a valid file..
+     * Test case Verify the successful loading of game progress from a valid file.
      */
 
     @Test

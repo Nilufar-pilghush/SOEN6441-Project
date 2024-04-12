@@ -23,4 +23,54 @@ To save current game state: savegame filename
 To exit startup phase & start the game in single player mode: exit
 To start the game in tournament mode: tournament -M listofmaps -P listofplayerstrats -G numberofgames -D maxnumberofturns
 .......................................................................................................
-Please load a map first
+Which format do you want to read the game session?
+1. Domination
+2. Conquest
+Enter your choice: 
+Reading continents....
+Continent creation accomplished: asia, 5
+Continent creation accomplished: europe, 4
+Continents reading completed...
+Reading countries....
+Country creation accomplished: china in continent: asia
+Country creation accomplished: russia in continent: europe
+Country creation accomplished: turkey in continent: asia
+Country creation accomplished: iran in continent: asia
+Country creation accomplished: ukraine in continent: europe
+Country creation accomplished: romania in continent: europe
+Countries reading completed...
+Reading borders....
+Neighbors created successfully: china---iran
+Neighbors created successfully: china---russia
+Neighbors created successfully: russia---china
+Neighbors created successfully: russia---ukraine
+Neighbors created successfully: turkey---iran
+Neighbors created successfully: turkey---romania
+Neighbors created successfully: iran---china
+Neighbors created successfully: iran---turkey
+Neighbors created successfully: ukraine---russia
+Neighbors created successfully: ukraine---romania
+Neighbors created successfully: romania---turkey
+Neighbors created successfully: romania---ukraine
+Borders creation completed...
+Map successfully loaded....
+...Enter 'help' at any time to view available commands in this phase...
+Player creation accomplished: p
+Player creation accomplished: playername
+Country: china assigned to player: p
+Country: ukraine assigned to player: p
+Country: russia assigned to player: p
+Country: romania assigned to player: playername
+Country: turkey assigned to player: playername
+Country: iran assigned to player: playername
+Countries assigned to players successfully
+Remaining unowned countries: 0
+.......................................Startup Phase Commands..........................................
+To list existing maps: listmaps
+To load a map: loadmap filename
+To edit game players: gameplayer -add playername -remove playername [-strategy strategyname(Choose strategyname: aggressive, benevolent, random, cheater, human)]
+To assign countries to players: assigncountries
+To save current game state: savegame filename
+To exit startup phase & start the game in single player mode: exit
+To start the game in tournament mode: tournament -M listofmaps -P listofplayerstrats -G numberofgames -D maxnumberofturns
+.......................................................................................................
