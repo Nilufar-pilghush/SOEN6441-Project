@@ -1,0 +1,15 @@
+[map]
+author=U3
+
+[continents]
+asia=5
+europe=4
+
+[territories]
+china,asia,iran,russia
+russia,europe,china,ukraine
+turkey,asia,iran,romania
+iran,asia,china,turkey
+ukraine,europe,russia,romania
+romania,europe,turkey,ukraine
+

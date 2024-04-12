@@ -1,10 +1,13 @@
 package test.java.warzone.utils;
 
 import main.java.warzone.entities.GamePhase;
+import main.java.warzone.entities.GameSession;
 import main.java.warzone.utils.GameProgressTracker;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -25,6 +28,14 @@ public class GameProgressTrackerTest {
     @BeforeEach
     void setUp() {
         this.gameProgressTracker = new GameProgressTracker();
+    }
+
+    @Test
+    public void testSaveGameProgress() {
+        GameProgressTracker gameProgress = new GameProgressTracker();
+        String fileName = "testGame";
+        boolean result = gameProgress.saveGameProgress(fileName);
+        Assertions.assertTrue(result);
     }
 
     /**

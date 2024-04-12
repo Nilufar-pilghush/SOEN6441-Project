@@ -1,39 +1,21 @@
 editcontinent -add asia 5
 editcontinent -add europe 4
 
-
-editcountry -add iran asia
 editcountry -add china asia
-editcountry -add turkey asia
-
-
 editcountry -add russia europe
-editcountry -add ukraine europe
-editcountry -add romania europe
+editcountry -add france europe
+
+editneighbor -add russia france
+editneighbor -add china russia
+editneighbor -add france china
 
 
-editneighbor -add russia china
-editneighbor -add turkey romania
-editneighbor -add ukraine russia
-editneighbor -add ukraine romania
-editneighbor -add china iran
-editneighbor -add turkey iran
-
-
-
-
-showmap
-savemap asiaEurope
-loadmap asiaEurope
-
-editmap myMap
-
-validatemap
+france - russia 
+|		|
+    china
 
 
 gameplayer -add ali
 gameplayer -add john
 
-
-assigncountries
 

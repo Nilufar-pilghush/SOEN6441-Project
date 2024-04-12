@@ -49,16 +49,18 @@ public class GameProgressTracker {
      */
     public boolean saveGameProgress(String p_FileName) {
         try {
-            FileOutputStream l_FileOutputStream = new FileOutputStream(WarzoneConstants.SAVED_GAMES + WarzoneConstants.FORWARD_SLASH + p_FileName);
+            FileOutputStream l_FileOutputStream = new FileOutputStream(WarzoneConstants.SAVED_GAMES + WarzoneConstants.FORWARD_SLASH
+                    + p_FileName + ".ser");
             ObjectOutputStream l_ObjectOutputStream = new ObjectOutputStream(l_FileOutputStream);
             l_ObjectOutputStream.writeObject(d_CurrGameSession);
-            l_ObjectOutputStream.flush();
+            l_ObjectOutputStream.close();
             l_FileOutputStream.close();
-            d_CurrGameSession.clearPreviousSession();
+            //d_CurrGameSession.clearPreviousSession();
             d_LogEntryBuffer.logData("The game has been successfully saved to file /GameSessions/" + p_FileName);
             return true;
         } catch (Exception p_Exception) {
-            d_LogEntryBuffer.logData(p_Exception.toString());
+            System.out.println(p_Exception);
+            // d_LogEntryBuffer.logData(p_Exception.toString());
             return false;
         }
     }
@@ -102,9 +104,11 @@ public class GameProgressTracker {
             l_Os.close();
             return GameSession.getInstance().makeGameFromLoaded(l_LoadedGameMap);
         } catch (IOException | ClassNotFoundException e) {
+            System.err.println(e);
             d_LogEntryBuffer.logData("The file could not be loaded.");
             return GamePhase.START_UP;
         } catch (WarzoneValidationException e) {
+            System.err.println(e);
             d_LogEntryBuffer.logData("Failed to create game from saved");
             return GamePhase.START_UP;
         }

@@ -4,7 +4,8 @@ import main.java.warzone.entities.players.HumanPlayerStrategy;
 import main.java.warzone.entities.players.PlayerStrategy;
 import main.java.warzone.exceptions.WarzoneValidationException;
 import main.java.warzone.utils.logging.impl.LogEntryBuffer;
-import java.io.Serializable;
+
+import java.io.*;
 import java.util.*;
 
 /**
@@ -620,6 +621,22 @@ public class GameSession implements Serializable{
 
         this.setCurrGamePhase(p_LoadedGameMap.getCurrGamePhase());
         return p_LoadedGameMap.getCurrGamePhase();
+    }
+
+    @Serial
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+    }
+
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        d_CurrGameSession = this;
+    }
+
+    @Serial
+    private Object readResolve() {
+        return getInstance();
     }
 
 }

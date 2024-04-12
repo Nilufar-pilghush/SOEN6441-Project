@@ -1,0 +1,12 @@
+[map]
+author=U3
+
+[continents]
+asia=5
+europe=4
+
+[territories]
+china,asia,russia,france
+russia,europe,china,france
+france,europe,china,russia
+

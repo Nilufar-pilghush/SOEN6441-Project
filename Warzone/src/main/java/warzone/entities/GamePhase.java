@@ -2,6 +2,8 @@ package main.java.warzone.entities;
 
 import main.java.warzone.services.GamePhaseService;
 import main.java.warzone.services.impl.*;
+
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.List;
  * @version 2.0.0
  */
 
-public enum GamePhase{
+public enum GamePhase implements Serializable {
         /**
          * Map Editor phase of gameplay
          */

@@ -1,0 +1,14 @@
+[continents]
+asia 5
+europe 4
+
+[countries]
+1 china 1
+2 russia 2
+3 france 2
+
+[borders]
+1 2 3
+2 1 3
+3 1 2
+

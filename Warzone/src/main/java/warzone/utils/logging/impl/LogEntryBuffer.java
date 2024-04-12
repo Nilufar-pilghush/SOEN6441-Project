@@ -2,6 +2,8 @@ package main.java.warzone.utils.logging.impl;
 
 import main.java.warzone.utils.logging.Observable;
 import main.java.warzone.utils.logging.Observer;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +19,7 @@ import java.util.Objects;
  * @author Fatemeh Chaji
  * @version 2.0.0
  */
-public class LogEntryBuffer implements Observable {
+public class LogEntryBuffer implements Observable, Serializable {
 
     /**
      * Singleton log entry buffer object
